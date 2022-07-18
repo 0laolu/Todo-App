@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css">
+        <title>ToDo App</title>
+    </head>
+    <body>
+        <header class="cover-image-section">
+            <img src="images/bg-desktop-light.jpg" alt="Cover Image">
+        </header>
+
+        <section class="todo-section container">
+    <!-- Todo Header-->
+            <div class="todo-section__header">
+                <div class="logo">TODO</div>
+                <div class="toggle-appearance-btn">
+                    <img src="images/icon-moon.svg" alt="Change Apperance">
+                </div>
+            </div>
+    <!-- Todo Entry-->    
+            <div class="todo-section__entry">
+                <div class="entry-field">
+                    <div class="checkbox">
+                        <img src="images/icon-check.svg" alt="check mark">
+                    </div>
+                    <div class="input-field">
+                        <input type="text" placeholder="Create a new todo...">
+                    </div>
+                </div>
+            </div>
+    <!-- Todo List--> 
+            <div class="todo-section__list">
+                <div class="list-field">
+                    <div class="checkbox">
+                        <img src="images/icon-check.svg" alt="check mark">
+                    </div>
+                    <div class="input-field">
+                        <input type="text">
+                    </div>
+                </div>
+            </div>
+
+    <!-- Todo Status -->
+            <div class="todo-section__status">
+                <div class="items-left">
+                    <p>5 items left</p>
+                </div>
+
+                <div class="list-preference">
+                    <div class="content-wrapper">
+                        <p>All</p>
+                        <p>Active</p>
+                        <p>Completed</p>
+                    </div>
+                </div>
+
+                <div class="clear-completed-btn">
+                    <p>Clear Completed</p>
+                </div>
+            </div>
+
+        </section>
+        
+        <script defer src="app.js"></script>
+    </body>
+</html>

@@ -12,59 +12,63 @@
         <link rel="stylesheet" href="style.css">
         <title>ToDo App</title>
     </head>
-    <body>
+    <body>  <!-- Has two children in cover-image-section and content-section -->
         <header class="cover-image-section"></header>
 
-        <section class="todo-section container">
-    <!-- Todo Header-->
-            <div class="todo-section__header">
-                <div class="logo">TODO</div>
-                <div class="toggle-appearance-btn">
-                    <img src="images/icon-moon.svg" alt="Change Apperance">
-                </div>
+        <section class="content-section"> <!-- white background which todo-section__wrapper will be positioned relatively to -->
+            <div class="todo-section__wrapper">  <!-- container for todo-section to make it responsive -->
+                <section class="todo-section">  <!-- set position to absolute and be positioned relatively to todo-section__wrapper -->
+        <!-- Todo Header-->
+                    <div class="todo-section__header">
+                        <div class="logo">TODO</div>
+                        <div class="toggle-appearance-btn">
+                            <img src="images/icon-moon.svg" alt="Change Apperance">
+                        </div>
+                    </div>
+        <!-- Todo Entry-->    
+                    <div class="todo-section__entry">
+                        <div class="entry-field">
+                            <div class="checkbox">
+                                <img src="images/icon-check.svg" alt="check mark">
+                            </div>
+                            <div class="input-field">
+                                <input type="text" placeholder="Create a new todo...">
+                            </div>
+                        </div>
+                    </div>
+        <!-- Todo List--> 
+                    <div class="todo-section__list">
+                        <div class="list-field">
+                            <div class="checkbox">
+                                <img src="images/icon-check.svg" alt="check mark">
+                            </div>
+                            <div class="input-field">
+                                <input type="text">
+                            </div>
+                        </div>
+                    </div>
+        
+        <!-- Todo Status -->
+                    <div class="todo-section__status">
+                        <div class="items-left">
+                            <p>5 items left</p>
+                        </div>
+        
+                        <div class="list-preference">
+                            <div class="content-wrapper">
+                                <p>All</p>
+                                <p>Active</p>
+                                <p>Completed</p>
+                            </div>
+                        </div>
+        
+                        <div class="clear-completed-btn">
+                            <p>Clear Completed</p>
+                        </div>
+                    </div>
+                
+                </section>
             </div>
-    <!-- Todo Entry-->    
-            <div class="todo-section__entry">
-                <div class="entry-field">
-                    <div class="checkbox">
-                        <img src="images/icon-check.svg" alt="check mark">
-                    </div>
-                    <div class="input-field">
-                        <input type="text" placeholder="Create a new todo...">
-                    </div>
-                </div>
-            </div>
-    <!-- Todo List--> 
-            <div class="todo-section__list">
-                <div class="list-field">
-                    <div class="checkbox">
-                        <img src="images/icon-check.svg" alt="check mark">
-                    </div>
-                    <div class="input-field">
-                        <input type="text">
-                    </div>
-                </div>
-            </div>
-
-    <!-- Todo Status -->
-            <div class="todo-section__status">
-                <div class="items-left">
-                    <p>5 items left</p>
-                </div>
-
-                <div class="list-preference">
-                    <div class="content-wrapper">
-                        <p>All</p>
-                        <p>Active</p>
-                        <p>Completed</p>
-                    </div>
-                </div>
-
-                <div class="clear-completed-btn">
-                    <p>Clear Completed</p>
-                </div>
-            </div>
-
         </section>
         
         <script defer src="app.js"></script>

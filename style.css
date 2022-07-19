@@ -9,9 +9,33 @@ html {
     font-size: 16px;
 }
 
+body {
+    height: 100vh;
+}
+
 .cover-image-section {
     background-image: url('images/bg-desktop-light.jpg');
     background-size: cover;
-    width: 100%;
+    width: 100%;  /* general */
     padding: 12rem 0;
+}
+
+.content-section {
+    height: 100vh;
+    position: relative;
+}
+
+.todo-section__wrapper {
+    width: 45%;
+    padding: 2rem;
+    margin-inline: auto;
+    position: relative;
+}
+
+.todo-section {
+    border: 1px solid purple;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: -80px;
 }

@@ -26,16 +26,129 @@ body {
 }
 
 .todo-section__wrapper {
-    width: 45%;
-    padding: 2rem;
+    width: 40%;
+    padding: 2rem;  /* general */
     margin-inline: auto;
-    position: relative;
+    position: relative; /* general */
 }
 
 .todo-section {
+    width: 100%;    /* general */
+    position: absolute;     /* general */
+    left: 0;    /* general */
+    top: -220px;   
+}
+
+.todo-section__header {
+    display: flex;      /* general */
+    justify-content: space-between;     /* general */
+    align-items: center;    /* general */
+    margin-bottom: 3rem;
+}
+
+.todo-section__header h4 {
+    color: white;   /* general */
+    letter-spacing: 1rem;   
+    font-family: 'Josefin Sans', sans-serif;    /* general */
+    font-size: 2.5rem;
+    font-weight: 700;   /* general */
+}
+
+.toggle-appearance-btn {
+    cursor: pointer;    /* general */
+}
+
+.todo-section__entry {
+    border: 1px solid lightgrey;
+    background-color: white;    /* general */
+    border-radius: 8px;
+}
+
+.todo-section .entry-field, .todo-section .list-field {
+    /* border: 1px solid lightgrey; */
+    display: flex;      /* general */
+    justify-content: space-between;     /* general */
+    align-items: center;
+    width: 90%;
+    padding: 0.7rem 0;      /* general */
+    margin-inline: auto;    /* general */
+}
+
+.entry-field .checkbox {
+    border: 1px solid lightgrey;
+    padding: 0.45rem 0.5rem;    /* general */
+    border-radius: 50%;     /* general */
+    cursor: pointer;    /* general */
+}
+
+.entry-field .checkbox.checked {
+    background-color: lightgrey;
+    padding: 0.45rem 0.5rem 0.4rem;  /* general */
+}
+
+.checkbox img.check-mark {
+    width: 15px;    /* general */
+    max-width: 100%;    /* general */
+    height: auto;   /* general */
+}
+
+.entry-field .input-field, .list-field .input-field {
+    width: 90%;
+}
+
+.entry-field .input-field input, .list-field .input-field input{
+    width: 100%;    /* general */
+    padding: 0.55rem 0;     /* general */
+    border: none;   /* general */
+    outline: none;  /* general */
+}
+
+::placeholder {
+    color: hsl(236, 9%, 61%);   /* general */
+}
+
+.todo-section__list {
+    background-color: white;    /* general */
+    margin-top: 1.5rem;     /* general */
+    border: 1px solid lightgrey;
+    border-radius: 8px 8px 0 0;
+}
+
+.list-field .checkbox {
     border: 1px solid purple;
-    width: 100%;
-    position: absolute;
-    left: 0;
-    top: -80px;
+    padding: 0.45rem 0.5rem;    /* general */
+    border-radius: 100%;     /* general */
+    cursor: pointer;    /* general */
+}
+
+.list-field .checkbox.checked {
+    background-color: purple;
+    padding: 0.45rem 0.5rem 0.4rem;  /* general */
+}
+
+.todo-section__status {
+    border: 1px solid lightgrey;  
+    border-top: none;
+    padding: 1.5rem 0;
+    border-radius: 0 0 8px 8px;
+}
+
+.status-wrapper {
+    display: grid;  /* general */
+    grid-template-columns: 1fr 2fr 1fr;     /* general */
+    width: 90%;
+    margin-inline: auto;    /* general */
+}
+
+.status-wrapper p {
+    cursor: pointer;    /* general */
+}
+
+.list-preference .content-wrapper {
+    display: flex;  /* general */
+    justify-content: space-evenly;  /* general */
+}
+
+.clear-completed-btn {
+    text-align: end;  /* general */
 }

@@ -20,7 +20,7 @@
                 <section class="todo-section">  <!-- set position to absolute and be positioned relatively to todo-section__wrapper -->
         <!-- Todo Header-->
                     <div class="todo-section__header">
-                        <div class="logo">TODO</div>
+                        <h4 class="logo">TODO</h4>
                         <div class="toggle-appearance-btn">
                             <img src="images/icon-moon.svg" alt="Change Apperance">
                         </div>
@@ -29,7 +29,7 @@
                     <div class="todo-section__entry">
                         <div class="entry-field">
                             <div class="checkbox">
-                                <img src="images/icon-check.svg" alt="check mark">
+                                <img src="images/icon-check.svg" alt="check mark" class="check-mark">
                             </div>
                             <div class="input-field">
                                 <input type="text" placeholder="Create a new todo...">
@@ -40,7 +40,7 @@
                     <div class="todo-section__list">
                         <div class="list-field">
                             <div class="checkbox">
-                                <img src="images/icon-check.svg" alt="check mark">
+                                <img src="images/icon-check.svg" alt="check mark" class="check-mark">
                             </div>
                             <div class="input-field">
                                 <input type="text">
@@ -50,20 +50,22 @@
         
         <!-- Todo Status -->
                     <div class="todo-section__status">
-                        <div class="items-left">
-                            <p>5 items left</p>
-                        </div>
-        
-                        <div class="list-preference">
-                            <div class="content-wrapper">
-                                <p>All</p>
-                                <p>Active</p>
-                                <p>Completed</p>
+                        <div class="status-wrapper">
+                            <div class="items-left">
+                                <p>5 items left</p>
                             </div>
-                        </div>
-        
-                        <div class="clear-completed-btn">
-                            <p>Clear Completed</p>
+            
+                            <div class="list-preference">
+                                <div class="content-wrapper">
+                                    <p>All</p>
+                                    <p>Active</p>
+                                    <p>Completed</p>
+                                </div>
+                            </div>
+            
+                            <div class="clear-completed-btn">
+                                <p>Clear Completed</p>
+                            </div>
                         </div>
                     </div>
                 

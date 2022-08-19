@@ -36,5 +36,6 @@ function myFunc() {
     // displaying the todo list template on the page
     todoListContainer.appendChild(listField)
 
+    document.getElementById('entry-text').value = '';
     return false;
 }

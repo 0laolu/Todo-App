@@ -74,22 +74,28 @@ body {
     margin-inline: auto;    /* general */
 }
 
+
 .entry-field .checkbox {
     border: 1px solid lightgrey;
-    padding: 0.45rem 0.5rem;    /* general */
-    border-radius: 50%;     /* general */
+    border-radius: 100%;     /* general */
     cursor: pointer;    /* general */
 }
 
 .entry-field .checkbox.checked {
     background-color: lightgrey;
-    padding: 0.45rem 0.5rem 0.4rem;  /* general */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .checkbox img.check-mark {
-    width: 15px;    /* general */
+    width: 16px;    /* general */
     max-width: 100%;    /* general */
     height: auto;   /* general */
+    margin: 0.6rem 0.55rem 0.6rem 0.55rem;
+    /* position: relative;
+    top: 1.45px;
+    left: 1.4px; */
 }
 
 .entry-field .input-field, .list-field .input-field {
@@ -116,14 +122,23 @@ body {
 
 .list-field .checkbox {
     border: 1px solid purple;
-    padding: 0.45rem 0.5rem;    /* general */
     border-radius: 100%;     /* general */
     cursor: pointer;    /* general */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .list-field .checkbox.checked {
     background-color: purple;
-    padding: 0.45rem 0.5rem 0.4rem;  /* general */
+}
+
+.todo-section__list .list-field {
+    border-bottom: 1px solid lightgrey;
+}
+
+.todo-section__list .list-field:last-child {
+    border-bottom: none;
 }
 
 .todo-section__status {
@@ -140,7 +155,8 @@ body {
     margin-inline: auto;    /* general */
 }
 
-.status-wrapper p {
+.status-wrapper p { 
+    color: #4F21EA, #008B8B;
     cursor: pointer;    /* general */
 }
 

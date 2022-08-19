@@ -22,28 +22,28 @@
                     <div class="todo-section__header">
                         <h4 class="logo">TODO</h4>
                         <div class="toggle-appearance-btn">
-                            <img src="images/icon-moon.svg" alt="Change Apperance">
+                            <img src="images/icon-moon.svg" alt="an icon that toggles the page appearance between light and dark mode">
                         </div>
                     </div>
         <!-- Todo Entry-->    
                     <div class="todo-section__entry">
                         <div class="entry-field">
-                            <div class="checkbox">
+                            <div class="checkbox checked">
                                 <img src="images/icon-check.svg" alt="check mark" class="check-mark">
                             </div>
-                            <div class="input-field">
-                                <input type="text" placeholder="Create a new todo...">
-                            </div>
+                            <form id="add-list" class="input-field" onsubmit="return myFunc();">
+                                <input id="entry-text" type="text" placeholder="Create a new todo...">
+                            </form>
                         </div>
                     </div>
         <!-- Todo List--> 
-                    <div class="todo-section__list">
+                    <div id="list" class="todo-section__list">
                         <div class="list-field">
-                            <div class="checkbox">
+                            <div class="checkbox checked">
                                 <img src="images/icon-check.svg" alt="check mark" class="check-mark">
                             </div>
                             <div class="input-field">
-                                <input type="text">
+                                <input id="list-text" type="text">
                             </div>
                         </div>
                     </div>

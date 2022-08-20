@@ -27,15 +27,35 @@ function myFunc() {
 
     // appending child elements to parent elements
     checkBox.appendChild(checkmark);
-    listField.appendChild(checkBox)
+    listField.appendChild(checkBox);
 
-    inputField.appendChild(listInput)
-    listField.appendChild(inputField)
-    console.log(listField);
+    inputField.appendChild(listInput);
+    listField.appendChild(inputField);
 
     // displaying the todo list template on the page
-    todoListContainer.appendChild(listField)
+    todoListContainer.appendChild(listField);
 
+    // clearing the entry field after list has been submitted
     document.getElementById('entry-text').value = '';
+
+    // calling the count function
+    todoCount();
+
     return false;
 }
+
+// updating the count 
+let count = 0;
+function todoCount() {
+    let listCount = document.querySelector('.todo-count')
+    count = count + 1;
+
+    if(count === 1) {
+        listCount.textContent = `${count} item left`;
+    } else {
+        listCount.textContent = `${count} items left`
+    }
+    // console.log(listCount)
+    // console.log(count)
+    // return count;
+};

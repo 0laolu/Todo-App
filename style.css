@@ -142,6 +142,7 @@ body {
 }
 
 .todo-section__status {
+    background-color: white;
     border: 1px solid lightgrey;  
     border-top: none;
     padding: 1.5rem 0;

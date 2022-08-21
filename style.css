@@ -3,6 +3,7 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Josefin Sans', sans-serif;
+    -webkit-tap-highlight-color: transparent;
 }
 
 html {
@@ -70,7 +71,7 @@ body {
     justify-content: space-between;     /* general */
     align-items: center;
     width: 90%;
-    padding: 0.7rem 0;      /* general */
+    padding: 1rem 0;      /* general */
     margin-inline: auto;    /* general */
 }
 
@@ -98,8 +99,9 @@ body {
     left: 1.4px; */
 }
 
-.entry-field .input-field, .list-field .input-field {
+.entry-field .input-field {
     width: 90%;
+    /* border: 1px solid red; */
 }
 
 .entry-field .input-field input, .list-field .input-field input{
@@ -139,6 +141,19 @@ body {
 
 .todo-section__list .list-field:last-child {
     border-bottom: none;
+}
+
+.list-field .input-field {
+    width: 85%;
+}
+
+.list-field .delete-btn {
+    display: flex;
+    justify-content: center;
+    width: 5%;
+    height: 20px;
+
+    /* width: 40%; */
 }
 
 .todo-section__status {

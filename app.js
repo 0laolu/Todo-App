@@ -10,7 +10,9 @@ function myFunc() {
     let checkBox = document.createElement('div');       // first child of the template
     let checkmark = document.createElement('img');      // child of the first child
     let inputField = document.createElement('div');     // second child of the template
-    let listInput = document.createElement('input');    // child of the second child    
+    let listInput = document.createElement('input');    // child of the second child   
+    let deleteBtn = document.createElement('div');
+    let deleteIcon = document.createElement('img'); 
 
     // setting attributes to each element
     listField.setAttribute('class', 'list-field');
@@ -25,6 +27,9 @@ function myFunc() {
     listInput.setAttribute('type', 'text');
     listInput.setAttribute('value', entryFormValue);
 
+    deleteBtn.setAttribute('class', 'delete-btn');
+    deleteIcon.setAttribute('src', 'images/icon-cross.svg')
+
     // appending child elements to parent elements
     checkBox.appendChild(checkmark);
     listField.appendChild(checkBox);
@@ -32,6 +37,8 @@ function myFunc() {
     inputField.appendChild(listInput);
     listField.appendChild(inputField);
 
+    deleteBtn.appendChild(deleteIcon);
+    listField.appendChild(deleteBtn);
     // displaying the todo list template on the page
     todoListContainer.appendChild(listField);
 
@@ -40,6 +47,9 @@ function myFunc() {
 
     // calling the count function
     todoCount();
+
+    // calling the deleteList function
+    deleteList();
 
     return false;
 }
@@ -59,3 +69,14 @@ function todoCount() {
     // console.log(count)
     // return count;
 };
+
+function deleteList() {
+    let deleteButtons = document.querySelectorAll('.delete-btn');
+    deleteButtons.forEach(deleteButton => {
+        deleteButton.addEventListener('click', function() {
+            deleteButton.parentElement.remove();
+        });
+    });
+}
+
+

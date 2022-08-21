@@ -147,13 +147,19 @@ body {
     width: 85%;
 }
 
+/* button {
+    background-color: transparent;
+    border: none;
+} */
+
 .list-field .delete-btn {
+    background-color: transparent;
+    border: none;
     display: flex;
     justify-content: center;
     width: 5%;
     height: 20px;
-
-    /* width: 40%; */
+    cursor: pointer;
 }
 
 .todo-section__status {

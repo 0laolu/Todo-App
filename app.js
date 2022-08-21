@@ -11,7 +11,7 @@ function myFunc() {
     let checkmark = document.createElement('img');      // child of the first child
     let inputField = document.createElement('div');     // second child of the template
     let listInput = document.createElement('input');    // child of the second child   
-    let deleteBtn = document.createElement('div');
+    let deleteBtn = document.createElement('button');
     let deleteIcon = document.createElement('img'); 
 
     // setting attributes to each element

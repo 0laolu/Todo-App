@@ -22,9 +22,12 @@ body {
 }
 
 .content-section {
+    background-color: hsl(0, 0%, 98%);
     height: 100vh;
     position: relative;
 }
+
+/* Todo Section */
 
 .todo-section__wrapper {
     width: 40%;
@@ -39,6 +42,8 @@ body {
     left: 0;    /* general */
     top: -220px;   
 }
+
+/* Todo Section Header */
 
 .todo-section__header {
     display: flex;      /* general */
@@ -59,6 +64,8 @@ body {
     cursor: pointer;    /* general */
 }
 
+/* Todo Section Entry */
+
 .todo-section__entry {
     border: 1px solid lightgrey;
     background-color: white;    /* general */
@@ -66,7 +73,6 @@ body {
 }
 
 .todo-section .entry-field, .todo-section .list-field {
-    /* border: 1px solid lightgrey; */
     display: flex;      /* general */
     justify-content: space-between;     /* general */
     align-items: center;
@@ -83,7 +89,7 @@ body {
 }
 
 .entry-field .checkbox.checked {
-    background-color: lightgrey;
+    /* background-color: lightgrey; */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -101,7 +107,6 @@ body {
 
 .entry-field .input-field {
     width: 90%;
-    /* border: 1px solid red; */
 }
 
 .entry-field .input-field input, .list-field .input-field input{
@@ -115,11 +120,18 @@ body {
     color: hsl(236, 9%, 61%);   /* general */
 }
 
+/* Todo Section List */
+
 .todo-section__list {
     background-color: white;    /* general */
     margin-top: 1.5rem;     /* general */
-    border: 1px solid lightgrey;
+    /* border: 1px solid lightgrey; */
+    border-bottom: none;
     border-radius: 8px 8px 0 0;
+}
+
+.todo-section__list .list-field {
+    border-bottom: 1px solid lightgrey;
 }
 
 .list-field .checkbox {
@@ -135,22 +147,9 @@ body {
     background-color: purple;
 }
 
-.todo-section__list .list-field {
-    border-bottom: 1px solid lightgrey;
-}
-
-.todo-section__list .list-field:last-child {
-    border-bottom: none;
-}
-
 .list-field .input-field {
     width: 85%;
 }
-
-/* button {
-    background-color: transparent;
-    border: none;
-} */
 
 .list-field .delete-btn {
     background-color: transparent;
@@ -162,12 +161,16 @@ body {
     cursor: pointer;
 }
 
+/* Todo Status */
+
 .todo-section__status {
     background-color: white;
-    border: 1px solid lightgrey;  
+    /* border: 1px solid lightgrey;   */
     border-top: none;
+    border-bottom: white;
     padding: 1.5rem 0;
     border-radius: 0 0 8px 8px;
+    box-shadow: 0 1rem 2rem 0 hsl(225, 20%, 95%);
 }
 
 .status-wrapper {
@@ -189,4 +192,99 @@ body {
 
 .clear-completed-btn {
     text-align: end;  /* general */
+}
+
+.mobile-list-preference {
+    display: none;
+}
+
+@media screen and (max-width:767px) {
+    .todo-section__wrapper {
+        width: 90%;
+        max-width: 540px;
+        margin-inline: auto;
+    }
+
+    .todo-section__header h4 {   
+        font-size: 1.8rem;
+    }
+
+    /* Todo Section Entry */
+
+    .todo-section .entry-field, .todo-section .list-field {
+        display: flex;
+        align-items: baseline;
+        width: 90%;
+        padding: 1rem 0;      
+    }
+
+    .checkbox img.check-mark {
+        width: 14px;    
+        max-width: 100%;    
+        height: auto;   
+        margin: 0.43rem 0.35rem 0.43rem 0.35rem;
+    }
+
+    .entry-field .input-field {
+        width: 87%;
+    }
+
+    .entry-field .input-field input {
+        width: 100%;    
+        padding: 0.55rem 0; 
+    }
+
+    /* Todo Section List */
+
+    .todo-section__list .list-field {
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid lightgrey;
+    }
+
+    .list-field .checkbox {
+        margin-right: 0.5rem;
+    }
+
+    .list-field .input-field {
+        width: 81%;
+    }
+
+    /* Todo Status */
+
+    .todo-section__status {
+        border: none;
+    }
+
+    .status-wrapper {
+        display: flex;
+        justify-content: space-between;
+        width: 90%;
+        margin-inline: auto;    
+    }
+
+    .status-wrapper .list-preference {
+        display: none;
+    }
+
+    .mobile-list-preference {
+        background-color: white;
+        display: block;
+        margin: 3rem 0;
+        border-radius: 8px;
+        box-shadow: 0 1rem 2rem 0 hsl(225, 20%, 95%);
+    }
+
+    .mobile-list-preference .content-wrapper {
+        width: 80%;
+        max-width: 300px;
+        padding: 1.5rem 0;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .mobile-list-preference .content-wrapper p {
+        font-size: 1.1rem;
+    }
 }

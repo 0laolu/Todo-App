@@ -202,8 +202,13 @@ body {
 }
 
 @media screen and (max-width:767px) {
+
+    .cover-image-section {
+        background-image: url('images/bg-mobile-light.jpg');
+    }
+
     .todo-section__wrapper {
-        width: 90%;
+        width: 95%;
         max-width: 540px;
         margin: 0 auto;
     }
@@ -229,7 +234,7 @@ body {
     }
 
     .entry-field .input-field {
-        width: 87%;
+        width: 90%;
     }
 
     .entry-field .input-field input {
@@ -289,5 +294,12 @@ body {
 
     .mobile-list-preference .content-wrapper p {
         font-size: 1.1rem;
+    }
+}
+
+@media screen and (min-width: 550px) {
+    .entry-field .input-field {
+        width: 90%;
+        /* border: 1px solid red; */
     }
 }

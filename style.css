@@ -14,6 +14,8 @@ body {
     height: 100vh;
 }
 
+/* General Styling */
+
 .cover-image-section {
     background-image: url('images/bg-desktop-light.jpg');
     background-size: cover;
@@ -108,7 +110,7 @@ body {
     width: 90%;
 }
 
-.entry-field .input-field input, .list-field .input-field input{
+.entry-field .input-field input, .list-field .input-field input {
     font-size: 1.05rem;
     width: 100%;    
     padding: 0.55rem 0;     
@@ -180,12 +182,12 @@ body {
 }
 
 .status-wrapper p { 
-    color: #4F21EA, #008B8B;
     cursor: pointer;    
 }
 
 .status-wrapper .list-preference {
-    width: 80;
+    width: 80%;
+    margin: 0 auto;
 }
 
 .list-preference .content-wrapper {
@@ -226,6 +228,10 @@ body {
         padding: 1rem 0;      
     }
 
+    .entry-field .checkbox {
+        margin-right: 0.5rem;
+    }
+
     .checkbox img.check-mark {
         width: 14px;    
         max-width: 100%;    
@@ -234,7 +240,7 @@ body {
     }
 
     .entry-field .input-field {
-        width: 90%;
+        width: 89%;
     }
 
     .entry-field .input-field input {
@@ -298,8 +304,60 @@ body {
 }
 
 @media screen and (min-width: 550px) {
+
+    /* Todo Entry */
     .entry-field .input-field {
-        width: 90%;
-        /* border: 1px solid red; */
+        width: 92%;
+    }
+
+    /* Todo List */
+
+    .list-field .input-field {
+        width: 85%;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .todo-section__wrapper {
+        width: 70%;
+        max-width: 695px;
+    }
+
+    /* Todo Entry */
+
+    .todo-section .entry-field, .todo-section .list-field {
+        display: flex;
+        align-items: baseline;
+    }
+
+    .entry-field .input-field {
+        width: 91%;
+    }
+
+    .entry-field .input-field input, .list-field .input-field input {
+        font-size: 1.1rem;
+    }
+
+    ::placeholder {
+        font-size: 1.1rem;
+    }
+
+    /* Todo List */
+
+    .todo-section .list-field {
+        display: flex;
+        align-items: center;
+    }
+    
+    .list-field .input-field {
+        width: 84%;
+    }
+}
+
+@media screen and (min-width: 900px) {
+    /* Todo Status */
+
+    .status-wrapper p {
+        font-size: 1.1rem;
     }
 }

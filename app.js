@@ -21,7 +21,7 @@ function displayTodoList() {
     // setting attributes to each element
     listField.setAttribute('class', 'list-field');
     checkBox.setAttribute('class', 'checkbox');
-    checkBox.classList.add('checked');
+    // checkBox.classList.add('checked');
 
     checkmark.setAttribute('src', 'images/icon-check.svg');
     checkmark.setAttribute('class', 'check-mark');
@@ -51,6 +51,16 @@ function displayTodoList() {
 
     // pushing the list created to number of Todo list array
     numberOfListCreated.push(listField)
+
+    checkBox.addEventListener('click', function() {
+        if(!checkBox.classList.contains('checked')) {
+            checkBox.classList.add('checked');
+            listInput.classList.add('strike-through')
+        } else {
+            checkBox.classList.remove('checked')
+            listInput.classList.remove('strike-through')
+        }
+    })
 
     // calling the increase list count function
     increaseListCount();

@@ -85,15 +85,12 @@ body {
 
 
 .entry-field .checkbox {
-    border: 1px solid lightgrey;
-    border-radius: 100%;    
-    cursor: pointer;    
-}
-
-.entry-field .checkbox.checked {
     display: flex;
     align-items: center;
     justify-content: center;
+    border: 1px solid lightgrey;
+    border-radius: 100%;    
+    cursor: pointer;    
 }
 
 .checkbox img.check-mark {
@@ -113,8 +110,10 @@ body {
 .entry-field .input-field input, .list-field .input-field input {
     font-size: 1.05rem;
     width: 100%;    
-    padding: 0.55rem 0;     
-    border: none;  
+    padding: 0.55rem 0;  
+    position: relative;
+    top: 0.1rem;
+    border: none;
     outline: none;  
 }
 
@@ -151,6 +150,12 @@ body {
 
 .list-field .input-field {
     width: 85%;
+}
+
+.list-field .input-field input.strike-through {
+    color: hsl(236, 9%, 77%);
+    text-decoration-line: line-through;
+    text-decoration-color: hsl(236, 9%, 50%);
 }
 
 .list-field .delete-btn {

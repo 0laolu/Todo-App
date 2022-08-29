@@ -1,78 +1,101 @@
 let entryForm = document.getElementById('add-list');
 let todoListContainer = document.getElementById('list');
-
+let errorIcon = document.querySelector('.error-img');
+let entryFieldCheckbox = document.querySelector('.entry-field .checkbox');
 // storing each list created in a container
 let numberOfListCreated = [];
 
 // creating a todo list based on the content typed in the entry field
 function displayTodoList() {
+    // getting the value of what is typed into the entry field
     let entryFormValue = entryForm.querySelector('input[type="text"]').value;
-    console.log(entryFormValue);
 
-    // creating the todo list template
-    let listField = document.createElement('div');      // list template container
-    let checkBox = document.createElement('div');       // first child of the template
-    let checkmark = document.createElement('img');      // child of the first child
-    let inputField = document.createElement('div');     // second child of the template
-    let listInput = document.createElement('input');    // child of the second child   
-    let deleteBtn = document.createElement('button');   // third child of the template
-    let deleteIcon = document.createElement('img');     // child of the third child
+    // display an error if entry field is empty
+    if(entryFormValue == '') {
+        // adding the red border
+        entryForm.parentElement.parentElement.classList.add('error');
+        // display the error icon
+        errorIcon.classList.add('show-error');
+        entryFieldCheckbox.classList.add('hide');
+        // display the error text
+        entryForm.querySelector('input[type="text"]').classList.add('error');
+        entryForm.querySelector('input[type="text"]').placeholder = 'Field cannot be empty';
+    } else {
+        // remove the error and run the program successfully
+        entryForm.parentElement.parentElement.classList.remove('error');
+        errorIcon.classList.remove('show-error');
+        entryFieldCheckbox.classList.remove('hide');
+        entryForm.querySelector('input[type="text"]').classList.remove('error')
+        entryForm.querySelector('input[type="text"]').placeholder = 'Create a new todo...';
 
-    // setting attributes to each element
-    listField.setAttribute('class', 'list-field');
-    checkBox.setAttribute('class', 'checkbox');
-    // checkBox.classList.add('checked');
+        // creating the todo list template
+        let listField = document.createElement('div');      // list template container
+        let checkBox = document.createElement('div');       // first child of the template
+        let checkmark = document.createElement('img');      // child of the first child
+        let inputField = document.createElement('div');     // second child of the template
+        let listInput = document.createElement('input');    // child of the second child   
+        let deleteBtn = document.createElement('button');   // third child of the template
+        let deleteIcon = document.createElement('img');     // child of the third child
 
-    checkmark.setAttribute('src', 'images/icon-check.svg');
-    checkmark.setAttribute('class', 'check-mark');
+        // setting attributes to each element
+        listField.setAttribute('class', 'list-field');
+        checkBox.setAttribute('class', 'checkbox');
+        // checkBox.classList.add('checked');
 
-    inputField.setAttribute('class', 'input-field');
-    listInput.setAttribute('id', 'list-text');
-    listInput.setAttribute('type', 'text');
-    listInput.setAttribute('value', entryFormValue);
+        checkmark.setAttribute('src', 'images/icon-check.svg');
+        checkmark.setAttribute('class', 'check-mark');
 
-    deleteBtn.setAttribute('class', 'delete-btn');
-    deleteIcon.setAttribute('src', 'images/icon-cross.svg')
+        inputField.setAttribute('class', 'input-field');
+        listInput.setAttribute('id', 'list-text');
+        listInput.setAttribute('type', 'text');
+        listInput.setAttribute('value', entryFormValue);
 
-    // appending child elements to parent elements
-    checkBox.appendChild(checkmark);
-    listField.appendChild(checkBox);
+        deleteBtn.setAttribute('class', 'delete-btn');
+        deleteIcon.setAttribute('src', 'images/icon-cross.svg')
 
-    inputField.appendChild(listInput);
-    listField.appendChild(inputField);
+        // appending child elements to parent elements
+        checkBox.appendChild(checkmark);
+        listField.appendChild(checkBox);
 
-    deleteBtn.appendChild(deleteIcon);
-    listField.appendChild(deleteBtn);
-    // displaying the todo list template on the page
-    todoListContainer.appendChild(listField);
+        inputField.appendChild(listInput);
+        listField.appendChild(inputField);
 
-    // clearing the entry field after list has been submitted
-    document.getElementById('entry-text').value = '';
+        deleteBtn.appendChild(deleteIcon);
+        listField.appendChild(deleteBtn);
+        // displaying the todo list template on the page
+        todoListContainer.appendChild(listField);
 
-    // pushing the list created to number of Todo list array
-    numberOfListCreated.push(listField)
+        // clearing the entry field after list has been submitted
+        document.getElementById('entry-text').value = '';
 
-    checkBox.addEventListener('click', function() {
-        if(!checkBox.classList.contains('checked')) {
-            checkBox.classList.add('checked');
-            listInput.classList.add('strike-through')
-        } else {
-            checkBox.classList.remove('checked')
-            listInput.classList.remove('strike-through')
-        }
-    })
+        // pushing the list created to number of Todo list array
+        numberOfListCreated.push(listField)
+        console.log(numberOfListCreated)
 
-    // calling the increase list count function
-    increaseListCount();
+        // putting a strike-through on a todo list once it is checked as completed
+        checkBox.addEventListener('click', function() {
+            if(!checkBox.classList.contains('checked')) {
+                checkBox.classList.add('checked');
+                listInput.classList.add('strike-through')
+            } else {
+                checkBox.classList.remove('checked')
+                listInput.classList.remove('strike-through')
+            }
+        })
 
-    // calling the deleteTodoList function and passing number
-    deleteTodoList(numberOfListCreated);
+        // calling the increase list count function
+        increaseListCount();
+
+        // calling the deleteTodoList function and passing number
+        deleteTodoList(numberOfListCreated);
+    }
 
     // prevent the list created from disappearing from the page
     return false;
 }
 
 // updating the count 
+
 let increaseCount = 0;
 let listCount = document.querySelector('.todo-count');
 
@@ -106,6 +129,7 @@ function deleteTodoList(todoListTotal) {
         } else {
             listCount.textContent = `${listTotal} items left`;
         }
+        console.log(listTotal)
     }
 }
 

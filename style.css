@@ -74,6 +74,10 @@ body {
     border-radius: 8px;
 }
 
+.todo-section__entry.error {
+    border: 2px solid hsl(0, 90%, 55%);
+}
+
 .todo-section .entry-field, .todo-section .list-field {
     display: flex;      
     justify-content: space-between;     
@@ -81,8 +85,27 @@ body {
     width: 90%;
     padding: 1rem 0;      
     margin: 0 auto;
+    position: relative;
 }
 
+.entry-field .error-img {
+    display: none;
+}
+
+.entry-field .error-img.show-error {
+    width: 30px;
+    padding: 0.2rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+}
+
+.entry-field .error-img img {
+    width: 26px;
+    max-width: 100%;
+    height: auto;
+}
 
 .entry-field .checkbox {
     display: flex;
@@ -91,6 +114,10 @@ body {
     border: 1px solid lightgrey;
     border-radius: 100%;    
     cursor: pointer;    
+}
+
+.entry-field .checkbox.hide {
+    visibility: hidden;
 }
 
 .checkbox img.check-mark {
@@ -118,8 +145,12 @@ body {
 }
 
 ::placeholder {
-    color: hsl(236, 9%, 61%);   
+    color: hsl(236, 9%, 61%);  
     font-size: 1.05rem;
+}
+
+input#entry-text.error::-webkit-input-placeholder {
+    color: hsl(0, 90%, 55%); 
 }
 
 /* Todo Section List */
@@ -215,7 +246,7 @@ body {
     }
 
     .todo-section__wrapper {
-        width: 95%;
+        width: 93%;
         max-width: 540px;
         margin: 0 auto;
     }
@@ -333,6 +364,14 @@ body {
     .todo-section .entry-field, .todo-section .list-field {
         display: flex;
         align-items: baseline;
+    }
+
+    .entry-field .error-img.show-error {
+        width: 37px;
+    }
+    
+    .entry-field .error-img img {
+        width: 31px;
     }
 
     .entry-field .input-field {

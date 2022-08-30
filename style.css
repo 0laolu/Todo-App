@@ -231,6 +231,10 @@ input#entry-text.error::-webkit-input-placeholder {
     justify-content: space-evenly;  
 }
 
+.list-preference p.active-state {
+    color: hsl(220, 98%, 61%);
+}
+
 .clear-completed-btn {
     text-align: end;  
 }
@@ -334,8 +338,12 @@ input#entry-text.error::-webkit-input-placeholder {
         justify-content: space-around;
     }
 
-    .mobile-list-preference .content-wrapper p {
+    .mobile-list-preference  p {
         font-size: 1.1rem;
+    }
+
+    .mobile-list-preference p.active-state {
+        color: hsl(220, 98%, 61%);
     }
 }
 

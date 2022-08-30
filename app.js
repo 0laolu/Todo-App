@@ -53,7 +53,7 @@ function displayTodoList() {
         listInput.setAttribute('value', entryFormValue);
 
         deleteBtn.setAttribute('class', 'delete-btn');
-        deleteBtn.setAttribute('onclick', 'deleteList(numberOfListCreated)');
+        deleteBtn.setAttribute('onclick', 'deleteList(event, numberOfListCreated)');
         deleteIcon.setAttribute('src', 'images/icon-cross.svg');
 
         // appending child elements to parent elements
@@ -73,6 +73,7 @@ function displayTodoList() {
 
         // pushing the list created to number of Todo list array
         numberOfListCreated.push(listField);
+        console.log(numberOfListCreated)
 
         // putting a strike-through on a todo list once it is checked as complete
         checkBox.addEventListener('click', function() {
@@ -85,6 +86,7 @@ function displayTodoList() {
             }
         });
 
+        // calling the itemsLeftCount to increase the count as a new list is created
         itemsLeftCount(numberOfListCreated.length);
 
     }; // end of else statement
@@ -92,11 +94,14 @@ function displayTodoList() {
     // prevent the list created from disappearing from the page
     return false;
 }
+
 // removing a todo list from the page
-function deleteList(todoListTotal) {
-    let deleteButton = document.querySelector('.delete-btn');
-    deleteButton.parentElement.remove();
+function deleteList(event, todoListTotal) {
+    event.target.parentElement.parentElement.remove();
+    // removing the last element of the numberOfListCreated array when a list is deleted
     todoListTotal.pop();
+    console.log(todoListTotal)
+    console.log(todoListTotal.length)
 
     if(todoListTotal.length === 1) {
         listCount.textContent = `${todoListTotal.length} item left`
@@ -105,9 +110,11 @@ function deleteList(todoListTotal) {
     }
 }
 
+// getting the items left element 
 let listCount = document.querySelector('.todo-count');
 
 function itemsLeftCount(count) {
+    console.log(count);
     if(count === 1) {
         listCount.textContent = `${count} item left`
     } else {

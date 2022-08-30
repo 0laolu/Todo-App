@@ -14,9 +14,11 @@ function displayTodoList() {
     if(entryFormValue == '') {
         // adding the red border
         entryForm.parentElement.parentElement.classList.add('error');
+        
         // display the error icon
         errorIcon.classList.add('show-error');
         entryFieldCheckbox.classList.add('hide');
+
         // display the error text
         entryForm.querySelector('input[type="text"]').classList.add('error');
         entryForm.querySelector('input[type="text"]').placeholder = 'Field cannot be empty';
@@ -51,7 +53,8 @@ function displayTodoList() {
         listInput.setAttribute('value', entryFormValue);
 
         deleteBtn.setAttribute('class', 'delete-btn');
-        deleteIcon.setAttribute('src', 'images/icon-cross.svg')
+        deleteBtn.setAttribute('onclick', 'deleteList(numberOfListCreated)');
+        deleteIcon.setAttribute('src', 'images/icon-cross.svg');
 
         // appending child elements to parent elements
         checkBox.appendChild(checkmark);
@@ -69,67 +72,46 @@ function displayTodoList() {
         document.getElementById('entry-text').value = '';
 
         // pushing the list created to number of Todo list array
-        numberOfListCreated.push(listField)
-        console.log(numberOfListCreated)
+        numberOfListCreated.push(listField);
 
-        // putting a strike-through on a todo list once it is checked as completed
+        // putting a strike-through on a todo list once it is checked as complete
         checkBox.addEventListener('click', function() {
             if(!checkBox.classList.contains('checked')) {
                 checkBox.classList.add('checked');
-                listInput.classList.add('strike-through')
+                listInput.classList.add('strike-through');
             } else {
-                checkBox.classList.remove('checked')
-                listInput.classList.remove('strike-through')
+                checkBox.classList.remove('checked');
+                listInput.classList.remove('strike-through');
             }
-        })
+        });
 
-        // calling the increase list count function
-        increaseListCount();
+        itemsLeftCount(numberOfListCreated.length);
 
-        // calling the deleteTodoList function and passing number
-        deleteTodoList(numberOfListCreated);
-    }
+    }; // end of else statement
 
     // prevent the list created from disappearing from the page
     return false;
 }
+// removing a todo list from the page
+function deleteList(todoListTotal) {
+    let deleteButton = document.querySelector('.delete-btn');
+    deleteButton.parentElement.remove();
+    todoListTotal.pop();
 
-// updating the count 
+    if(todoListTotal.length === 1) {
+        listCount.textContent = `${todoListTotal.length} item left`
+    } else {
+        listCount.textContent = `${todoListTotal.length} items left`
+    }
+}
 
-let increaseCount = 0;
 let listCount = document.querySelector('.todo-count');
 
-// increase the count once a list is created
-function increaseListCount() {
-    increaseCount = increaseCount + 1;
-
-    if(increaseCount === 1) {
-        listCount.textContent = `${increaseCount} item left`;
+function itemsLeftCount(count) {
+    if(count === 1) {
+        listCount.textContent = `${count} item left`
     } else {
-        listCount.textContent = `${increaseCount} items left`;
-    }
-};
-
-// remove list from the page once the delete button is clicked
-function deleteTodoList(todoListTotal) {
-    let deleteButtons = document.querySelectorAll('.delete-btn');
-    deleteButtons.forEach(deleteButton => {
-        deleteButton.addEventListener('click', function() {
-            deleteButton.parentElement.remove();
-            decreaseListCount();
-        });
-    });
-
-    // decrease the count after a list has been deleted
-    let listTotal = todoListTotal.length;
-    function decreaseListCount() {
-        listTotal = listTotal - 1;
-        if(listTotal === 1) {
-            listCount.textContent = `${listTotal} item left`;
-        } else {
-            listCount.textContent = `${listTotal} items left`;
-        }
-        console.log(listTotal)
+        listCount.textContent = `${count} items left`
     }
 }
 

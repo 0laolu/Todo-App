@@ -5,6 +5,29 @@ let entryFieldCheckbox = document.querySelector('.entry-field .checkbox');
 // storing each list created in a container
 let numberOfListCreated = [];
 
+
+function showError() {
+    // adding the red border
+    entryForm.parentElement.parentElement.classList.add('error');
+    
+    // display the error icon
+    errorIcon.classList.add('show-error');
+    entryFieldCheckbox.classList.add('hide');
+
+    // display the error text
+    entryForm.querySelector('input[type="text"]').classList.add('error');
+    entryForm.querySelector('input[type="text"]').placeholder = 'Field cannot be empty';    
+}
+
+function removeError() {
+    // remove the error and run the program successfully
+    entryForm.parentElement.parentElement.classList.remove('error');
+    errorIcon.classList.remove('show-error');
+    entryFieldCheckbox.classList.remove('hide');
+    entryForm.querySelector('input[type="text"]').classList.remove('error')
+    entryForm.querySelector('input[type="text"]').placeholder = 'Create a new todo...';
+}
+
 // creating a todo list based on the content typed in the entry field
 function displayTodoList() {
     // getting the value of what is typed into the entry field
@@ -12,23 +35,9 @@ function displayTodoList() {
 
     // display an error if entry field is empty
     if(entryFormValue == '') {
-        // adding the red border
-        entryForm.parentElement.parentElement.classList.add('error');
-        
-        // display the error icon
-        errorIcon.classList.add('show-error');
-        entryFieldCheckbox.classList.add('hide');
-
-        // display the error text
-        entryForm.querySelector('input[type="text"]').classList.add('error');
-        entryForm.querySelector('input[type="text"]').placeholder = 'Field cannot be empty';
+        showError();
     } else {
-        // remove the error and run the program successfully
-        entryForm.parentElement.parentElement.classList.remove('error');
-        errorIcon.classList.remove('show-error');
-        entryFieldCheckbox.classList.remove('hide');
-        entryForm.querySelector('input[type="text"]').classList.remove('error')
-        entryForm.querySelector('input[type="text"]').placeholder = 'Create a new todo...';
+        removeError();
 
         // creating the todo list template
         let listField = document.createElement('div');      // list template container
@@ -73,7 +82,7 @@ function displayTodoList() {
 
         // pushing the list created to number of Todo list array
         numberOfListCreated.push(listField);
-        console.log(numberOfListCreated)
+        console.log(numberOfListCreated);
 
         // putting a strike-through on a todo list once it is checked as complete
         checkBox.addEventListener('click', function() {
@@ -84,6 +93,8 @@ function displayTodoList() {
                 checkBox.classList.remove('checked');
                 listInput.classList.remove('strike-through');
             }
+
+            isChecked(numberOfListCreated, checkBox, deleteList);
         });
 
         // calling the itemsLeftCount to increase the count as a new list is created
@@ -95,31 +106,44 @@ function displayTodoList() {
     return false;
 }
 
-// removing a todo list from the page
-function deleteList(event, todoListTotal) {
-    event.target.parentElement.parentElement.remove();
-    // removing the last element of the numberOfListCreated array when a list is deleted
-    todoListTotal.pop();
-    console.log(todoListTotal)
-    console.log(todoListTotal.length)
-
-    if(todoListTotal.length === 1) {
-        listCount.textContent = `${todoListTotal.length} item left`
-    } else {
-        listCount.textContent = `${todoListTotal.length} items left`
+function isChecked(itemsLeft, checkButton, func) {
+    if(checkButton.classList.contains('checked') || func()) {
+        itemsLeft.pop();
+        console.log(itemsLeft);
+        console.log(itemsLeft.length)
     }
 }
 
 // getting the items left element 
 let listCount = document.querySelector('.todo-count');
 
-function itemsLeftCount(count) {
-    console.log(count);
-    if(count === 1) {
-        listCount.textContent = `${count} item left`
+// removing a todo list from the page
+function deleteList(event, todoListTotal) {
+    event.target.parentElement.parentElement.remove();
+    // removing the last element of the numberOfListCreated array when a list is deleted
+    todoListTotal.pop();
+
+    if(todoListTotal.length === 1) {
+        listCount.textContent = `${todoListTotal.length} item left`;
     } else {
-        listCount.textContent = `${count} items left`
+        listCount.textContent = `${todoListTotal.length} items left`;
     }
 }
+
+function itemsLeftCount(count) {
+    if(count === 1) {
+        listCount.textContent = `${count} item left`;
+    } else {
+        listCount.textContent = `${count} items left`;
+    }
+}
+
+// reducing the items left count once a list is checked
+let mobileListPreference = document.querySelectorAll('.mobile-list-preference p');
+
+let allList = document.querySelector('.mobile-list-preference .all');
+let activeList = document.querySelector('.mobile-list-preference .active');
+let completedList = document.querySelector('.mobile-list-preference .completed');
+
 
 

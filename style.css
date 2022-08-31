@@ -111,7 +111,11 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid lightgrey;
+    border: 1px double transparent;
+    background-image: linear-gradient(white, white),
+     linear-gradient(to bottom right, hsl(192, 100%, 67%), hsl(280, 87%, 65%));
+    background-origin: border-box;
+    background-clip: content-box, border-box;
     border-radius: 100%;    
     cursor: pointer;    
 }
@@ -135,6 +139,7 @@ body {
 }
 
 .entry-field .input-field input, .list-field .input-field input {
+    color: hsl(235, 19%, 35%);
     font-size: 1.05rem;
     width: 100%;    
     padding: 0.55rem 0;  
@@ -167,16 +172,22 @@ input#entry-text.error::-webkit-input-placeholder {
 }
 
 .list-field .checkbox {
-    border: 1px solid purple;
+    border: 1px double transparent;
+    background-image: linear-gradient(white, white),
+     linear-gradient(to bottom right, hsl(192, 100%, 67%), hsl(280, 87%, 65%));
+    background-origin: border-box;
+    background-clip: content-box, border-box;
     border-radius: 100%;     
     cursor: pointer;    
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
 }
 
 .list-field .checkbox.checked {
-    background-color: purple;
+    background-image: linear-gradient(to bottom right, hsl(192, 100%, 67%), hsl(280, 87%, 65%));
+    border: none;
 }
 
 .list-field .input-field {
@@ -227,6 +238,7 @@ input#entry-text.error::-webkit-input-placeholder {
 }
 
 .list-preference .content-wrapper {
+    color: hsl(235, 19%, 35%);
     display: flex;  
     justify-content: space-evenly;  
 }
@@ -338,7 +350,8 @@ input#entry-text.error::-webkit-input-placeholder {
         justify-content: space-around;
     }
 
-    .mobile-list-preference  p {
+    .mobile-list-preference p {
+        color: hsl(235, 19%, 35%);
         font-size: 1.1rem;
     }
 

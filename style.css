@@ -338,7 +338,7 @@ input#entry-text.error::-webkit-input-placeholder {
 
     .mobile-list-preference .content-wrapper {
         width: 80%;
-        max-width: 300px;
+        max-width: 350px;
         padding: 1.5rem 0;
         margin: 0 auto;
         display: flex;
@@ -352,6 +352,42 @@ input#entry-text.error::-webkit-input-placeholder {
 
     .mobile-list-preference p.active-state {
         color: hsl(220, 98%, 61%);
+    }
+}
+
+@media screen and (max-width: 360px) {
+    /* Todo Entry */
+    .todo-section__header h4 {   
+        font-size: 1.5rem;
+    }
+
+    .checkbox img.check-mark {
+        margin: 0.4rem 0.35rem 0.4rem 0.35rem;
+    }
+
+    .entry-field .input-field input, .list-field .input-field input {
+        font-size: 1rem;
+    }
+
+    ::placeholder {
+        font-size: 1rem;
+    }
+
+    /* Todo Status*/
+
+    .status-wrapper p {
+        font-size: 0.9rem;
+    }
+
+    .mobile-list-preference .content-wrapper {
+        display: flex;
+        justify-content: space-between;
+        padding: 1rem 0;
+    }
+
+    .mobile-list-preference p {
+        font-size: 0.9rem;
+        padding: 0.5rem 0;
     }
 }
 
@@ -416,9 +452,16 @@ input#entry-text.error::-webkit-input-placeholder {
     .list-field .input-field {
         width: 84%;
     }
+
+    .list-preference .content-wrapper {
+        display: flex;
+        justify-content: space-between;
+    }
 }
 
 @media screen and (min-width: 900px) {
+
+    /* Todo Entry*/
     .checkbox img.check-mark {
         margin: 0.6rem 0.55rem 0.6rem 0.55rem;
     }
@@ -428,8 +471,12 @@ input#entry-text.error::-webkit-input-placeholder {
     }
     
     /* Todo Status */
-
     .status-wrapper p {
         font-size: 1.1rem;
+    }
+
+    .list-preference .content-wrapper {
+        display: flex;
+        justify-content: space-around;
     }
 }

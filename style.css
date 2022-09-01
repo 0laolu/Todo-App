@@ -111,11 +111,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px double transparent;
-    background-image: linear-gradient(white, white),
-     linear-gradient(to bottom right, hsl(192, 100%, 67%), hsl(280, 87%, 65%));
-    background-origin: border-box;
-    background-clip: content-box, border-box;
+    border: 1px solid hsl(233, 11%, 80%);
     border-radius: 100%;    
     cursor: pointer;    
 }
@@ -288,7 +284,6 @@ input#entry-text.error::-webkit-input-placeholder {
         width: 14px;    
         max-width: 100%;    
         height: auto;   
-        margin: 0.43rem 0.35rem 0.43rem 0.35rem;
     }
 
     .entry-field .input-field {
@@ -399,6 +394,10 @@ input#entry-text.error::-webkit-input-placeholder {
         width: 91%;
     }
 
+    .checkbox img.check-mark {
+        margin: 0.5rem 0.43rem 0.5rem 0.43rem;
+    }
+
     .entry-field .input-field input, .list-field .input-field input {
         font-size: 1.1rem;
     }
@@ -420,6 +419,14 @@ input#entry-text.error::-webkit-input-placeholder {
 }
 
 @media screen and (min-width: 900px) {
+    .checkbox img.check-mark {
+        margin: 0.6rem 0.55rem 0.6rem 0.55rem;
+    }
+
+    .entry-field .input-field input, .list-field .input-field input {
+        font-size: 1.25rem;
+    }
+    
     /* Todo Status */
 
     .status-wrapper p {

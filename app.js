@@ -5,7 +5,7 @@ let entryFieldCheckbox = document.querySelector('.entry-field .checkbox');
 // storing each list created in a container
 let numberOfListCreated = [];
 
-
+// show error if entry field is empty
 function showError() {
     // adding the red border
     entryForm.parentElement.parentElement.classList.add('error');
@@ -19,6 +19,7 @@ function showError() {
     entryForm.querySelector('input[type="text"]').placeholder = 'Field cannot be empty';    
 }
 
+// remove the error once the entry field has content within it
 function removeError() {
     // remove the error and run the program successfully
     entryForm.parentElement.parentElement.classList.remove('error');
@@ -106,13 +107,13 @@ function displayTodoList() {
     return false;
 }
 
-function isChecked(itemsLeft, checkButton, func) {
-    if(checkButton.classList.contains('checked') || func()) {
-        itemsLeft.pop();
-        console.log(itemsLeft);
-        console.log(itemsLeft.length)
-    }
-}
+// function isChecked(itemsLeft, checkButton, func) {
+//     if(checkButton.classList.contains('checked') || func()) {
+//         itemsLeft.pop();
+//         console.log(itemsLeft);
+//         console.log(itemsLeft.length)
+//     }
+// }
 
 // getting the items left element 
 let listCount = document.querySelector('.todo-count');
@@ -139,11 +140,82 @@ function itemsLeftCount(count) {
 }
 
 // reducing the items left count once a list is checked
+
+// getting the list preference elements from the DOM
+let desktopListPreference = document.querySelectorAll('.list-preference p');
+let allList = document.querySelector('.list-preference .all');
+let activeList = document.querySelector('.list-preference .active');
+let completedList = document.querySelector('.list-preference .completed');
+
 let mobileListPreference = document.querySelectorAll('.mobile-list-preference p');
-
-let allList = document.querySelector('.mobile-list-preference .all');
-let activeList = document.querySelector('.mobile-list-preference .active');
-let completedList = document.querySelector('.mobile-list-preference .completed');
-
+let allMobileList = document.querySelector('.mobile-list-preference .all');
+let activeMobileList = document.querySelector('.mobile-list-preference .active');
+let completedMobileList = document.querySelector('.mobile-list-preference .completed');
 
 
+// adding the active state to whichever list preference is selected
+desktopListPreference.forEach(listPreference => {
+    listPreference.addEventListener('click', function() {
+        if(listPreference.classList.contains('all')) {
+            invokeAllList();
+        } else if (listPreference.classList.contains('active')) {
+            invokeActiveList();
+        } else if (listPreference.classList.contains('completed')) {
+            invokeCompletedList();
+        } else {
+            return;
+        }
+    })
+});
+
+function invokeAllList() {
+    allList.classList.add('active-state');
+    activeList.classList.remove('active-state');
+    completedList.classList.remove('active-state');
+}
+
+function invokeActiveList() {
+    allList.classList.remove('active-state');
+    activeList.classList.add('active-state');
+    completedList.classList.remove('active-state');
+}
+
+function invokeCompletedList() {
+    allList.classList.remove('active-state');
+    activeList.classList.remove('active-state');
+    completedList.classList.add('active-state');
+}
+
+
+// adding the active state on whichever list preference selected in the mobile view
+mobileListPreference.forEach(listPreference => {
+    listPreference.addEventListener('click', function() {
+        if(listPreference.classList.contains('all')) {
+            invokeAllMobileList();
+        } else if (listPreference.classList.contains('active')) {
+            invokeActiveMobileList();
+        } else if (listPreference.classList.contains('completed')) {
+            invokeCompletedMobileList();
+        } else {
+            return;
+        }
+    })
+});
+
+function invokeAllMobileList() {
+    allMobileList.classList.add('active-state');
+    activeMobileList.classList.remove('active-state');
+    completedMobileList.classList.remove('active-state');
+}
+
+function invokeActiveMobileList() {
+    allMobileList.classList.remove('active-state');
+    activeMobileList.classList.add('active-state');
+    completedMobileList.classList.remove('active-state');
+}
+
+function invokeCompletedMobileList() {
+    allMobileList.classList.remove('active-state');
+    activeMobileList.classList.remove('active-state');
+    completedMobileList.classList.add('active-state');
+}

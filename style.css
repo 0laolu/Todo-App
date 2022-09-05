@@ -11,20 +11,52 @@ html {
 }
 
 body {
+    --background-image: url('images/bg-desktop-light.jpg');
+    --mobile-background-image: url('images/bg-mobile-light.jpg');
+    --toggle-button-icon: url('images/icon-moon.svg');
+    --toggle-button-width: 20px;
+    --toggle-button-height: 1rem;
+    --page-background-color: hsl(0, 0%, 98%);
+    --todo-list-bg-color: white;
+    --todo-section-entry-field-border: white;
+    --todo-section-input-bg-color: white;
+    --border-color: lightgrey;
+    --text-color: hsl(235, 19%, 35%);
+    --strike-through-text-color: hsl(236, 9%, 77%);
+    --strike-through-line-color: hsl(236, 9%, 50%);
+    --box-shadow: hsl(225, 20%, 95%);
+
     height: 100vh;
+}
+
+body.dark {
+    --background-image: url('images/bg-desktop-dark.jpg');
+    --mobile-background-image: url('images/bg-mobile-dark.jpg');
+    --toggle-button-icon: url('images/icon-sun.svg');
+    --toggle-button-width: 35px;
+    --toggle-button-height: 1.1rem;
+    --page-background-color: hsl(235, 21%, 11%);
+    --todo-list-bg-color: hsl(235, 24%, 19%);
+    --todo-section-entry-field-border: hsl(235, 24%, 19%);
+    --todo-section-input-bg-color: hsl(235, 24%, 19%);
+    --border-color: hsl(237, 14%, 26%);
+    --text-color: hsl(234, 39%, 85%);
+    --strike-through-text-color: hsl(233, 17%, 40%);
+    --strike-through-line-color: hsl(234, 15%, 65%);
+    --box-shadow: hsl(235, 24%, 8%);
 }
 
 /* General Styling */
 
 .cover-image-section {
-    background-image: url('images/bg-desktop-light.jpg');
+    background-image: var(--background-image);
     background-size: cover;
     width: 100%;  
     padding: 12rem 0;
 }
 
 .content-section {
-    background-color: hsl(0, 0%, 98%);
+    background-color: var(--page-background-color);
     height: 100vh;
     position: relative;
 }
@@ -48,9 +80,11 @@ body {
 /* Todo Section Header */
 
 .todo-section__header {
+    width: 94%;
     display: flex;      
     justify-content: space-between;     
-    align-items: center;    
+    align-items: center;  
+    margin: 0 auto;
     margin-bottom: 3rem;
 }
 
@@ -63,14 +97,19 @@ body {
 }
 
 .toggle-appearance-btn {
+    background-image: var(--toggle-button-icon);
+    background-size: cover;
+    text-align: end;
+    width: 30px;
+    padding: 1rem;
     cursor: pointer;    
 }
 
 /* Todo Section Entry */
 
 .todo-section__entry {
-    border: 1px solid white;
-    background-color: white;    
+    border: 1px solid var(--todo-section-entry-field-border);
+    background-color: var(--todo-list-bg-color);    
     border-radius: 8px;
 }
 
@@ -108,10 +147,11 @@ body {
 }
 
 .entry-field .checkbox {
+    background-color: var(--todo-section-input-bg-color);
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid hsl(233, 11%, 80%);
+    border: 1px solid var(--border-color);
     border-radius: 100%;    
     cursor: pointer;    
 }
@@ -125,9 +165,14 @@ body {
     max-width: 100%;    
     height: auto;   
     margin: 0.6rem 0.55rem 0.6rem 0.55rem;
+    visibility: hidden;
     /* position: relative;
     top: 1.45px;
     left: 1.4px; */
+}
+
+.checkbox img.check-mark.checked {
+    visibility: visible;
 }
 
 .entry-field .input-field {
@@ -135,7 +180,8 @@ body {
 }
 
 .entry-field .input-field input, .list-field .input-field input {
-    color: hsl(235, 19%, 35%);
+    background-color: var(--todo-section-input-bg-color);
+    color: var(--text-color);
     font-size: 1.05rem;
     width: 100%;    
     padding: 0.55rem 0;  
@@ -157,19 +203,19 @@ input#entry-text.error::-webkit-input-placeholder {
 /* Todo Section List */
 
 .todo-section__list {
-    background-color: white;    
+    background-color: var(--todo-list-bg-color);    
     margin-top: 1.5rem;     
     border-bottom: none;
     border-radius: 8px 8px 0 0;
 }
 
 .todo-section__list .list-field {
-    border-bottom: 1px solid lightgrey;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .list-field .checkbox {
     border: 1px double transparent;
-    background-image: linear-gradient(white, white),
+    background-image: linear-gradient(var(--todo-section-input-bg-color), var(--todo-section-input-bg-color)),
      linear-gradient(to bottom right, hsl(192, 100%, 67%), hsl(280, 87%, 65%));
     background-origin: border-box;
     background-clip: content-box, border-box;
@@ -191,9 +237,9 @@ input#entry-text.error::-webkit-input-placeholder {
 }
 
 .list-field .input-field input.strike-through {
-    color: hsl(236, 9%, 77%);
+    color: var(--strike-through-text-color);
     text-decoration-line: line-through;
-    text-decoration-color: hsl(236, 9%, 50%);
+    text-decoration-color: var(--strike-through-line-color);
 }
 
 .list-field .delete-btn {
@@ -209,12 +255,12 @@ input#entry-text.error::-webkit-input-placeholder {
 /* Todo Status */
 
 .todo-section__status {
-    background-color: white;
+    background-color: var(--todo-list-bg-color);
     border-top: none;
     border-bottom: white;
     padding: 1.5rem 0;
     border-radius: 0 0 8px 8px;
-    box-shadow: 0 1rem 2rem 0 hsl(225, 20%, 95%);
+    box-shadow: 0 1rem 2rem 0 var(--box-shadow);
 }
 
 .status-wrapper {
@@ -226,6 +272,10 @@ input#entry-text.error::-webkit-input-placeholder {
 
 .status-wrapper p { 
     cursor: pointer;    
+}
+
+p.todo-count {
+    cursor: default;
 }
 
 .status-wrapper .list-preference {
@@ -254,7 +304,7 @@ input#entry-text.error::-webkit-input-placeholder {
 @media screen and (max-width:767px) {
 
     .cover-image-section {
-        background-image: url('images/bg-mobile-light.jpg');
+        background-image: var(--mobile-background-image);
     }
 
     .todo-section__wrapper {
@@ -264,7 +314,9 @@ input#entry-text.error::-webkit-input-placeholder {
     }
 
     .todo-section__header h4 {   
-        font-size: 1.8rem;
+        font-size: 2rem;
+        position: relative;
+        top: 0.2rem;
     }
 
     /* Todo Section Entry */
@@ -300,7 +352,7 @@ input#entry-text.error::-webkit-input-placeholder {
     .todo-section__list .list-field {
         display: flex;
         align-items: center;
-        border-bottom: 1px solid lightgrey;
+        border-bottom: 1px solid var(--border-color);
     }
 
     .list-field .checkbox {
@@ -329,11 +381,11 @@ input#entry-text.error::-webkit-input-placeholder {
     }
 
     .mobile-list-preference {
-        background-color: white;
+        background-color: var(--todo-list-bg-color);
         display: block;
         margin: 3rem 0;
         border-radius: 8px;
-        box-shadow: 0 1rem 2rem 0 hsl(225, 20%, 95%);
+        box-shadow: 0 1rem 2rem 0 var(--box-shadow);
     }
 
     .mobile-list-preference .content-wrapper {
@@ -357,8 +409,16 @@ input#entry-text.error::-webkit-input-placeholder {
 
 @media screen and (max-width: 360px) {
     /* Todo Entry */
+
     .todo-section__header h4 {   
-        font-size: 1.5rem;
+        font-size: 1.7rem;
+        position: relative;
+        top: 0.2rem;
+    }
+
+    .toggle-appearance-btn {
+        width: 25px;
+        padding: 0.8rem;
     }
 
     .checkbox img.check-mark {
@@ -381,7 +441,7 @@ input#entry-text.error::-webkit-input-placeholder {
 
     .mobile-list-preference .content-wrapper {
         display: flex;
-        justify-content: space-between;
+        justify-content: space-around;
         padding: 1rem 0;
     }
 
@@ -409,6 +469,20 @@ input#entry-text.error::-webkit-input-placeholder {
     .todo-section__wrapper {
         width: 70%;
         max-width: 695px;
+    }
+
+    .todo-section__header {
+        width: 100%;
+    }
+
+    .todo-section__header h4 {
+        font-size: 2.2rem;
+    }
+
+    .toggle-appearance-btn {
+        /* border: 1px solid red; */
+        width: var(--toggle-button-width);
+        padding: var(--toggle-button-height);
     }
 
     /* Todo Entry */
@@ -460,6 +534,9 @@ input#entry-text.error::-webkit-input-placeholder {
 }
 
 @media screen and (min-width: 900px) {
+    .todo-section__header h4 {
+        font-size: 2.5rem;
+    }
 
     /* Todo Entry*/
     .checkbox img.check-mark {

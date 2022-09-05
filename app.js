@@ -2,8 +2,21 @@ let entryForm = document.getElementById('add-list');
 let todoListContainer = document.getElementById('list');
 let errorIcon = document.querySelector('.error-img');
 let entryFieldCheckbox = document.querySelector('.entry-field .checkbox');
+
+let body = document.querySelector('body');
+let toggleButton = document.querySelector('.toggle-appearance-btn');
 // storing each list created in a container
 let numberOfListCreated = [];
+
+let completedMobileList = document.querySelector('.mobile-list-preference .completed');
+
+
+// storing each completed list in a container
+let completedTodoLists = [];
+
+toggleButton.addEventListener('click', function() {
+    body.classList.toggle('dark');
+});
 
 // show error if entry field is empty
 function showError() {
@@ -86,20 +99,42 @@ function displayTodoList() {
         console.log(numberOfListCreated);
 
         // putting a strike-through on a todo list once it is checked as complete
-        checkBox.addEventListener('click', function() {
-            if(!checkBox.classList.contains('checked')) {
-                checkBox.classList.add('checked');
-                listInput.classList.add('strike-through');
-            } else {
-                checkBox.classList.remove('checked');
-                listInput.classList.remove('strike-through');
-            }
+        checkBox.addEventListener('click', testFunc);
 
-            isChecked(numberOfListCreated, checkBox, deleteList);
-        });
+        function testFunc(event) {
+            if(!checkBox.classList.contains('checked')) {
+                // making the background color appear when clicked as completed
+                event.target.classList.add('checked');
+
+                // making the checkmark appear when clicked as completed
+                event.target.firstChild.classList.add('checked');
+
+                // putting a strike-through on the text when clicked as completed
+                listInput.classList.add('strike-through');
+
+                completedTodoLists.push(event.target.parentElement);
+                console.log(completedTodoLists);
+            } else {
+                // removing the background color when clicked again
+                event.target.parentElement.classList.remove('checked');
+                // removing the checkmark when clicked again
+                event.target.classList.remove('checked');
+                listInput.classList.remove('strike-through');
+
+                for(let i = 0; i < completedTodoLists.length; i++) {
+                    if(event.target.parentElement.parentElement == completedTodoLists[i]) {
+                        completedTodoLists.splice(completedTodoLists.indexOf(event.target.parentElement.parentElement), 1);
+                        console.log(completedTodoLists)
+                    }
+                }
+            }
+            return completedTodoLists;
+        }
 
         // calling the itemsLeftCount to increase the count as a new list is created
         itemsLeftCount(numberOfListCreated.length);
+
+        checkedLists(numberOfListCreated);
 
     }; // end of else statement
 
@@ -107,28 +142,14 @@ function displayTodoList() {
     return false;
 }
 
-// function isChecked(itemsLeft, checkButton, func) {
-//     if(checkButton.classList.contains('checked') || func()) {
-//         itemsLeft.pop();
-//         console.log(itemsLeft);
-//         console.log(itemsLeft.length)
-//     }
-// }
+
 
 // getting the items left element 
 let listCount = document.querySelector('.todo-count');
 
 // removing a todo list from the page
-function deleteList(event, todoListTotal) {
+function deleteList(event) {
     event.target.parentElement.parentElement.remove();
-    // removing the last element of the numberOfListCreated array when a list is deleted
-    todoListTotal.pop();
-
-    if(todoListTotal.length === 1) {
-        listCount.textContent = `${todoListTotal.length} item left`;
-    } else {
-        listCount.textContent = `${todoListTotal.length} items left`;
-    }
 }
 
 function itemsLeftCount(count) {
@@ -140,6 +161,12 @@ function itemsLeftCount(count) {
 }
 
 // reducing the items left count once a list is checked
+let elementIsClicked = false;
+function decreaseItemsLeftCount() {
+    elementIsClicked = true;
+    // a condition on the check button so that it doesn't decrease when checked more than once
+    return elementIsClicked;
+}
 
 // getting the list preference elements from the DOM
 let desktopListPreference = document.querySelectorAll('.list-preference p');
@@ -150,7 +177,7 @@ let completedList = document.querySelector('.list-preference .completed');
 let mobileListPreference = document.querySelectorAll('.mobile-list-preference p');
 let allMobileList = document.querySelector('.mobile-list-preference .all');
 let activeMobileList = document.querySelector('.mobile-list-preference .active');
-let completedMobileList = document.querySelector('.mobile-list-preference .completed');
+// let completedMobileList = document.querySelector('.mobile-list-preference .completed');
 
 
 // adding the active state to whichever list preference is selected
@@ -168,11 +195,14 @@ desktopListPreference.forEach(listPreference => {
     })
 });
 
+console.log()
+
 function invokeAllList() {
     allList.classList.add('active-state');
     activeList.classList.remove('active-state');
     completedList.classList.remove('active-state');
 }
+invokeAllList();
 
 function invokeActiveList() {
     allList.classList.remove('active-state');
@@ -186,7 +216,7 @@ function invokeCompletedList() {
     completedList.classList.add('active-state');
 }
 
-
+ 
 // adding the active state on whichever list preference selected in the mobile view
 mobileListPreference.forEach(listPreference => {
     listPreference.addEventListener('click', function() {
@@ -207,6 +237,7 @@ function invokeAllMobileList() {
     activeMobileList.classList.remove('active-state');
     completedMobileList.classList.remove('active-state');
 }
+invokeAllMobileList();
 
 function invokeActiveMobileList() {
     allMobileList.classList.remove('active-state');
@@ -218,4 +249,15 @@ function invokeCompletedMobileList() {
     allMobileList.classList.remove('active-state');
     activeMobileList.classList.remove('active-state');
     completedMobileList.classList.add('active-state');
+}
+
+let checkedItems = [];
+
+function checkedLists(listCreated) {
+    if(!listCreated[0].firstChild.classList.contains('checked')) {
+        checkedItems.push();
+    } else {
+        checkedItems.push(listCreated[0])
+    }
+    // console.log(checkedItems)
 }

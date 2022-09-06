@@ -25,7 +25,9 @@ body {
     --strike-through-text-color: hsl(236, 9%, 77%);
     --strike-through-line-color: hsl(236, 9%, 50%);
     --box-shadow: hsl(225, 20%, 95%);
+    --todo-list-status-text-color: hsl(236, 9%, 75%);
 
+    background-color: var(--page-background-color);
     height: 100vh;
 }
 
@@ -43,7 +45,8 @@ body.dark {
     --text-color: hsl(234, 39%, 85%);
     --strike-through-text-color: hsl(233, 17%, 40%);
     --strike-through-line-color: hsl(234, 15%, 65%);
-    --box-shadow: hsl(235, 24%, 8%);
+    --box-shadow: hsl(235, 27%, 8%);
+    --todo-list-status-text-color: hsl(233, 14%, 39%);
 }
 
 /* General Styling */
@@ -210,7 +213,7 @@ input#entry-text.error::-webkit-input-placeholder {
 }
 
 .todo-section__list .list-field {
-    border-bottom: 1px solid var(--border-color);
+    border-top: 1px solid var(--border-color);
 }
 
 .list-field .checkbox {
@@ -256,11 +259,11 @@ input#entry-text.error::-webkit-input-placeholder {
 
 .todo-section__status {
     background-color: var(--todo-list-bg-color);
-    border-top: none;
-    border-bottom: white;
+    border-top: 1px solid  var(--border-color);
+    border-bottom: var(--todo-section-entry-field-border);
     padding: 1.5rem 0;
     border-radius: 0 0 8px 8px;
-    box-shadow: 0 1rem 2rem 0 var(--box-shadow);
+    box-shadow: 0 2rem 2rem 0 var(--box-shadow);
 }
 
 .status-wrapper {
@@ -271,6 +274,7 @@ input#entry-text.error::-webkit-input-placeholder {
 }
 
 .status-wrapper p { 
+    color: var(--todo-list-status-text-color);
     cursor: pointer;    
 }
 
@@ -284,10 +288,13 @@ p.todo-count {
 }
 
 .list-preference .content-wrapper {
-    color: hsl(235, 19%, 35%);
     display: flex;  
     justify-content: space-evenly;  
 }
+
+.list-preference p {
+    font-weight: 700;
+ }
 
 .list-preference p.active-state {
     color: hsl(220, 98%, 61%);
@@ -335,7 +342,8 @@ p.todo-count {
     .checkbox img.check-mark {
         width: 14px;    
         max-width: 100%;    
-        height: auto;   
+        height: auto;  
+        margin: 0.5rem 0.45rem 0.5rem 0.45rem; 
     }
 
     .entry-field .input-field {
@@ -398,8 +406,9 @@ p.todo-count {
     }
 
     .mobile-list-preference p {
-        color: hsl(235, 19%, 35%);
+        color: var(--todo-list-status-text-color);
         font-size: 1.1rem;
+        font-weight: 700;
     }
 
     .mobile-list-preference p.active-state {
@@ -466,6 +475,10 @@ p.todo-count {
 }
 
 @media screen and (min-width: 768px) {
+    .todo-section {
+        top: -240px;
+    }
+
     .todo-section__wrapper {
         width: 70%;
         max-width: 695px;
@@ -490,6 +503,7 @@ p.todo-count {
     .todo-section .entry-field, .todo-section .list-field {
         display: flex;
         align-items: baseline;
+        padding: 1.2rem 0;
     }
 
     .entry-field .error-img.show-error {
@@ -526,6 +540,17 @@ p.todo-count {
     .list-field .input-field {
         width: 84%;
     }
+
+    .list-field .delete-btn {
+        /* border: 1px solid red; */
+        height: 25px;
+    }
+
+    .list-field .delete-btn img {
+        width: 75%;
+    }
+
+    /* Todo Status */
 
     .list-preference .content-wrapper {
         display: flex;

@@ -25,7 +25,7 @@ body {
     --strike-through-text-color: hsl(236, 9%, 77%);
     --strike-through-line-color: hsl(236, 9%, 50%);
     --box-shadow: hsl(225, 20%, 95%);
-    --todo-list-status-text-color: hsl(236, 9%, 75%);
+    --todo-list-status-text-color: hsl(236, 9%, 70%);
 
     background-color: var(--page-background-color);
     height: 100vh;

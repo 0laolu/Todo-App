@@ -65,6 +65,7 @@ function displayTodoList() {
         // setting attributes to each element
         listField.setAttribute('class', 'list-field');
         checkBox.setAttribute('class', 'checkbox');
+        checkBox.setAttribute('onclick', 'isChecked(event)');
         // checkBox.classList.add('checked');
 
         checkmark.setAttribute('src', 'images/icon-check.svg');
@@ -99,37 +100,7 @@ function displayTodoList() {
         console.log(numberOfListCreated);
 
         // putting a strike-through on a todo list once it is checked as complete
-        checkBox.addEventListener('click', testFunc);
-
-        function testFunc(event) {
-            if(!checkBox.classList.contains('checked')) {
-                // making the background color appear when clicked as completed
-                event.target.classList.add('checked');
-
-                // making the checkmark appear when clicked as completed
-                event.target.firstChild.classList.add('checked');
-
-                // putting a strike-through on the text when clicked as completed
-                listInput.classList.add('strike-through');
-
-                completedTodoLists.push(event.target.parentElement);
-                console.log(completedTodoLists);
-            } else {
-                // removing the background color when clicked again
-                event.target.parentElement.classList.remove('checked');
-                // removing the checkmark when clicked again
-                event.target.classList.remove('checked');
-                listInput.classList.remove('strike-through');
-
-                for(let i = 0; i < completedTodoLists.length; i++) {
-                    if(event.target.parentElement.parentElement == completedTodoLists[i]) {
-                        completedTodoLists.splice(completedTodoLists.indexOf(event.target.parentElement.parentElement), 1);
-                        console.log(completedTodoLists)
-                    }
-                }
-            }
-            return completedTodoLists;
-        }
+        // checkBox.addEventListener('click', testFunc);
 
         // calling the itemsLeftCount to increase the count as a new list is created
         itemsLeftCount(numberOfListCreated.length);
@@ -142,7 +113,38 @@ function displayTodoList() {
     return false;
 }
 
+function isChecked(event) {
+    if(!event.target.classList.contains('checked')) {
+        // making the background color appear when clicked as completed
+        event.target.classList.add('checked');
 
+        // making the checkmark appear when clicked as completed
+        event.target.firstChild.classList.add('checked');
+
+        // putting a strike-through on the text when clicked as completed
+        event.target.nextElementSibling.firstChild.classList.add('strike-through');
+
+        completedTodoLists.push(event.target.parentElement);
+        console.log(completedTodoLists);
+    } else {
+        // removing the background color when clicked again
+        event.target.parentElement.classList.remove('checked');
+
+        // removing the checkmark when clicked again
+        event.target.classList.remove('checked');
+
+        // removing the strike-through from the input text when clicked again
+        event.target.parentElement.nextElementSibling.firstChild.classList.remove('strike-through');
+
+        for(let i = 0; i < completedTodoLists.length; i++) {
+            if(event.target.parentElement.parentElement == completedTodoLists[i]) {
+                completedTodoLists.splice(completedTodoLists.indexOf(event.target.parentElement.parentElement), 1);
+                console.log(completedTodoLists);
+            }
+        }
+    }
+    return completedTodoLists;
+}
 
 // getting the items left element 
 let listCount = document.querySelector('.todo-count');
@@ -185,6 +187,7 @@ desktopListPreference.forEach(listPreference => {
     listPreference.addEventListener('click', function() {
         if(listPreference.classList.contains('all')) {
             invokeAllList();
+            selectAllList();
         } else if (listPreference.classList.contains('active')) {
             invokeActiveList();
         } else if (listPreference.classList.contains('completed')) {
@@ -195,7 +198,6 @@ desktopListPreference.forEach(listPreference => {
     })
 });
 
-console.log()
 
 function invokeAllList() {
     allList.classList.add('active-state');
@@ -214,6 +216,21 @@ function invokeCompletedList() {
     allList.classList.remove('active-state');
     activeList.classList.remove('active-state');
     completedList.classList.add('active-state');
+
+    while(todoListContainer.hasChildNodes()) {
+        todoListContainer.removeChild(todoListContainer.firstChild)
+    }
+
+    for(let i = 0; i < completedTodoLists.length; i++) {
+        todoListContainer.appendChild(completedTodoLists[i]);
+    }
+}
+
+function selectAllList() {
+    // while(todoListContainer.hasChildNodes()) {
+    //     todoListContainer.removeChild(todoListContainer.firstChild);
+    // }
+    todoListContainer.replaceChildren(...numberOfListCreated);
 }
 
  

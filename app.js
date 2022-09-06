@@ -8,8 +8,6 @@ let toggleButton = document.querySelector('.toggle-appearance-btn');
 // storing each list created in a container
 let numberOfListCreated = [];
 
-let completedMobileList = document.querySelector('.mobile-list-preference .completed');
-
 
 // storing each completed list in a container
 let completedTodoLists = [];
@@ -105,8 +103,6 @@ function displayTodoList() {
         // calling the itemsLeftCount to increase the count as a new list is created
         itemsLeftCount(numberOfListCreated.length);
 
-        checkedLists(numberOfListCreated);
-
     }; // end of else statement
 
     // prevent the list created from disappearing from the page
@@ -179,7 +175,7 @@ let completedList = document.querySelector('.list-preference .completed');
 let mobileListPreference = document.querySelectorAll('.mobile-list-preference p');
 let allMobileList = document.querySelector('.mobile-list-preference .all');
 let activeMobileList = document.querySelector('.mobile-list-preference .active');
-// let completedMobileList = document.querySelector('.mobile-list-preference .completed');
+let completedMobileList = document.querySelector('.mobile-list-preference .completed');
 
 
 // adding the active state to whichever list preference is selected
@@ -217,6 +213,14 @@ function invokeCompletedList() {
     activeList.classList.remove('active-state');
     completedList.classList.add('active-state');
 
+    selectCompletedList();
+}
+
+function selectAllList() {
+    todoListContainer.replaceChildren(...numberOfListCreated);
+}
+
+function selectCompletedList() {
     while(todoListContainer.hasChildNodes()) {
         todoListContainer.removeChild(todoListContainer.firstChild)
     }
@@ -226,20 +230,18 @@ function invokeCompletedList() {
     }
 }
 
-function selectAllList() {
-    todoListContainer.replaceChildren(...numberOfListCreated);
-}
-
  
 // adding the active state on whichever list preference selected in the mobile view
 mobileListPreference.forEach(listPreference => {
     listPreference.addEventListener('click', function() {
         if(listPreference.classList.contains('all')) {
             invokeAllMobileList();
+            selectAllList()
         } else if (listPreference.classList.contains('active')) {
             invokeActiveMobileList();
         } else if (listPreference.classList.contains('completed')) {
             invokeCompletedMobileList();
+            selectCompletedList();
         } else {
             return;
         }
@@ -265,13 +267,4 @@ function invokeCompletedMobileList() {
     completedMobileList.classList.add('active-state');
 }
 
-let checkedItems = [];
 
-function checkedLists(listCreated) {
-    if(!listCreated[0].firstChild.classList.contains('checked')) {
-        checkedItems.push();
-    } else {
-        checkedItems.push(listCreated[0])
-    }
-    // console.log(checkedItems)
-}

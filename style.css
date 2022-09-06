@@ -214,6 +214,7 @@ input#entry-text.error::-webkit-input-placeholder {
 
 .todo-section__list .list-field {
     border-top: 1px solid var(--border-color);
+    border-bottom: none;
 }
 
 .list-field .checkbox {
@@ -360,7 +361,7 @@ p.todo-count {
     .todo-section__list .list-field {
         display: flex;
         align-items: center;
-        border-bottom: 1px solid var(--border-color);
+        border-top: 1px solid var(--border-color);
     }
 
     .list-field .checkbox {
@@ -375,6 +376,7 @@ p.todo-count {
 
     .todo-section__status {
         border: none;
+        border-top: 1px solid var(--border-color);
     }
 
     .status-wrapper {

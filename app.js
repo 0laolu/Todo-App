@@ -227,9 +227,6 @@ function invokeCompletedList() {
 }
 
 function selectAllList() {
-    // while(todoListContainer.hasChildNodes()) {
-    //     todoListContainer.removeChild(todoListContainer.firstChild);
-    // }
     todoListContainer.replaceChildren(...numberOfListCreated);
 }
 

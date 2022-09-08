@@ -3,15 +3,17 @@ let todoListContainer = document.getElementById('list');
 let errorIcon = document.querySelector('.error-img');
 let entryFieldCheckbox = document.querySelector('.entry-field .checkbox');
 
-let body = document.querySelector('body');
-let toggleButton = document.querySelector('.toggle-appearance-btn');
 // storing each list created in a container
 let numberOfListCreated = [];
-
 
 // storing each completed list in a container
 let completedTodoLists = [];
 
+// getting the elements needed for the theme-toggle
+let body = document.querySelector('body');
+let toggleButton = document.querySelector('.toggle-appearance-btn');
+
+// adding a click event on the toggle button
 toggleButton.addEventListener('click', function() {
     body.classList.toggle('dark');
 });
@@ -64,7 +66,6 @@ function displayTodoList() {
         listField.setAttribute('class', 'list-field');
         checkBox.setAttribute('class', 'checkbox');
         checkBox.setAttribute('onclick', 'isChecked(event)');
-        // checkBox.classList.add('checked');
 
         checkmark.setAttribute('src', 'images/icon-check.svg');
         checkmark.setAttribute('class', 'check-mark');
@@ -96,9 +97,6 @@ function displayTodoList() {
         // pushing the list created to number of Todo list array
         numberOfListCreated.push(listField);
         console.log(numberOfListCreated);
-
-        // putting a strike-through on a todo list once it is checked as complete
-        // checkBox.addEventListener('click', testFunc);
 
         // calling the itemsLeftCount to increase the count as a new list is created
         itemsLeftCount(numberOfListCreated.length);

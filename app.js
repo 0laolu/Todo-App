@@ -65,7 +65,7 @@ function displayTodoList() {
         // setting attributes to each element
         listField.setAttribute('class', 'list-field');
         checkBox.setAttribute('class', 'checkbox');
-        checkBox.setAttribute('onclick', 'isChecked(event)');
+        checkBox.setAttribute('onclick', 'isChecked(event); isnNotChecked(event);');
 
         checkmark.setAttribute('src', 'images/icon-check.svg');
         checkmark.setAttribute('class', 'check-mark');
@@ -137,7 +137,23 @@ function isChecked(event) {
             }
         }
     }
-    return completedTodoLists;
+}
+
+// creating an array that will store all the unchecked lists
+let unCompletedLists = [];
+
+function isnNotChecked(event) {
+    for(let i = 0; i < numberOfListCreated.length; i++) {
+        if(!unCompletedLists.includes(numberOfListCreated[i]) && !numberOfListCreated[i].firstChild.classList.contains('checked')) {
+            unCompletedLists.push(numberOfListCreated[i]);
+        }
+    }
+
+    for(let j = 0; j < unCompletedLists.length; j++) {
+        if(event.target.parentElement == unCompletedLists[j]) {
+            unCompletedLists.splice(unCompletedLists.indexOf(event.target.parentElement), 1)
+        } 
+    }
 }
 
 // getting the items left element 
@@ -184,8 +200,10 @@ desktopListPreference.forEach(listPreference => {
             selectAllList();
         } else if (listPreference.classList.contains('active')) {
             invokeActiveList();
+            selectActiveList()
         } else if (listPreference.classList.contains('completed')) {
             invokeCompletedList();
+            selectCompletedList();
         } else {
             return;
         }
@@ -210,14 +228,25 @@ function invokeCompletedList() {
     allList.classList.remove('active-state');
     activeList.classList.remove('active-state');
     completedList.classList.add('active-state');
-
-    selectCompletedList();
 }
 
+// displaying every list created when the All button is clicked
 function selectAllList() {
     todoListContainer.replaceChildren(...numberOfListCreated);
 }
 
+// filtering out and diplaying the lists that are unchecked and active
+function selectActiveList() {
+    while(todoListContainer.hasChildNodes()) {
+        todoListContainer.removeChild(todoListContainer.firstChild);
+    }
+
+    for(let i = 0; i < unCompletedLists.length; i++) {
+        todoListContainer.appendChild(unCompletedLists[i]);
+    }
+}
+
+// filtering out and displaying the lists that are checked and completed
 function selectCompletedList() {
     while(todoListContainer.hasChildNodes()) {
         todoListContainer.removeChild(todoListContainer.firstChild)
@@ -237,6 +266,7 @@ mobileListPreference.forEach(listPreference => {
             selectAllList()
         } else if (listPreference.classList.contains('active')) {
             invokeActiveMobileList();
+            selectActiveList()
         } else if (listPreference.classList.contains('completed')) {
             invokeCompletedMobileList();
             selectCompletedList();

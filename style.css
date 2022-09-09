@@ -365,8 +365,7 @@ p.todo-count {
     .todo-section__list .list-field {
         display: flex;
         align-items: center;
-        /* border-top: 1px solid var(--border-color); */
-        border-top : 1px solid red;
+        border-top: 1px solid var(--border-color);
     }
 
     .list-field .checkbox {
@@ -500,7 +499,6 @@ p.todo-count {
     }
 
     .toggle-appearance-btn {
-        /* border: 1px solid red; */
         width: var(--toggle-button-width);
         padding: var(--toggle-button-height);
     }
@@ -549,7 +547,6 @@ p.todo-count {
     }
 
     .list-field .delete-btn {
-        /* border: 1px solid red; */
         height: 25px;
     }
 

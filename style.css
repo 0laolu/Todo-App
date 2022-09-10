@@ -43,10 +43,10 @@ body.dark {
     --todo-section-input-bg-color: hsl(235, 24%, 19%);
     --border-color: hsl(237, 14%, 26%);
     --text-color: hsl(234, 39%, 85%);
-    --strike-through-text-color: hsl(233, 17%, 40%);
+    --strike-through-text-color: hsl(233, 17%, 50%);
     --strike-through-line-color: hsl(234, 15%, 65%);
     --box-shadow: hsl(235, 27%, 8%);
-    --todo-list-status-text-color: hsl(233, 14%, 39%);
+    --todo-list-status-text-color: hsl(233, 16%, 49%);
 }
 
 /* General Styling */

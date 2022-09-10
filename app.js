@@ -103,12 +103,24 @@ function displayTodoList() {
 
     }; // end of else statement
 
-    // prevent the list created from disappearing from the page
+    // prevent the list created from disappearing fr om the page
     return false;
 }
 
+// WHAT WE WANT TO DO IS REMOVE A TODO LIST FROM THE PAGE AS SOON AS IT IS UNCHECKED OR CHECKED
+
+// removing a todo list from the page
+function deleteList(event) {
+    event.target.parentElement.parentElement.remove();
+}
+
+// dictating the actions of thw app for whenever a todo list is checked or not
+
+// code block for the actions performed when a todo list is checked as completed
 function isChecked(event) {
     if(!event.target.classList.contains('checked')) {
+        // the checkbox serves as the element firing the event
+
         // making the background color appear when clicked as completed
         event.target.classList.add('checked');
 
@@ -121,6 +133,8 @@ function isChecked(event) {
         completedTodoLists.push(event.target.parentElement);
         console.log(completedTodoLists);
     } else {
+        // once the checkmark is active, the checkmark becomes the element firing the event 
+
         // removing the background color when clicked again
         event.target.parentElement.classList.remove('checked');
 
@@ -130,6 +144,7 @@ function isChecked(event) {
         // removing the strike-through from the input text when clicked again
         event.target.parentElement.nextElementSibling.firstChild.classList.remove('strike-through');
 
+        // looping through the array of completed items to remove a todo list which is later unchecked
         for(let i = 0; i < completedTodoLists.length; i++) {
             if(event.target.parentElement.parentElement == completedTodoLists[i]) {
                 completedTodoLists.splice(completedTodoLists.indexOf(event.target.parentElement.parentElement), 1);
@@ -156,30 +171,6 @@ function isnNotChecked(event) {
     }
 }
 
-// getting the items left element 
-let listCount = document.querySelector('.todo-count');
-
-// removing a todo list from the page
-function deleteList(event) {
-    event.target.parentElement.parentElement.remove();
-}
-
-function itemsLeftCount(count) {
-    if(count === 1) {
-        listCount.textContent = `${count} item left`;
-    } else {
-        listCount.textContent = `${count} items left`;
-    }
-}
-
-// reducing the items left count once a list is checked
-let elementIsClicked = false;
-function decreaseItemsLeftCount() {
-    elementIsClicked = true;
-    // a condition on the check button so that it doesn't decrease when checked more than once
-    return elementIsClicked;
-}
-
 // getting the list preference elements from the DOM
 let desktopListPreference = document.querySelectorAll('.list-preference p');
 let allList = document.querySelector('.list-preference .all');
@@ -199,8 +190,13 @@ desktopListPreference.forEach(listPreference => {
             invokeAllList();
             selectAllList();
         } else if (listPreference.classList.contains('active')) {
-            invokeActiveList();
-            selectActiveList()
+            if(unCompletedLists.length == 0) {
+                invokeActiveList();
+                todoListContainer.replaceChildren(...numberOfListCreated);
+            } else {
+                invokeActiveList();
+                selectActiveList();
+            }
         } else if (listPreference.classList.contains('completed')) {
             invokeCompletedList();
             selectCompletedList();
@@ -228,6 +224,48 @@ function invokeCompletedList() {
     allList.classList.remove('active-state');
     activeList.classList.remove('active-state');
     completedList.classList.add('active-state');
+} 
+
+// adding the active state on whichever list preference selected in the mobile view
+mobileListPreference.forEach(listPreference => {
+    listPreference.addEventListener('click', function() {
+        if(listPreference.classList.contains('all')) {
+            invokeAllMobileList();
+            selectAllList()
+        } else if (listPreference.classList.contains('active')) {
+            if(unCompletedLists.length == 0) {
+                invokeActiveMobileList();
+                todoListContainer.replaceChildren(...numberOfListCreated);
+            } else {
+                invokeActiveMobileList();
+                selectActiveList();
+            }
+        } else if (listPreference.classList.contains('completed')) {
+            invokeCompletedMobileList();
+            selectCompletedList();
+        } else {
+            return;
+        }
+    })
+});
+
+function invokeAllMobileList() {
+    allMobileList.classList.add('active-state');
+    activeMobileList.classList.remove('active-state');
+    completedMobileList.classList.remove('active-state');
+}
+invokeAllMobileList();
+
+function invokeActiveMobileList() {
+    allMobileList.classList.remove('active-state');
+    activeMobileList.classList.add('active-state');
+    completedMobileList.classList.remove('active-state');
+}
+
+function invokeCompletedMobileList() {
+    allMobileList.classList.remove('active-state');
+    activeMobileList.classList.remove('active-state');
+    completedMobileList.classList.add('active-state');
 }
 
 // displaying every list created when the All button is clicked
@@ -257,42 +295,17 @@ function selectCompletedList() {
     }
 }
 
- 
-// adding the active state on whichever list preference selected in the mobile view
-mobileListPreference.forEach(listPreference => {
-    listPreference.addEventListener('click', function() {
-        if(listPreference.classList.contains('all')) {
-            invokeAllMobileList();
-            selectAllList()
-        } else if (listPreference.classList.contains('active')) {
-            invokeActiveMobileList();
-            selectActiveList()
-        } else if (listPreference.classList.contains('completed')) {
-            invokeCompletedMobileList();
-            selectCompletedList();
-        } else {
-            return;
-        }
-    })
-});
+// let clearCompletedButton = document.querySelector('.clear-completed-btn p');
+// clearCompletedButton.addEventListener('click', selectClearCompleted);
 
-function invokeAllMobileList() {
-    allMobileList.classList.add('active-state');
-    activeMobileList.classList.remove('active-state');
-    completedMobileList.classList.remove('active-state');
+// getting the items left element 
+let listCount = document.querySelector('.todo-count');
+
+function itemsLeftCount(count) {
+    if(count === 1) {
+        listCount.textContent = `${count} item left`;
+    } else {
+        listCount.textContent = `${count} items left`;
+    }
 }
-invokeAllMobileList();
-
-function invokeActiveMobileList() {
-    allMobileList.classList.remove('active-state');
-    activeMobileList.classList.add('active-state');
-    completedMobileList.classList.remove('active-state');
-}
-
-function invokeCompletedMobileList() {
-    allMobileList.classList.remove('active-state');
-    activeMobileList.classList.remove('active-state');
-    completedMobileList.classList.add('active-state');
-}
-
 

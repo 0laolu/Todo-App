@@ -306,8 +306,9 @@ function selectActiveList() {
         todoListContainer.appendChild(unCompletedTodoLists[i]);
 
         // adding a function to the onclick attribute that will remove the checked tasks among the Active tasks from the page
-        // unCompletedTodoLists[i].firstChild.setAttribute('onclick', unCompletedTodoLists[i].firstChild.getAttribute('onclick') + '; removeCheckedLists(event)')
+        unCompletedTodoLists[i].firstChild.setAttribute('onclick', unCompletedTodoLists[i].firstChild.getAttribute('onclick') + '; removeCheckedLists(event)')
     }
+    // console.log(unCompletedTodoLists)
 
     // displaying the items left count in Completed todo list filter
     // if(unCompletedTodoLists.length == 1) {
@@ -331,6 +332,7 @@ function removeCheckedLists(event) {
         // resetting the onclick attribute to call only two functions
         event.target.setAttribute('onclick', 'isChecked(event); isnNotChecked(event)');
     }
+    // console.log(numberOfListCreated)
 
     // updating the items left count in Active todo list filter when a task is checked
     // if(unCompletedTodoLists.length == 1) {

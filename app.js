@@ -39,7 +39,7 @@ function removeError() {
     errorIcon.classList.remove('show-error');
     entryFieldCheckbox.classList.remove('hide');
     entryForm.querySelector('input[type="text"]').classList.remove('error')
-    entryForm.querySelector('input[type="text"]').placeholder = 'Create a new todo...';
+    entryForm.querySelector('input[type="text"]').placeholder = 'Create a new task...';
 }
 
 // creating a todo list based on the content typed in the entry field
@@ -65,7 +65,7 @@ function displayTodoList() {
         // setting attributes to each element
         listField.setAttribute('class', 'list-field');
         checkBox.setAttribute('class', 'checkbox');
-        checkBox.setAttribute('onclick', 'isChecked(event); isnNotChecked(event);');
+        checkBox.setAttribute('onclick', 'isChecked(event); isnNotChecked(event)');
 
         checkmark.setAttribute('src', 'images/icon-check.svg');
         checkmark.setAttribute('class', 'check-mark');
@@ -101,6 +101,8 @@ function displayTodoList() {
         // calling the itemsLeftCount to increase the count as a new list is created
         itemsLeftCount(numberOfListCreated.length);
 
+        filterActiveLists();
+
     }; // end of else statement
 
     // prevent the list created from disappearing fr om the page
@@ -112,6 +114,11 @@ function displayTodoList() {
 // removing a todo list from the page
 function deleteList(event) {
     event.target.parentElement.parentElement.remove();
+
+    // removing the deleted task from the numberOfListCreated array
+    // numberOfListCreated.splice(numberOfListCreated.indexOf(event.target.parentElement.parentElement), 1);// unCompletedTodoLists.splice(unCompletedTodoLists.indexOf(event.target.parentElement.parentElement), 1);
+
+    // console.log(numberOfListCreated);
 }
 
 // dictating the actions of thw app for whenever a todo list is checked or not
@@ -131,7 +138,7 @@ function isChecked(event) {
         event.target.nextElementSibling.firstChild.classList.add('strike-through');
 
         completedTodoLists.push(event.target.parentElement);
-        console.log(completedTodoLists);
+        // console.log(completedTodoLists);
     } else {
         // once the checkmark is active, the checkmark becomes the element firing the event 
 
@@ -148,55 +155,61 @@ function isChecked(event) {
         for(let i = 0; i < completedTodoLists.length; i++) {
             if(event.target.parentElement.parentElement == completedTodoLists[i]) {
                 completedTodoLists.splice(completedTodoLists.indexOf(event.target.parentElement.parentElement), 1);
-                console.log(completedTodoLists);
             }
         }
     }
 }
 
 // creating an array that will store all the unchecked lists
-let unCompletedLists = [];
+let unCompletedTodoLists = [];
 
 function isnNotChecked(event) {
     for(let i = 0; i < numberOfListCreated.length; i++) {
-        if(!unCompletedLists.includes(numberOfListCreated[i]) && !numberOfListCreated[i].firstChild.classList.contains('checked')) {
-            unCompletedLists.push(numberOfListCreated[i]);
+        if(!unCompletedTodoLists.includes(numberOfListCreated[i]) && !numberOfListCreated[i].firstChild.classList.contains('checked')) {
+            unCompletedTodoLists.push(numberOfListCreated[i]);
         }
     }
 
-    for(let j = 0; j < unCompletedLists.length; j++) {
-        if(event.target.parentElement == unCompletedLists[j]) {
-            unCompletedLists.splice(unCompletedLists.indexOf(event.target.parentElement), 1)
+    // preventing the repetition of add the unchecked items to uncompleted lists when a list is checked
+    for(let j = 0; j < unCompletedTodoLists.length; j++) {
+        if(event.target.parentElement == unCompletedTodoLists[j]) {
+            unCompletedTodoLists.splice(unCompletedTodoLists.indexOf(event.target.parentElement), 1)
         } 
+    }
+    // console.log(unCompletedTodoLists);
+}
+
+// Setting newly created tasks to Active tasks by default
+function filterActiveLists() {
+    for(let i = 0; i < numberOfListCreated.length; i++) {
+        if(!unCompletedTodoLists.includes(numberOfListCreated[i]) && !numberOfListCreated[i].firstChild.classList.contains('checked')) {
+            unCompletedTodoLists.push(numberOfListCreated[i]);
+        }
     }
 }
 
-// getting the list preference elements from the DOM
+// getting the todo list filter elements from the DOM for desktop view
 let desktopListPreference = document.querySelectorAll('.list-preference p');
 let allList = document.querySelector('.list-preference .all');
 let activeList = document.querySelector('.list-preference .active');
 let completedList = document.querySelector('.list-preference .completed');
 
+// getting the todo list filter elements from the DOM for mobile view
 let mobileListPreference = document.querySelectorAll('.mobile-list-preference p');
 let allMobileList = document.querySelector('.mobile-list-preference .all');
 let activeMobileList = document.querySelector('.mobile-list-preference .active');
 let completedMobileList = document.querySelector('.mobile-list-preference .completed');
 
 
-// adding the active state to whichever list preference is selected
+// Looping through the todo list filters and call a function when any of them is clicked in desktop view
 desktopListPreference.forEach(listPreference => {
     listPreference.addEventListener('click', function() {
         if(listPreference.classList.contains('all')) {
             invokeAllList();
             selectAllList();
         } else if (listPreference.classList.contains('active')) {
-            if(unCompletedLists.length == 0) {
-                invokeActiveList();
-                todoListContainer.replaceChildren(...numberOfListCreated);
-            } else {
-                invokeActiveList();
-                selectActiveList();
-            }
+            invokeActiveList();
+            selectActiveList();
         } else if (listPreference.classList.contains('completed')) {
             invokeCompletedList();
             selectCompletedList();
@@ -206,40 +219,39 @@ desktopListPreference.forEach(listPreference => {
     })
 });
 
-
+// adding the blue colour to the All todo list filter in desktop view
 function invokeAllList() {
     allList.classList.add('active-state');
     activeList.classList.remove('active-state');
     completedList.classList.remove('active-state');
 }
+
+// calling the function to add the blue color to the All todo list filter when the page loads
 invokeAllList();
 
+// adding the blue colour to the Active todo list filter in desktop view
 function invokeActiveList() {
     allList.classList.remove('active-state');
     activeList.classList.add('active-state');
     completedList.classList.remove('active-state');
 }
 
+// adding the blue colour to the Completed todo list filter in desktop view
 function invokeCompletedList() {
     allList.classList.remove('active-state');
     activeList.classList.remove('active-state');
     completedList.classList.add('active-state');
 } 
 
-// adding the active state on whichever list preference selected in the mobile view
+// Looping through the todo list filters and call a function when any of them is clicked in mobile and tablet view
 mobileListPreference.forEach(listPreference => {
     listPreference.addEventListener('click', function() {
         if(listPreference.classList.contains('all')) {
             invokeAllMobileList();
-            selectAllList()
+            selectAllList();
         } else if (listPreference.classList.contains('active')) {
-            if(unCompletedLists.length == 0) {
-                invokeActiveMobileList();
-                todoListContainer.replaceChildren(...numberOfListCreated);
-            } else {
-                invokeActiveMobileList();
-                selectActiveList();
-            }
+            invokeActiveMobileList();
+            selectActiveList();
         } else if (listPreference.classList.contains('completed')) {
             invokeCompletedMobileList();
             selectCompletedList();
@@ -249,19 +261,24 @@ mobileListPreference.forEach(listPreference => {
     })
 });
 
+// adding the blue colour to the All todo list filter in mobile and tablet view
 function invokeAllMobileList() {
     allMobileList.classList.add('active-state');
     activeMobileList.classList.remove('active-state');
     completedMobileList.classList.remove('active-state');
 }
+
+// calling the function to add the blue color to the All todo list filter when the page loads
 invokeAllMobileList();
 
+// adding the blue colour to the Active todo list filter in mobile and tablet view
 function invokeActiveMobileList() {
     allMobileList.classList.remove('active-state');
     activeMobileList.classList.add('active-state');
     completedMobileList.classList.remove('active-state');
 }
 
+// adding the blue colour to the Completed todo list filter in mobile and tablet view
 function invokeCompletedMobileList() {
     allMobileList.classList.remove('active-state');
     activeMobileList.classList.remove('active-state');
@@ -270,18 +287,57 @@ function invokeCompletedMobileList() {
 
 // displaying every list created when the All button is clicked
 function selectAllList() {
+    for(let i = 0; i < numberOfListCreated.length; i++) {
+        numberOfListCreated[i].firstChild.setAttribute('onclick', 'isChecked(event); isnNotChecked(event)');
+    }
     todoListContainer.replaceChildren(...numberOfListCreated);
+    // console.log(numberOfListCreated);
 }
 
-// filtering out and diplaying the lists that are unchecked and active
+// filtering out and diplaying the lists in Active todo list filter that are unchecked
 function selectActiveList() {
+    // removing any todo list that was dsiplayed on the webpage
     while(todoListContainer.hasChildNodes()) {
         todoListContainer.removeChild(todoListContainer.firstChild);
     }
 
-    for(let i = 0; i < unCompletedLists.length; i++) {
-        todoListContainer.appendChild(unCompletedLists[i]);
+    // displaying the Active tasks on the webpage
+    for(let i = 0; i < unCompletedTodoLists.length; i++) {
+        todoListContainer.appendChild(unCompletedTodoLists[i]);
+
+        // adding a function to the onclick attribute that will remove the checked tasks among the Active tasks from the page
+        // unCompletedTodoLists[i].firstChild.setAttribute('onclick', unCompletedTodoLists[i].firstChild.getAttribute('onclick') + '; removeCheckedLists(event)')
     }
+
+    // displaying the items left count in Completed todo list filter
+    // if(unCompletedTodoLists.length == 1) {
+    //     listCount.textContent = `${unCompletedTodoLists.length} item left`;
+    // } else {
+    //     listCount.textContent = `${unCompletedTodoLists.length} items left`;
+    // }
+    // console.log(unCompletedTodoLists);
+}
+
+// removing any CHECKED tasks displayed on the webpage from Active todo list filter 
+function removeCheckedLists(event) {
+    // A condition that removes a task from Active tasks if a checkbox was checked
+    if(event.target.classList.contains('checked')) {
+        // removing the onclick attribute from checkbox
+        event.target.removeAttribute('onclick');
+
+        // removing the checked task from Active tasks
+        event.target.parentElement.remove();
+
+        // resetting the onclick attribute to call only two functions
+        event.target.setAttribute('onclick', 'isChecked(event); isnNotChecked(event)');
+    }
+
+    // updating the items left count in Active todo list filter when a task is checked
+    // if(unCompletedTodoLists.length == 1) {
+    //     listCount.textContent = `${unCompletedTodoLists.length} item left`;
+    // } else {
+    //     listCount.textContent = `${unCompletedTodoLists.length} items left`;
+    // }
 }
 
 // filtering out and displaying the lists that are checked and completed
@@ -292,8 +348,44 @@ function selectCompletedList() {
 
     for(let i = 0; i < completedTodoLists.length; i++) {
         todoListContainer.appendChild(completedTodoLists[i]);
+
+        // adding a function to the onclick attribute that will remove the unchecked task among the Completed tasks from the page 
+        completedTodoLists[i].firstChild.setAttribute('onclick', completedTodoLists[i].firstChild.getAttribute('onclick') + '; removeUncheckedLists(event)');
     }
+    // console.log(completedTodoLists);
+
+    // displaying the items left count in Completed todo list filter
+    // if(completedTodoLists.length == 1) {
+    //     listCount.textContent = `${completedTodoLists.length} item left`;
+    // } else { 
+    //     listCount.textContent = `${completedTodoLists.length} items left`;
+    // }
 }
+
+// removing any UNCHECKED tasks displayed on the webpage from Completed todo list filter
+function removeUncheckedLists(event) {
+    // A condition that instantly removes a task from Completed tasks if a task was unchecked
+    if(!event.target.parentElement.classList.contains('checked')) {
+        // removing the onclick attribute from checkbox
+        event.target.parentElement.removeAttribute('onclick');
+
+        // removing the unchecked task from Completed tasks
+        event.target.parentElement.parentElement.remove();
+
+        // resetting the onclick attribute to call only two functions
+        event.target.parentElement.setAttribute('onclick', 'isChecked(event); isnNotChecked(event)');
+    }
+    // console.log(numberOfListCreated)
+    
+    // updating the items left count in Completed todo list filter when a task is unchecked
+    // if(completedTodoLists.length == 1) {
+    //     listCount.textContent = `${completedTodoLists.length} item left`;
+    // } else {
+    //     listCount.textContent = `${completedTodoLists.length} items left`;
+    // }
+}
+
+
 
 // let clearCompletedButton = document.querySelector('.clear-completed-btn p');
 // clearCompletedButton.addEventListener('click', selectClearCompleted);

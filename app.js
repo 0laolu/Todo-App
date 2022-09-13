@@ -111,8 +111,18 @@ function deleteList(event) {
     event.target.parentElement.parentElement.remove();
 
     // removing the deleted task from the numberOfListCreated array
-
+    // storing the count value for when an unchecked list is deleted in a variable
+    let countValue = unCompletedTodoLists.length - 1
     for(let i = 0; i < numberOfListCreated.length; i++) {
+        if(!event.target.parentElement.parentElement.firstChild.classList.contains('checked')){
+            if(countValue == 1) {
+                listCount.textContent = `${countValue} item left`;
+            } else {
+                listCount.textContent = `${countValue} items left`;
+            }
+        }
+
+
         if(event.target.parentElement.parentElement == numberOfListCreated[i]) {
             numberOfListCreated.splice(numberOfListCreated.indexOf(event.target.parentElement.parentElement), 1)
         }
@@ -155,6 +165,14 @@ function isChecked(event) {
         // console.log(completedTodoLists);
         // console.log(numberOfListCreated);
         // console.log(unCompletedTodoLists);
+
+        let decrementCount = numberOfListCreated.length - completedTodoLists.length;
+
+        if(decrementCount == 1) {
+            listCount.textContent = `${decrementCount} item left`;
+        } else {
+            listCount.textContent = `${decrementCount} items left`;
+        }
         
     } else {
         // once the checkmark is active, the checkmark becomes the element firing the event 
@@ -178,6 +196,13 @@ function isChecked(event) {
         // console.log(completedTodoLists);
         // console.log(numberOfListCreated);
         // console.log(unCompletedTodoLists);
+        let incrementCount = numberOfListCreated.length - completedTodoLists.length;
+
+        if(incrementCount == 1) {
+            listCount.textContent = `${incrementCount} item left`;
+        } else {
+            listCount.textContent = `${incrementCount} items left`;
+        }
     }
 }
 
@@ -315,8 +340,16 @@ function selectAllList() {
     todoListContainer.replaceChildren(...numberOfListCreated);
 
     // displaying the items left count in All todo list filter
+    let newItemsLeftCount = numberOfListCreated.length - completedTodoLists.length;
 
+    if(newItemsLeftCount == 1) {
+        listCount.textContent = `${newItemsLeftCount} item left`;
+    } else {
+        listCount.textContent = `${newItemsLeftCount} items left`;
+    }
 
+    // console.log(numberOfListCreated);
+    // console.log(completedTodoLists);
     // console.log(unCompletedTodoLists);
 }
 
@@ -357,7 +390,9 @@ function removeCheckedLists(event) {
         // resetting the onclick attribute to call only two functions
         event.target.setAttribute('onclick', 'isChecked(event); isnNotChecked(event)');
     }
-    // console.log(numberOfListCreated)
+    // console.log(unCompletedTodoLists);
+    // console.log(completedTodoLists);
+    // console.log(numberOfListCreated);
 
     // updating the items left count in Active todo list filter when a task is checked
     if(unCompletedTodoLists.length == 1) {

@@ -235,6 +235,28 @@ function filterActiveLists() {
     }
 }
 
+// gets the Clear Completed button element and adds a click event to it
+let clearCompletedButton = document.querySelector('.clear-completed-btn p');
+clearCompletedButton.addEventListener('click', clearCompletedLists);
+
+// the function that fires when the Clear Completed button is clicked
+function clearCompletedLists() {
+    // loops through numberOfListCreated to remove checked lists from the page 
+    for(let i = numberOfListCreated.length - 1; i >= 0; i--) {
+        if(numberOfListCreated[i].firstChild.classList.contains('checked')) {
+            numberOfListCreated[i].remove();
+
+            // updates the array to remove the checked items so when the All button is clicked, it doesn't display the checked items
+            numberOfListCreated.splice(numberOfListCreated.indexOf(numberOfListCreated[i]), 1)
+        }
+    }
+
+    // loops through CompletedTodoLists to remove checked items so when the Completed button is clicked, it doesn't display the checked items
+    for(let j = 0; j < completedTodoLists.length; j++) {
+        completedTodoLists.splice(completedTodoLists.firstChild);
+    }
+}
+
 // getting the todo list filter elements from the DOM for desktop view
 let desktopListPreference = document.querySelectorAll('.list-preference p');
 let allList = document.querySelector('.list-preference .all');
@@ -378,7 +400,7 @@ function selectActiveList() {
 }
 
 // removing any CHECKED tasks displayed on the webpage from Active todo list filter 
-function removeCheckedLists(event) {
+function removeCheckedLists() {
     // A condition that removes a task from Active tasks if a checkbox was checked
     if(event.target.classList.contains('checked')) {
         // removing the onclick attribute from checkbox
@@ -423,6 +445,12 @@ function selectCompletedList() {
     } else { 
         listCount.textContent = `${completedTodoLists.length} items left`;
     }
+
+    // sets the items left count to 0 items when Clear Completed button is clicked in Complated tasks filter
+    let clearCompletedBtn = document.querySelector('.clear-completed-btn p');
+    clearCompletedBtn.addEventListener('click', function() {
+        listCount.textContent = `0 items left`;
+    })
 }
 
 // removing any UNCHECKED tasks displayed on the webpage from Completed todo list filter
@@ -448,11 +476,6 @@ function removeUncheckedLists(event) {
         listCount.textContent = `${completedTodoLists.length} items left`;
     }
 }
-
-
-
-// let clearCompletedButton = document.querySelector('.clear-completed-btn p');
-// clearCompletedButton.addEventListener('click', selectClearCompleted);
 
 // getting the items left element 
 let listCount = document.querySelector('.todo-count');

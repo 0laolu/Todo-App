@@ -120,7 +120,7 @@ body.dark {
     border: 2px solid hsl(0, 90%, 55%);
 }
 
-.todo-section .entry-field, .todo-section .list-field {
+.todo-section .entry-field {
     display: flex;      
     justify-content: space-between;     
     align-items: center;
@@ -212,20 +212,35 @@ input#entry-text.error::-webkit-input-placeholder {
     border-radius: 8px 8px 0 0;
 }
 
-.todo-section__list .list-field:first-child {
-    border-top: none;
+.todo-section__list-field-container {
+    width: 100%;
 }
 
-.todo-section__list .list-field.draggable {
-    border-top: 1px solid var(--border-color);
-    border-bottom: none;
+.todo-section__list-field-container.draggable {
     cursor: move;
     z-index: 100;
 }
 
 .todo-section__list .list-field.draggable.dragging {
     background-color: hsla(0, 0%, 94%, 1);
-    /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4); */
+}
+
+.todo-section__list .todo-section__list-field-container:first-child .list-field {
+    border-top: none;
+}
+
+.todo-section__list .list-field {
+    display: flex;      
+    justify-content: space-between;     
+    align-items: center;
+    width: 90%;     
+    padding: 1rem 0;  
+    margin: 0 auto;
+    position: relative;
+    border-bottom: none;
+    border-top: 1px solid var(--border-color);
+    cursor: move;
+    z-index: 100;
 }
 
 .list-field .checkbox {
@@ -253,7 +268,7 @@ input#entry-text.error::-webkit-input-placeholder {
 }
 
 .list-field .input-field input {
-    z-index: -100;
+    padding: 0;
 }
 
 .list-field .input-field input.strike-through {
@@ -267,9 +282,12 @@ input#entry-text.error::-webkit-input-placeholder {
     border: none;
     display: flex;
     justify-content: center;
-    width: 5%;
+    align-items: flex-end;
+    width: 6%;
     height: 20px;
     cursor: pointer;
+    position: relative;
+    top: 0.1rem;
 }
 
 /* Todo Status */
@@ -345,7 +363,7 @@ p.todo-count {
 
     /* Todo Section Entry */
 
-    .todo-section .entry-field, .todo-section .list-field {
+    .todo-section .entry-field {
         display: flex;
         align-items: baseline;
         width: 90%;
@@ -377,11 +395,8 @@ p.todo-count {
     .todo-section__list .list-field {
         display: flex;
         align-items: center;
+        width: 90%;
         border-top: 1px solid var(--border-color);
-    }
-
-    .list-field .checkbox {
-        margin-right: 0.5rem;
     }
 
     .list-field .input-field {
@@ -457,13 +472,22 @@ p.todo-count {
     }
 
     ::placeholder {
-        font-size: 1rem;
+        font-size: 0.9rem;
+    }
+
+    /* Todo List*/
+    .list-field .checkbox {
+        margin-right: 0.5rem;
+    }
+
+    .list-field .delete-btn {
+        width: 10%;
     }
 
     /* Todo Status*/
 
     .status-wrapper p {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
     }
 
     .mobile-list-preference .content-wrapper {
@@ -473,7 +497,7 @@ p.todo-count {
     }
 
     .mobile-list-preference p {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
         padding: 0.5rem 0;
     }
 }
@@ -486,6 +510,9 @@ p.todo-count {
     }
 
     /* Todo List */
+    .list-field .checkbox {
+        margin-right: 0.5rem;
+    }
 
     .list-field .input-field {
         width: 85%;
@@ -517,7 +544,7 @@ p.todo-count {
 
     /* Todo Entry */
 
-    .todo-section .entry-field, .todo-section .list-field {
+    .todo-section .entry-field {
         display: flex;
         align-items: baseline;
         padding: 1.2rem 0;
@@ -549,7 +576,7 @@ p.todo-count {
 
     /* Todo List */
 
-    .todo-section .list-field {
+    .todo-section__list .list-field {
         display: flex;
         align-items: center;
     }
@@ -559,7 +586,8 @@ p.todo-count {
     }
 
     .list-field .delete-btn {
-        height: 25px;
+        width: 5%;
+        height: 23px;
     }
 
     .list-field .delete-btn img {
@@ -586,6 +614,13 @@ p.todo-count {
 
     .entry-field .input-field input, .list-field .input-field input {
         font-size: 1.25rem;
+    }
+
+    /* Todo List*/
+    .list-field .delete-btn {
+        width: 5%;
+        height: 20px;
+        top: 0.2rem;
     }
     
     /* Todo Status */

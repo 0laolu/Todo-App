@@ -25,6 +25,7 @@ body {
     --strike-through-text-color: hsl(236, 9%, 77%);
     --strike-through-line-color: hsl(236, 9%, 50%);
     --box-shadow: hsl(225, 20%, 95%);
+    --todo-list-dragging-active: hsla(0, 0%, 97%, 1);
     --todo-list-status-text-color: hsl(236, 9%, 70%);
 
     background-color: var(--page-background-color);
@@ -46,6 +47,7 @@ body.dark {
     --strike-through-text-color: hsl(233, 17%, 50%);
     --strike-through-line-color: hsl(234, 15%, 65%);
     --box-shadow: hsl(235, 27%, 8%);
+    --todo-list-dragging-active: hsl(235, 50%, 15%);
     --todo-list-status-text-color: hsl(233, 16%, 49%);
 }
 
@@ -192,6 +194,7 @@ body.dark {
     top: 0.1rem;
     border: none;
     outline: none;  
+    cursor: pointer;
 }
 
 ::placeholder {
@@ -217,12 +220,15 @@ input#entry-text.error::-webkit-input-placeholder {
 }
 
 .todo-section__list-field-container.draggable {
+    border-left: 1px solid var(--todo-list-bg-color);
+    border-right: 1px solid var(--todo-list-bg-color);
     cursor: move;
     z-index: 100;
 }
 
-.todo-section__list .list-field.draggable.dragging {
-    background-color: hsla(0, 0%, 94%, 1);
+.todo-section__list-field-container.draggable.dragging {
+    /* background-color: hsla(0, 0%, 97%, 1); */
+    background-color: var(--todo-list-dragging-active);
 }
 
 .todo-section__list .todo-section__list-field-container:first-child .list-field {
@@ -391,6 +397,9 @@ p.todo-count {
     }
 
     /* Todo Section List */
+    .todo-section__list .todo-section__list-field-container:first-child .list-field {
+        border-top: none;
+    }
 
     .todo-section__list .list-field {
         display: flex;

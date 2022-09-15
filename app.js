@@ -91,19 +91,35 @@ function displayTodoList() {
     } else {
         removeError();
 
+    //     `<div class="todo-section__list-field-container draggable" draggable="true">
+        //     <div class="list-field">
+        //         <div class="checkbox">
+        //             <img src="images/icon-check.svg" alt="check mark" class="check-mark">
+        //         </div>
+        //         <div class="input-field">
+        //             <input  id="list-text" type="text" value="Visit England and watch a Chelsea FC game">
+        //         </div>
+        //         <button class="delete-btn">
+        //             <img onclick="deleteList()" src="images/icon-cross.svg" alt="a cross icon to delete the list">
+        //         </button>
+        //     </div>
+        // </div>`
+
         // creating the todo list template
-        let listField = document.createElement('div');      // list template container
-        let checkBox = document.createElement('div');       // first child of the template
-        let checkmark = document.createElement('img');      // child of the first child
-        let inputField = document.createElement('div');     // second child of the template
-        let listInput = document.createElement('input');    // child of the second child   
-        let deleteBtn = document.createElement('button');   // third child of the template
-        let deleteIcon = document.createElement('img');     // child of the third child
+        let listFieldContainer = document.createElement('div'); // todo list template container
+        let listField = document.createElement('div');          // todo list template
+        let checkBox = document.createElement('div');           // first child of the template
+        let checkmark = document.createElement('img');          // child of the first child
+        let inputField = document.createElement('div');         // second child of the template
+        let listInput = document.createElement('input');        // child of the second child   
+        let deleteBtn = document.createElement('button');       // third child of the template
+        let deleteIcon = document.createElement('img');         // child of the third child
 
         // setting attributes to each element
+        listFieldContainer.setAttribute('class', 'todo-section__list-field-container')
+        listFieldContainer.classList.add('draggable');
+        listFieldContainer.setAttribute('draggable', 'true');
         listField.setAttribute('class', 'list-field');
-        listField.classList.add('draggable');
-        listField.setAttribute('draggable', 'true');
         checkBox.setAttribute('class', 'checkbox');
         checkBox.setAttribute('onclick', 'isChecked(event); isnNotChecked(event)');
 
@@ -128,17 +144,19 @@ function displayTodoList() {
 
         deleteBtn.appendChild(deleteIcon);
         listField.appendChild(deleteBtn);
+
+        listFieldContainer.appendChild(listField)
         // displaying the todo list template on the page
-        todoListContainer.appendChild(listField);
+        todoListContainer.appendChild(listFieldContainer);
 
         // clearing the entry field after list has been submitted
         document.getElementById('entry-text').value = '';
 
         // pushing the list created to number of Todo list array
-        numberOfListCreated.push(listField);
-        console.log(numberOfListCreated[0]);
+        numberOfListCreated.push(listFieldContainer);
+        console.log(numberOfListCreated)
 
-        let draggables = document.querySelectorAll('.list-field.draggable');
+        let draggables = document.querySelectorAll('.todo-section__list-field-container.draggable');
         draggables.forEach(draggable => {
             draggable.addEventListener('dragstart', () => {
                 draggable.classList.add('dragging');
@@ -154,8 +172,8 @@ function displayTodoList() {
 
             const afterElement = getDragAfterElement(todoListContainer, event.clientY)
 
-            const draggable = document.querySelector('.list-field.draggable.dragging')
-            
+            const draggable = document.querySelector('.todo-section__list-field-container.draggable.dragging')
+            console.log(draggable)
             if(afterElement == null) {
                 todoListContainer.appendChild(draggable)
             } else {
@@ -176,7 +194,7 @@ function displayTodoList() {
 }
 
 function getDragAfterElement(container, y) {
-    let draggableElements = [...document.querySelectorAll('.list-field.draggable:not(.list-field.draggable.dragging)')]
+    let draggableElements = [...document.querySelectorAll('.todo-section__list-field-container.draggable:not(.todo-section__list-field-container.draggable.dragging)')]
     return draggableElements.reduce((closest, child) => {
         const box = child.getBoundingClientRect();
         const offset = y - box.top - box.height / 2;

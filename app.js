@@ -2,6 +2,47 @@ let entryForm = document.getElementById('add-list');
 let todoListContainer = document.getElementById('list');
 let errorIcon = document.querySelector('.error-img');
 let entryFieldCheckbox = document.querySelector('.entry-field .checkbox');
+// let draggables = document.querySelectorAll('.list-field.draggable')
+// console.log(draggables)
+
+// draggables.forEach(draggable => {
+//     draggable.addEventListener('dragstart', () => {
+//         draggable.classList.add('dragging');
+//     })
+
+//     draggable.addEventListener('dragend', () => {
+//         draggable.classList.remove('dragging');
+//     })
+// })
+
+// todoListContainer.addEventListener('dragover', event => {
+//     event.preventDefault();
+
+//     const afterElement = getDragAfterElement(todoListContainer, event.clientY)
+
+//     const draggable = document.querySelector('.list-field.draggable.dragging')
+//     if(afterElement == null) {
+//         todoListContainer.appendChild(draggable)
+//     } else {
+//         todoListContainer.insertBefore(draggable, afterElement)
+//     }
+    
+// })
+
+// function getDragAfterElement(container, y) {
+//     let draggableElements = [...document.querySelectorAll('.list-field.draggable:not(.list-field.draggable.dragging)')]
+//     return draggableElements.reduce((closest, child) => {
+//         const box = child.getBoundingClientRect();
+//         const offset = y - box.top - box.height / 2;
+
+//         if(offset < 0 && offset > closest.offset) {
+//             return { offset: offset, element: child}
+//         } else {
+//             return closest
+//         }
+
+//     }, { offset: Number.NEGATIVE_INFINITY}).element
+// }
 
 // storing each list created in a container
 let numberOfListCreated = [];
@@ -61,6 +102,8 @@ function displayTodoList() {
 
         // setting attributes to each element
         listField.setAttribute('class', 'list-field');
+        listField.classList.add('draggable');
+        listField.setAttribute('draggable', 'true');
         checkBox.setAttribute('class', 'checkbox');
         checkBox.setAttribute('onclick', 'isChecked(event); isnNotChecked(event)');
 
@@ -93,7 +136,33 @@ function displayTodoList() {
 
         // pushing the list created to number of Todo list array
         numberOfListCreated.push(listField);
-        console.log(numberOfListCreated);
+        console.log(numberOfListCreated[0]);
+
+        let draggables = document.querySelectorAll('.list-field.draggable');
+        draggables.forEach(draggable => {
+            draggable.addEventListener('dragstart', () => {
+                draggable.classList.add('dragging');
+            })
+
+            draggable.addEventListener('dragend', () => {
+                draggable.classList.remove('dragging');
+            })
+        })
+
+        todoListContainer.addEventListener('dragover', event => {
+            event.preventDefault();
+
+            const afterElement = getDragAfterElement(todoListContainer, event.clientY)
+
+            const draggable = document.querySelector('.list-field.draggable.dragging')
+            
+            if(afterElement == null) {
+                todoListContainer.appendChild(draggable)
+            } else {
+                todoListContainer.insertBefore(draggable, afterElement)
+            }
+        
+        })  
 
         // calling the itemsLeftCount to increase the count as a new list is created
         itemsLeftCount(unCompletedTodoLists.length + 1);
@@ -104,6 +173,21 @@ function displayTodoList() {
 
     // prevent the list created from disappearing fr om the page
     return false;
+}
+
+function getDragAfterElement(container, y) {
+    let draggableElements = [...document.querySelectorAll('.list-field.draggable:not(.list-field.draggable.dragging)')]
+    return draggableElements.reduce((closest, child) => {
+        const box = child.getBoundingClientRect();
+        const offset = y - box.top - box.height / 2;
+
+        if(offset < 0 && offset > closest.offset) {
+            return { offset: offset, element: child}
+        } else {
+            return closest
+        }
+
+    }, { offset: Number.NEGATIVE_INFINITY}).element
 }
 
 // removing a todo list from the page

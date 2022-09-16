@@ -173,7 +173,6 @@ function displayTodoList() {
             const afterElement = getDragAfterElement(todoListContainer, event.clientY)
 
             const draggable = document.querySelector('.todo-section__list-field-container.draggable.dragging')
-            console.log(draggable)
             if(afterElement == null) {
                 todoListContainer.appendChild(draggable)
             } else {
@@ -210,7 +209,10 @@ function getDragAfterElement(container, y) {
 
 // removing a todo list from the page
 function deleteList(event) {
-    event.target.parentElement.parentElement.remove();
+    // console.log(numberOfListCreated)
+    // console.log(numberOfListCreated[0])
+
+    event.target.parentElement.parentElement.parentElement.remove();
 
     // removing the deleted task from the numberOfListCreated array
     // storing the count value for when an unchecked list is deleted in a variable
@@ -225,20 +227,20 @@ function deleteList(event) {
         }
 
 
-        if(event.target.parentElement.parentElement == numberOfListCreated[i]) {
-            numberOfListCreated.splice(numberOfListCreated.indexOf(event.target.parentElement.parentElement), 1)
+        if(event.target.parentElement.parentElement.parentElement == numberOfListCreated[i]) {
+            numberOfListCreated.splice(numberOfListCreated.indexOf(event.target.parentElement.parentElement.parentElement), 1)
         }
     }
 
     for(let j = 0; j < completedTodoLists.length; j++) {
-        if(event.target.parentElement.parentElement == completedTodoLists[j]) {
-            completedTodoLists.splice(completedTodoLists.indexOf(event.target.parentElement.parentElement), 1)
+        if(event.target.parentElement.parentElement.parentElement == completedTodoLists[j]) {
+            completedTodoLists.splice(completedTodoLists.indexOf(event.target.parentElement.parentElement.parentElement), 1)
         }
     }
 
     for(let k = 0; k < unCompletedTodoLists.length; k++) {
-        if(event.target.parentElement.parentElement == unCompletedTodoLists[k]) {
-            unCompletedTodoLists.splice(unCompletedTodoLists.indexOf(event.target.parentElement.parentElement), 1)
+        if(event.target.parentElement.parentElement.parentElement == unCompletedTodoLists[k]) {
+            unCompletedTodoLists.splice(unCompletedTodoLists.indexOf(event.target.parentElement.parentElement.parentElement), 1)
         }
     }
     // console.log(completedTodoLists);
@@ -263,7 +265,7 @@ function isChecked(event) {
         // putting a strike-through on the text when clicked as completed
         event.target.nextElementSibling.firstChild.classList.add('strike-through');
 
-        completedTodoLists.push(event.target.parentElement);
+        completedTodoLists.push(event.target.parentElement.parentElement);
         // console.log(completedTodoLists);
         // console.log(numberOfListCreated);
         // console.log(unCompletedTodoLists);
@@ -291,8 +293,8 @@ function isChecked(event) {
 
         // looping through the array of completed items to remove a todo list which is later unchecked
         for(let i = 0; i < completedTodoLists.length; i++) {
-            if(event.target.parentElement.parentElement == completedTodoLists[i]) {
-                completedTodoLists.splice(completedTodoLists.indexOf(event.target.parentElement.parentElement), 1);
+            if(event.target.parentElement.parentElement.parentElement == completedTodoLists[i]) {
+                completedTodoLists.splice(completedTodoLists.indexOf(event.target.parentElement.parentElement.parentElement), 1);
             }
         }
         // console.log(completedTodoLists);
@@ -313,25 +315,23 @@ let unCompletedTodoLists = [];
 
 function isnNotChecked(event) {
     for(let i = 0; i < numberOfListCreated.length; i++) {
-        if(!unCompletedTodoLists.includes(numberOfListCreated[i]) && !numberOfListCreated[i].firstChild.classList.contains('checked')) {
+        if(!unCompletedTodoLists.includes(numberOfListCreated[i]) && !numberOfListCreated[i].firstChild.firstChild.classList.contains('checked')) {
             unCompletedTodoLists.push(numberOfListCreated[i]);
         }
     }
 
-    // console.log(unCompletedTodoLists);
     // preventing the repetition of add the unchecked items to uncompleted lists when a list is checked
     for(let j = 0; j < unCompletedTodoLists.length; j++) {
-        if(event.target.parentElement == unCompletedTodoLists[j]) {
-            unCompletedTodoLists.splice(unCompletedTodoLists.indexOf(event.target.parentElement), 1)
+        if(event.target.parentElement.parentElement == unCompletedTodoLists[j]) {
+            unCompletedTodoLists.splice(unCompletedTodoLists.indexOf(event.target.parentElement.parentElement), 1)
         } 
     }
-    // console.log(unCompletedTodoLists);
 }
 
 // Setting newly created tasks to Active tasks by default
 function filterActiveLists() {
     for(let i = 0; i < numberOfListCreated.length; i++) {
-        if(!unCompletedTodoLists.includes(numberOfListCreated[i]) && !numberOfListCreated[i].firstChild.classList.contains('checked')) {
+        if(!unCompletedTodoLists.includes(numberOfListCreated[i]) && !numberOfListCreated[i].firstChild.firstChild.classList.contains('checked')) {
             unCompletedTodoLists.push(numberOfListCreated[i]);
         }
     }
@@ -345,7 +345,7 @@ clearCompletedButton.addEventListener('click', clearCompletedLists);
 function clearCompletedLists() {
     // loops through numberOfListCreated to remove checked lists from the page 
     for(let i = numberOfListCreated.length - 1; i >= 0; i--) {
-        if(numberOfListCreated[i].firstChild.classList.contains('checked')) {
+        if(numberOfListCreated[i].firstChild.firstChild.classList.contains('checked')) {
             numberOfListCreated[i].remove();
 
             // updates the array to remove the checked items so when the All button is clicked, it doesn't display the checked items
@@ -355,7 +355,7 @@ function clearCompletedLists() {
 
     // loops through CompletedTodoLists to remove checked items so when the Completed button is clicked, it doesn't display the checked items
     for(let j = 0; j < completedTodoLists.length; j++) {
-        completedTodoLists.splice(completedTodoLists.firstChild);
+        completedTodoLists.splice(completedTodoLists[j].firstChild.firstChild);
     }
 }
 
@@ -459,7 +459,7 @@ function invokeCompletedMobileList() {
 // displaying every list created when the All button is clicked
 function selectAllList() {
     for(let i = 0; i < numberOfListCreated.length; i++) {
-        numberOfListCreated[i].firstChild.setAttribute('onclick', 'isChecked(event); isnNotChecked(event)');
+        numberOfListCreated[i].firstChild.firstChild.setAttribute('onclick', 'isChecked(event); isnNotChecked(event)');
     }
     todoListContainer.replaceChildren(...numberOfListCreated);
 
@@ -489,7 +489,7 @@ function selectActiveList() {
         todoListContainer.appendChild(unCompletedTodoLists[i]);
 
         // adding a function to the onclick attribute that will remove the checked tasks among the Active tasks from the page
-        unCompletedTodoLists[i].firstChild.setAttribute('onclick', unCompletedTodoLists[i].firstChild.getAttribute('onclick') + '; removeCheckedLists(event)')
+        unCompletedTodoLists[i].firstChild.firstChild.setAttribute('onclick', unCompletedTodoLists[i].firstChild.firstChild.getAttribute('onclick') + '; removeCheckedLists(event)')
     }
     // console.log(unCompletedTodoLists)
 
@@ -502,14 +502,14 @@ function selectActiveList() {
 }
 
 // removing any CHECKED tasks displayed on the webpage from Active todo list filter 
-function removeCheckedLists() {
+function removeCheckedLists(event) {
     // A condition that removes a task from Active tasks if a checkbox was checked
     if(event.target.classList.contains('checked')) {
         // removing the onclick attribute from checkbox
         event.target.removeAttribute('onclick');
 
         // removing the checked task from Active tasks
-        event.target.parentElement.remove();
+        event.target.parentElement.parentElement.remove();
 
         // resetting the onclick attribute to call only two functions
         event.target.setAttribute('onclick', 'isChecked(event); isnNotChecked(event)');
@@ -536,7 +536,7 @@ function selectCompletedList() {
         todoListContainer.appendChild(completedTodoLists[i]);
 
         // adding a function to the onclick attribute that will remove the unchecked task among the Completed tasks from the page 
-        completedTodoLists[i].firstChild.setAttribute('onclick', completedTodoLists[i].firstChild.getAttribute('onclick') + '; removeUncheckedLists(event)');
+        completedTodoLists[i].firstChild.firstChild.setAttribute('onclick', completedTodoLists[i].firstChild.firstChild.getAttribute('onclick') + '; removeUncheckedLists(event)');
     }
     // console.log(unCompletedTodoLists);
     // console.log(completedTodoLists);
@@ -557,13 +557,14 @@ function selectCompletedList() {
 
 // removing any UNCHECKED tasks displayed on the webpage from Completed todo list filter
 function removeUncheckedLists(event) {
+    console.log(event.target)
     // A condition that instantly removes a task from Completed tasks if a task was unchecked
     if(!event.target.parentElement.classList.contains('checked')) {
         // removing the onclick attribute from checkbox
         event.target.parentElement.removeAttribute('onclick');
 
         // removing the unchecked task from Completed tasks
-        event.target.parentElement.parentElement.remove();
+        event.target.parentElement.parentElement.parentElement.remove();
 
         // resetting the onclick attribute to call only two functions
         event.target.parentElement.setAttribute('onclick', 'isChecked(event); isnNotChecked(event)');

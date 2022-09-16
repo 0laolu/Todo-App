@@ -194,7 +194,6 @@ body.dark {
     top: 0.1rem;
     border: none;
     outline: none;  
-    cursor: pointer;
 }
 
 ::placeholder {
@@ -275,6 +274,7 @@ input#entry-text.error::-webkit-input-placeholder {
 
 .list-field .input-field input {
     padding: 0;
+    cursor: pointer;
 }
 
 .list-field .input-field input.strike-through {

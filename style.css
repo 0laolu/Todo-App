@@ -20,13 +20,14 @@ body {
     --todo-list-bg-color: white;
     --todo-section-entry-field-border: white;
     --todo-section-input-bg-color: white;
-    --border-color: lightgrey;
+    --border-color: hsl(236, 33%, 92%);
     --text-color: hsl(235, 19%, 35%);
     --strike-through-text-color: hsl(236, 9%, 77%);
     --strike-through-line-color: hsl(236, 9%, 50%);
     --box-shadow: hsl(225, 20%, 95%);
-    --todo-list-dragging-active: hsla(0, 0%, 97%, 1);
+    --todo-list-dragging-active: hsla(0, 0%, 98%, 1);
     --todo-list-status-text-color: hsl(236, 9%, 70%);
+    --drag-n-drop-text-color: hsl(236, 9%, 61%);
 
     background-color: var(--page-background-color);
     height: 100vh;
@@ -42,13 +43,14 @@ body.dark {
     --todo-list-bg-color: hsl(235, 24%, 19%);
     --todo-section-entry-field-border: hsl(235, 24%, 19%);
     --todo-section-input-bg-color: hsl(235, 24%, 19%);
-    --border-color: hsl(237, 14%, 26%);
+    --border-color: hsl(237, 14%, 23%);
     --text-color: hsl(234, 39%, 85%);
     --strike-through-text-color: hsl(233, 17%, 50%);
     --strike-through-line-color: hsl(234, 15%, 65%);
     --box-shadow: hsl(235, 27%, 8%);
-    --todo-list-dragging-active: hsl(235, 50%, 15%);
+    --todo-list-dragging-active: transparent;
     --todo-list-status-text-color: hsl(233, 16%, 49%);
+    --drag-n-drop-text-color: hsl(233, 14%, 35%);
 }
 
 /* General Styling */
@@ -116,6 +118,7 @@ body.dark {
     border: 1px solid var(--todo-section-entry-field-border);
     background-color: var(--todo-list-bg-color);    
     border-radius: 8px;
+    margin-bottom: 1.5rem;
 }
 
 .todo-section__entry.error {
@@ -208,8 +211,7 @@ input#entry-text.error::-webkit-input-placeholder {
 /* Todo Section List */
 
 .todo-section__list {
-    background-color: var(--todo-list-bg-color);    
-    margin-top: 1.5rem;     
+    background-color: var(--todo-list-bg-color);   
     border-bottom: none;
     border-radius: 8px 8px 0 0;
 }
@@ -219,15 +221,17 @@ input#entry-text.error::-webkit-input-placeholder {
 }
 
 .todo-section__list-field-container.draggable {
-    border-left: 1px solid var(--todo-list-bg-color);
-    border-right: 1px solid var(--todo-list-bg-color);
-    cursor: move;
+    border-left: 1px solid transparent;
+    border-right: 1px solid transparent;
+    cursor: grab;
     z-index: 100;
 }
 
 .todo-section__list-field-container.draggable.dragging {
-    /* background-color: hsla(0, 0%, 97%, 1); */
     background-color: var(--todo-list-dragging-active);
+    box-shadow: inset 0px 0px 0px 1px var(--border-color), 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-left: none;
+    border-right: none;
 }
 
 .todo-section__list .todo-section__list-field-container:first-child .list-field {
@@ -244,7 +248,7 @@ input#entry-text.error::-webkit-input-placeholder {
     position: relative;
     border-bottom: none;
     border-top: 1px solid var(--border-color);
-    cursor: move;
+    cursor: grab;
     z-index: 100;
 }
 
@@ -273,7 +277,7 @@ input#entry-text.error::-webkit-input-placeholder {
 }
 
 .list-field .input-field input {
-    padding: 0;
+    padding: 0.5rem 0;
     cursor: pointer;
 }
 
@@ -305,6 +309,7 @@ input#entry-text.error::-webkit-input-placeholder {
     padding: 1.5rem 0;
     border-radius: 0 0 8px 8px;
     box-shadow: 0 2rem 2rem 0 var(--box-shadow);
+    margin-top: 0.02rem;
 }
 
 .status-wrapper {
@@ -347,6 +352,19 @@ p.todo-count {
 
 .mobile-list-preference {
     display: none;
+}
+
+.todo-section .side-info {
+    margin-top: 3rem;
+    text-align: center;
+}
+
+.todo-section .side-info p {
+    color: var(--drag-n-drop-text-color);
+    font-weight: 700;
+    word-spacing: 0.05rem;
+    position: relative;
+    left: -1.3rem;
 }
 
 @media screen and (max-width:767px) {
@@ -456,6 +474,10 @@ p.todo-count {
     .mobile-list-preference p.active-state {
         color: hsl(220, 98%, 61%);
     }
+
+    .todo-section .side-info {
+        display: none;
+    }
 }
 
 @media screen and (max-width: 360px) {
@@ -477,7 +499,7 @@ p.todo-count {
     }
 
     .entry-field .input-field input, .list-field .input-field input {
-        font-size: 1rem;
+        font-size: 0.9rem;
     }
 
     ::placeholder {

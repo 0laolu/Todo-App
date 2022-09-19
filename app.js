@@ -2,47 +2,7 @@ let entryForm = document.getElementById('add-list');
 let todoListContainer = document.getElementById('list');
 let errorIcon = document.querySelector('.error-img');
 let entryFieldCheckbox = document.querySelector('.entry-field .checkbox');
-// let draggables = document.querySelectorAll('.list-field.draggable')
-// console.log(draggables)
-
-// draggables.forEach(draggable => {
-//     draggable.addEventListener('dragstart', () => {
-//         draggable.classList.add('dragging');
-//     })
-
-//     draggable.addEventListener('dragend', () => {
-//         draggable.classList.remove('dragging');
-//     })
-// })
-
-// todoListContainer.addEventListener('dragover', event => {
-//     event.preventDefault();
-
-//     const afterElement = getDragAfterElement(todoListContainer, event.clientY)
-
-//     const draggable = document.querySelector('.list-field.draggable.dragging')
-//     if(afterElement == null) {
-//         todoListContainer.appendChild(draggable)
-//     } else {
-//         todoListContainer.insertBefore(draggable, afterElement)
-//     }
-    
-// })
-
-// function getDragAfterElement(container, y) {
-//     let draggableElements = [...document.querySelectorAll('.list-field.draggable:not(.list-field.draggable.dragging)')]
-//     return draggableElements.reduce((closest, child) => {
-//         const box = child.getBoundingClientRect();
-//         const offset = y - box.top - box.height / 2;
-
-//         if(offset < 0 && offset > closest.offset) {
-//             return { offset: offset, element: child}
-//         } else {
-//             return closest
-//         }
-
-//     }, { offset: Number.NEGATIVE_INFINITY}).element
-// }
+let todoSection = document.querySelector('.todo-section')
 
 // storing each list created in a container
 let numberOfListCreated = [];
@@ -55,6 +15,8 @@ let toggleButton = document.querySelector('.toggle-appearance-btn');
 toggleButton.addEventListener('click', function() {
     body.classList.toggle('dark');
 });
+
+document.addEventListener('DOMContentLoaded', displaySavedTasks)
 
 // show error if entry field is empty
 function showError() {
@@ -90,20 +52,6 @@ function displayTodoList() {
         showError();
     } else {
         removeError();
-
-    //     `<div class="todo-section__list-field-container draggable" draggable="true">
-        //     <div class="list-field">
-        //         <div class="checkbox">
-        //             <img src="images/icon-check.svg" alt="check mark" class="check-mark">
-        //         </div>
-        //         <div class="input-field">
-        //             <input  id="list-text" type="text" value="Visit England and watch a Chelsea FC game">
-        //         </div>
-        //         <button class="delete-btn">
-        //             <img onclick="deleteList()" src="images/icon-cross.svg" alt="a cross icon to delete the list">
-        //         </button>
-        //     </div>
-        // </div>`
 
         // creating the todo list template
         let listFieldContainer = document.createElement('div'); // todo list template container
@@ -154,8 +102,11 @@ function displayTodoList() {
 
         // pushing the list created to number of Todo list array
         numberOfListCreated.push(listFieldContainer);
-        console.log(numberOfListCreated)
+        console.log(numberOfListCreated[0])
+        // console.log(numberOfListCreated[0].firstChild.firstChild.nextElementSibling.firstChild.value)
 
+        saveTasks(entryFormValue);
+        
         let draggables = document.querySelectorAll('.todo-section__list-field-container.draggable');
         draggables.forEach(draggable => {
             draggable.addEventListener('dragstart', () => {
@@ -190,6 +141,96 @@ function displayTodoList() {
 
     // prevent the list created from disappearing fr om the page
     return false;
+}
+
+function saveTasks(formValue) {
+    let values;
+    if(localStorage.getItem('myTasks') == null) {
+        values = [];
+    } else {
+        values = JSON.parse(localStorage.getItem('myTasks'))
+    }
+
+    values.push(formValue)
+    localStorage.setItem('myTasks', JSON.stringify(values))
+}
+
+function displaySavedTasks() {
+    let values;
+    if(localStorage.getItem('myTasks') == null) {
+        values = [];
+    } else {
+        values = JSON.parse(localStorage.getItem('myTasks'))
+    }
+
+    values.forEach(listValue => {
+        let listFieldContainer = document.createElement('div'); // todo list template container
+        let listField = document.createElement('div');          // todo list template
+        let checkBox = document.createElement('div');           // first child of the template
+        let checkmark = document.createElement('img');          // child of the first child
+        let inputField = document.createElement('div');         // second child of the template
+        let listInput = document.createElement('input');        // child of the second child   
+        let deleteBtn = document.createElement('button');       // third child of the template
+        let deleteIcon = document.createElement('img');         // child of the third child
+
+        // setting attributes to each element
+        listFieldContainer.setAttribute('class', 'todo-section__list-field-container')
+        listFieldContainer.classList.add('draggable');
+        listFieldContainer.setAttribute('draggable', 'true');
+        listField.setAttribute('class', 'list-field');
+        checkBox.setAttribute('class', 'checkbox');
+        checkBox.setAttribute('onclick', 'isChecked(event); isnNotChecked(event)');
+
+        checkmark.setAttribute('src', 'images/icon-check.svg');
+        checkmark.setAttribute('class', 'check-mark');
+
+        inputField.setAttribute('class', 'input-field');
+        listInput.setAttribute('id', 'list-text');
+        listInput.setAttribute('type', 'text');
+        listInput.setAttribute('value', listValue);
+
+        deleteBtn.setAttribute('class', 'delete-btn');
+        deleteBtn.setAttribute('onclick', 'deleteList(event, numberOfListCreated)');
+        deleteIcon.setAttribute('src', 'images/icon-cross.svg');
+
+        // appending child elements to parent elements
+        checkBox.appendChild(checkmark);
+        listField.appendChild(checkBox);
+
+        inputField.appendChild(listInput);
+        listField.appendChild(inputField);
+
+        deleteBtn.appendChild(deleteIcon);
+        listField.appendChild(deleteBtn);
+
+        listFieldContainer.appendChild(listField)
+        // displaying the todo list template on the page
+        todoListContainer.appendChild(listFieldContainer);
+
+        numberOfListCreated.push(listFieldContainer)
+
+        if(numberOfListCreated.length == 1) {
+            listCount.textContent = `${numberOfListCreated.length} item left`
+        } else {
+            listCount.textContent = `${numberOfListCreated.length} items left`
+        }
+
+    })
+}
+// removes a task from local storage when that task is deleted on the webpage
+function removeSavedTasks(event) {
+    let values;
+    if(localStorage.getItem('myTasks') == null) {
+        values = [];
+    } else {
+        values = JSON.parse(localStorage.getItem('myTasks'))
+    }
+
+    if(values.includes(event.target.parentElement.previousElementSibling.firstChild.value)) {
+        values.splice(values.indexOf(event.target.parentElement.previousElementSibling.firstChild.value), 1)
+    }
+
+    localStorage.setItem('myTasks', JSON.stringify(values))
 }
 
 function getDragAfterElement(container, y) {
@@ -243,9 +284,11 @@ function deleteList(event) {
             unCompletedTodoLists.splice(unCompletedTodoLists.indexOf(event.target.parentElement.parentElement.parentElement), 1)
         }
     }
+
+    removeSavedTasks(event)
     // console.log(completedTodoLists);
     // console.log(unCompletedTodoLists);
-    // console.log(numberOfListCreated.length);
+    // console.log(numberOfListCreated);
 }
 
 // storing each completed list in a container

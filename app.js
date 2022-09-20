@@ -108,6 +108,7 @@ function displayTodoList() {
         console.log(numberOfListCreated[0])
         // console.log(numberOfListCreated[0].firstChild.firstChild.nextElementSibling.firstChild.value)
 
+        // saving the value entered in the input field to local storage
         saveTasks(entryFormValue);
         
         let draggables = document.querySelectorAll('.todo-section__list-field-container.draggable');
@@ -144,157 +145,6 @@ function displayTodoList() {
 
     // prevent the list created from disappearing fr om the page
     return false;
-}
-
-function saveTasks(formValue) {
-    let values;
-    if(localStorage.getItem('myTasks') == null) {
-        values = [];
-    } else {
-        values = JSON.parse(localStorage.getItem('myTasks'))
-    }
-
-    values.push(formValue)
-    localStorage.setItem('myTasks', JSON.stringify(values))
-}
-
-function displaySavedTasks() {
-    let values;
-    if(localStorage.getItem('myTasks') == null) {
-        values = [];
-    } else {
-        values = JSON.parse(localStorage.getItem('myTasks'))
-    }
-
-    values.forEach(listValue => {
-        let listFieldContainer = document.createElement('div'); // todo list template container
-        let listField = document.createElement('div');          // todo list template
-        let checkBox = document.createElement('div');           // first child of the template
-        let checkmark = document.createElement('img');          // child of the first child
-        let inputField = document.createElement('div');         // second child of the template
-        let listInput = document.createElement('input');        // child of the second child   
-        let deleteBtn = document.createElement('button');       // third child of the template
-        let deleteIcon = document.createElement('img');         // child of the third child
-
-        // setting attributes to each element
-        listFieldContainer.setAttribute('class', 'todo-section__list-field-container')
-        listFieldContainer.classList.add('draggable');
-        listFieldContainer.setAttribute('draggable', 'true');
-        listField.setAttribute('class', 'list-field');
-        checkBox.setAttribute('class', 'checkbox');
-        checkBox.setAttribute('onclick', 'isChecked(event); isnNotChecked(event)');
-
-        checkmark.setAttribute('src', 'images/icon-check.svg');
-        checkmark.setAttribute('class', 'check-mark');
-
-        inputField.setAttribute('class', 'input-field');
-        listInput.setAttribute('id', 'list-text');
-        listInput.setAttribute('type', 'text');
-        listInput.setAttribute('value', listValue);
-
-        deleteBtn.setAttribute('class', 'delete-btn');
-        deleteBtn.setAttribute('onclick', 'deleteList(event, numberOfListCreated)');
-        deleteIcon.setAttribute('src', 'images/icon-cross.svg');
-
-        // appending child elements to parent elements
-        checkBox.appendChild(checkmark);
-        listField.appendChild(checkBox);
-
-        inputField.appendChild(listInput);
-        listField.appendChild(inputField);
-
-        deleteBtn.appendChild(deleteIcon);
-        listField.appendChild(deleteBtn);
-
-        listFieldContainer.appendChild(listField)
-        // displaying the todo list template on the page
-        todoListContainer.appendChild(listFieldContainer);
-
-        numberOfListCreated.push(listFieldContainer)
-
-        // if(numberOfListCreated.length == 1) {
-        //     listCount.textContent = `${numberOfListCreated.length} item left`
-        // } else {
-        //     listCount.textContent = `${numberOfListCreated.length} items left`
-        // }
-
-    })
-}
-// removes a task from local storage when that task is deleted on the webpage
-function removeSavedTasks(event) {
-    let values;
-    if(localStorage.getItem('myTasks') == null) {
-        values = [];
-    } else {
-        values = JSON.parse(localStorage.getItem('myTasks'))
-    }
-
-    if(values.includes(event.target.parentElement.previousElementSibling.firstChild.value)) {
-        values.splice(values.indexOf(event.target.parentElement.previousElementSibling.firstChild.value), 1)
-    }
-
-    localStorage.setItem('myTasks', JSON.stringify(values))
-}
-
-// saves a task that was checked as complete in local storage
-function saveCheckedTasks(event) {
-    let checkedValues;
-    if(localStorage.getItem('completedTasks') == null) {
-        checkedValues = [];
-    } else {
-        checkedValues = JSON.parse(localStorage.getItem('completedTasks'))
-    }
-
-    
-    if(event.target.classList.contains('checked') && !checkedValues.includes(event.target.nextElementSibling.firstChild.value)) {
-        checkedValues.push(event.target.nextElementSibling.firstChild.value)
-    }
-
-    localStorage.setItem('completedTasks', JSON.stringify(checkedValues))
-}
-
-// displays the completed tasks and the incomplete tasks together when reloaded
-function displayCheckedTasks() {
-    let checkedValues;
-    if(localStorage.getItem('completedTasks') == null) {
-        checkedValues = [];
-    } else {
-        checkedValues = JSON.parse(localStorage.getItem('completedTasks'))
-    }
-
-    let values = JSON.parse(localStorage.getItem('myTasks'))
-    console.log(values);
-    console.log(checkedValues)
-
-
-    numberOfListCreated.some(todoListWrapper => {
-        if(checkedValues.includes(todoListWrapper.firstChild.firstChild.nextElementSibling.firstChild.value)) {
-            todoListWrapper.firstChild.firstChild.classList.add('checked');
-            todoListWrapper.firstChild.firstChild.firstChild.classList.add('checked');
-            todoListWrapper.firstChild.firstChild.nextElementSibling.firstChild.classList.add('strike-through')
-
-            completedTodoLists.push(todoListWrapper)
-        } else {
-            unCompletedTodoLists.push(todoListWrapper)
-        }
-    })
-}
-
-// removes a task which is later unchecked from local storage
-function removeCheckedTasks(event) {
-    let checkedValues;
-    if(localStorage.getItem('completedTasks') == null) {
-        checkedValues = [];
-    } else {
-        checkedValues = JSON.parse(localStorage.getItem('completedTasks'))
-    }
-
-    console.log(event.target)
-    if(checkedValues.includes(event.target.parentElement.nextElementSibling.firstChild.value)) {
-        checkedValues.splice(checkedValues.indexOf(event.target.parentElement.nextElementSibling.firstChild.value), 1)
-    }
-
-    localStorage.setItem('completedTasks', JSON.stringify(checkedValues))
 }
 
 function getDragAfterElement(container, y) {
@@ -583,10 +433,6 @@ function selectAllList() {
     } else {
         listCount.textContent = `${newItemsLeftCount} items left`;
     }
-
-    // console.log(numberOfListCreated);
-    // console.log(completedTodoLists);
-    // console.log(unCompletedTodoLists);
 }
 
 // filtering out and diplaying the lists in Active todo list filter that are unchecked
@@ -626,9 +472,6 @@ function removeCheckedLists(event) {
         // resetting the onclick attribute to call only two functions
         event.target.setAttribute('onclick', 'isChecked(event); isnNotChecked(event)');
     }
-    // console.log(unCompletedTodoLists);
-    // console.log(completedTodoLists);
-    // console.log(numberOfListCreated);
 
     // updating the items left count in Active todo list filter when a task is checked
     if(unCompletedTodoLists.length == 1) {
@@ -650,8 +493,6 @@ function selectCompletedList() {
         // adding a function to the onclick attribute that will remove the unchecked task among the Completed tasks from the page 
         completedTodoLists[i].firstChild.firstChild.setAttribute('onclick', completedTodoLists[i].firstChild.firstChild.getAttribute('onclick') + '; removeUncheckedLists(event)');
     }
-    // console.log(unCompletedTodoLists);
-    // console.log(completedTodoLists);
 
     // displaying the items left count in Completed todo list filter
     if(completedTodoLists.length == 1) {
@@ -681,8 +522,6 @@ function removeUncheckedLists(event) {
         // resetting the onclick attribute to call only two functions
         event.target.parentElement.setAttribute('onclick', 'isChecked(event); isnNotChecked(event)');
     }
-    // console.log(unCompletedTodoLists);
-    // console.log(numberOfListCreated)
     
     // updating the items left count in Completed todo list filter when a task is unchecked
     if(completedTodoLists.length == 1) {
@@ -701,5 +540,178 @@ function itemsLeftCount(count) {
     } else {
         listCount.textContent = `${count} items left`;
     }
+}
+
+function saveTasks(formValue) {
+    // getting the values of todo lists from local storage if they exist
+    let values;
+    if(localStorage.getItem('myTasks') == null) {
+        values = [];
+    } else {
+        values = JSON.parse(localStorage.getItem('myTasks'))
+    }
+
+    // pushes the values entered in the input field to the values array which is stored in local storage
+    values.push(formValue)
+    
+    // updates the local storage to add the new value entered in the input field
+    localStorage.setItem('myTasks', JSON.stringify(values))
+}
+
+/****************** Saving and getting tasks created from the local storage ********************/
+
+function displaySavedTasks() {
+    // getting the values of todo lists from local storage if they exist
+    let values;
+    if(localStorage.getItem('myTasks') == null) {
+        values = [];
+    } else {
+        values = JSON.parse(localStorage.getItem('myTasks'))
+    }
+
+    // creating the todo list template and setting the existing values when the page reloads
+    values.forEach(listValue => {
+        let listFieldContainer = document.createElement('div'); // todo list template container
+        let listField = document.createElement('div');          // todo list template
+        let checkBox = document.createElement('div');           // first child of the template
+        let checkmark = document.createElement('img');          // child of the first child
+        let inputField = document.createElement('div');         // second child of the template
+        let listInput = document.createElement('input');        // child of the second child   
+        let deleteBtn = document.createElement('button');       // third child of the template
+        let deleteIcon = document.createElement('img');         // child of the third child
+
+        // setting attributes to each element
+        listFieldContainer.setAttribute('class', 'todo-section__list-field-container')
+        listFieldContainer.classList.add('draggable');
+        listFieldContainer.setAttribute('draggable', 'true');
+        listField.setAttribute('class', 'list-field');
+        checkBox.setAttribute('class', 'checkbox');
+        checkBox.setAttribute('onclick', 'isChecked(event); isnNotChecked(event)');
+
+        checkmark.setAttribute('src', 'images/icon-check.svg');
+        checkmark.setAttribute('class', 'check-mark');
+
+        inputField.setAttribute('class', 'input-field');
+        listInput.setAttribute('id', 'list-text');
+        listInput.setAttribute('type', 'text');
+        listInput.setAttribute('value', listValue);
+
+        deleteBtn.setAttribute('class', 'delete-btn');
+        deleteBtn.setAttribute('onclick', 'deleteList(event, numberOfListCreated)');
+        deleteIcon.setAttribute('src', 'images/icon-cross.svg');
+
+        // appending child elements to parent elements
+        checkBox.appendChild(checkmark);
+        listField.appendChild(checkBox);
+
+        inputField.appendChild(listInput);
+        listField.appendChild(inputField);
+
+        deleteBtn.appendChild(deleteIcon);
+        listField.appendChild(deleteBtn);
+
+        listFieldContainer.appendChild(listField)
+        // displaying the todo list template on the page
+        todoListContainer.appendChild(listFieldContainer);
+
+        // pushing listFieldContainer to numberOfListCreated
+        numberOfListCreated.push(listFieldContainer)
+    })
+}
+// removes a task from local storage when that task is deleted on the webpage
+function removeSavedTasks(event) {
+    // getting the values of todo lists from local storage if they exist
+    let values;
+    if(localStorage.getItem('myTasks') == null) {
+        values = [];
+    } else {
+        values = JSON.parse(localStorage.getItem('myTasks'))
+    }
+
+    // removes a value from local storage when it is deleted from the webpage
+    if(values.includes(event.target.parentElement.previousElementSibling.firstChild.value)) {
+        values.splice(values.indexOf(event.target.parentElement.previousElementSibling.firstChild.value), 1)
+    }
+
+    // updates the local storage
+    localStorage.setItem('myTasks', JSON.stringify(values))
+}
+
+// saves a task that was checked as complete in local storage
+function saveCheckedTasks(event) {
+    // getting the values of todo lists that are checked from local storage if they exist
+    let checkedValues;
+    if(localStorage.getItem('completedTasks') == null) {
+        checkedValues = [];
+    } else {
+        checkedValues = JSON.parse(localStorage.getItem('completedTasks'))
+    }
+
+    // pushes todo lists that are checked as completed and do not exist in completedTasks in the local storage 
+    if(event.target.classList.contains('checked') && !checkedValues.includes(event.target.nextElementSibling.firstChild.value)) {
+        checkedValues.push(event.target.nextElementSibling.firstChild.value)
+    }
+
+    // updates the local storage
+    localStorage.setItem('completedTasks', JSON.stringify(checkedValues))
+}
+
+// displays the completed tasks and the incomplete tasks together when reloaded
+function displayCheckedTasks() {
+    // getting the values of todo lists that are checked from local storage if they exist
+    let checkedValues;
+    if(localStorage.getItem('completedTasks') == null) {
+        checkedValues = [];
+    } else {
+        checkedValues = JSON.parse(localStorage.getItem('completedTasks'))
+    }
+
+    // container to store tasks that are not checked to use its length as the counter
+    let newCount = [];
+
+    // displaying the tasks that were checked as complete when the page reloads
+    numberOfListCreated.some(todoListWrapper => {
+        if(checkedValues.includes(todoListWrapper.firstChild.firstChild.nextElementSibling.firstChild.value)) {
+            // adds the active state for checked items on the todo lists
+            todoListWrapper.firstChild.firstChild.classList.add('checked');
+            todoListWrapper.firstChild.firstChild.firstChild.classList.add('checked');
+            todoListWrapper.firstChild.firstChild.nextElementSibling.firstChild.classList.add('strike-through')
+
+            // pushes the checked tasks to the completedTodoLists array when page reloads
+            completedTodoLists.push(todoListWrapper)
+        } else {
+            // getting the todo lists that unchecked and storing in a container
+            newCount.push(todoListWrapper.firstChild.firstChild.nextElementSibling.firstChild.value)
+
+            // pushes the unchecked tasks to the unCompletedTodoLists array when page reloads
+            unCompletedTodoLists.push(todoListWrapper)
+        }
+    })
+
+    // sets the items left count when the page reloads
+    if(newCount.length == 1) {
+        listCount.textContent = `${newCount.length} item left` 
+    } else {
+        listCount.textContent = `${newCount.length} item left` 
+    }
+}
+
+// removes a task which is later unchecked from local storage
+function removeCheckedTasks(event) {
+    // getting the values of todo lists that are checked from local storage if they exist
+    let checkedValues;
+    if(localStorage.getItem('completedTasks') == null) {
+        checkedValues = [];
+    } else {
+        checkedValues = JSON.parse(localStorage.getItem('completedTasks'))
+    }
+
+    // removes values which are later unchecked on the webpage from completedTasks in local storage
+    if(checkedValues.includes(event.target.parentElement.nextElementSibling.firstChild.value)) {
+        checkedValues.splice(checkedValues.indexOf(event.target.parentElement.nextElementSibling.firstChild.value), 1)
+    }
+
+    // updates the local storage 
+    localStorage.setItem('completedTasks', JSON.stringify(checkedValues))
 }
 

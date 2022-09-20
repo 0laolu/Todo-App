@@ -319,6 +319,9 @@ function clearCompletedLists() {
     for(let j = 0; j < completedTodoLists.length; j++) {
         completedTodoLists.splice(completedTodoLists[j].firstChild.firstChild);
     }
+
+    
+    removeAllCompletedTasks();
 }
 
 // getting the todo list filter elements from the DOM for desktop view
@@ -692,7 +695,7 @@ function displayCheckedTasks() {
     if(newCount.length == 1) {
         listCount.textContent = `${newCount.length} item left` 
     } else {
-        listCount.textContent = `${newCount.length} item left` 
+        listCount.textContent = `${newCount.length} items left` 
     }
 }
 
@@ -713,5 +716,34 @@ function removeCheckedTasks(event) {
 
     // updates the local storage 
     localStorage.setItem('completedTasks', JSON.stringify(checkedValues))
+}
+
+// removes all tasks that are checked from the local storage when the Clear Completed button is clicked
+function removeAllCompletedTasks() {
+        // getting the values of todo lists that are checked from local storage if they exist
+        let checkedValues;
+        if(localStorage.getItem('completedTasks') == null) {
+            checkedValues = [];
+        } else {
+            checkedValues = JSON.parse(localStorage.getItem('completedTasks'))
+        }
+
+        // gets the values of every task created from the local storage
+        let values = JSON.parse(localStorage.getItem('myTasks'))
+
+        // removes the checked items from myTasks key in local storage
+        for(let i = values.length - 1; i >= 0; i-- ) {
+            if(checkedValues.includes(values[i])) {
+                values.splice(values.indexOf(values[i]), 1)
+            }
+        }
+
+        // sets the completedTasks key in local storage to an empty array
+        checkedValues = [];
+
+        // updates the local storage
+        localStorage.setItem('myTasks', JSON.stringify(values))
+        localStorage.setItem('completedTasks', JSON.stringify(checkedValues))
+
 }
 

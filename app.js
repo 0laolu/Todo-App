@@ -16,7 +16,10 @@ toggleButton.addEventListener('click', function() {
     body.classList.toggle('dark');
 });
 
-document.addEventListener('DOMContentLoaded', displaySavedTasks)
+document.addEventListener('DOMContentLoaded', () => {
+    displaySavedTasks();
+    displayCheckedTasks();
+})
 
 // show error if entry field is empty
 function showError() {
@@ -209,11 +212,11 @@ function displaySavedTasks() {
 
         numberOfListCreated.push(listFieldContainer)
 
-        if(numberOfListCreated.length == 1) {
-            listCount.textContent = `${numberOfListCreated.length} item left`
-        } else {
-            listCount.textContent = `${numberOfListCreated.length} items left`
-        }
+        // if(numberOfListCreated.length == 1) {
+        //     listCount.textContent = `${numberOfListCreated.length} item left`
+        // } else {
+        //     listCount.textContent = `${numberOfListCreated.length} items left`
+        // }
 
     })
 }
@@ -231,6 +234,67 @@ function removeSavedTasks(event) {
     }
 
     localStorage.setItem('myTasks', JSON.stringify(values))
+}
+
+// saves a task that was checked as complete in local storage
+function saveCheckedTasks(event) {
+    let checkedValues;
+    if(localStorage.getItem('completedTasks') == null) {
+        checkedValues = [];
+    } else {
+        checkedValues = JSON.parse(localStorage.getItem('completedTasks'))
+    }
+
+    
+    if(event.target.classList.contains('checked') && !checkedValues.includes(event.target.nextElementSibling.firstChild.value)) {
+        checkedValues.push(event.target.nextElementSibling.firstChild.value)
+    }
+
+    localStorage.setItem('completedTasks', JSON.stringify(checkedValues))
+}
+
+// displays the completed tasks and the incomplete tasks together when reloaded
+function displayCheckedTasks() {
+    let checkedValues;
+    if(localStorage.getItem('completedTasks') == null) {
+        checkedValues = [];
+    } else {
+        checkedValues = JSON.parse(localStorage.getItem('completedTasks'))
+    }
+
+    let values = JSON.parse(localStorage.getItem('myTasks'))
+    console.log(values);
+    console.log(checkedValues)
+
+
+    numberOfListCreated.some(todoListWrapper => {
+        if(checkedValues.includes(todoListWrapper.firstChild.firstChild.nextElementSibling.firstChild.value)) {
+            todoListWrapper.firstChild.firstChild.classList.add('checked');
+            todoListWrapper.firstChild.firstChild.firstChild.classList.add('checked');
+            todoListWrapper.firstChild.firstChild.nextElementSibling.firstChild.classList.add('strike-through')
+
+            completedTodoLists.push(todoListWrapper)
+        } else {
+            unCompletedTodoLists.push(todoListWrapper)
+        }
+    })
+}
+
+// removes a task which is later unchecked from local storage
+function removeCheckedTasks(event) {
+    let checkedValues;
+    if(localStorage.getItem('completedTasks') == null) {
+        checkedValues = [];
+    } else {
+        checkedValues = JSON.parse(localStorage.getItem('completedTasks'))
+    }
+
+    console.log(event.target)
+    if(checkedValues.includes(event.target.parentElement.nextElementSibling.firstChild.value)) {
+        checkedValues.splice(checkedValues.indexOf(event.target.parentElement.nextElementSibling.firstChild.value), 1)
+    }
+
+    localStorage.setItem('completedTasks', JSON.stringify(checkedValues))
 }
 
 function getDragAfterElement(container, y) {
@@ -313,6 +377,8 @@ function isChecked(event) {
         // console.log(numberOfListCreated);
         // console.log(unCompletedTodoLists);
 
+        saveCheckedTasks(event);
+
         let decrementCount = numberOfListCreated.length - completedTodoLists.length;
 
         if(decrementCount == 1) {
@@ -343,6 +409,9 @@ function isChecked(event) {
         // console.log(completedTodoLists);
         // console.log(numberOfListCreated);
         // console.log(unCompletedTodoLists);
+
+        removeCheckedTasks(event);
+
         let incrementCount = numberOfListCreated.length - completedTodoLists.length;
 
         if(incrementCount == 1) {

@@ -16,7 +16,7 @@ toggleButton.addEventListener('click', function() {
     body.classList.toggle('dark');
 });
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', (event) => {
     displaySavedTasks();
     displayCheckedTasks();
 })
@@ -199,10 +199,8 @@ function deleteList(event) {
         }
     }
 
-    removeSavedTasks(event)
-    // console.log(completedTodoLists);
-    // console.log(unCompletedTodoLists);
-    // console.log(numberOfListCreated);
+    removeSavedTasks(event);
+    removeCheckedTasks(event);
 }
 
 // storing each completed list in a container
@@ -709,11 +707,18 @@ function removeCheckedTasks(event) {
         checkedValues = JSON.parse(localStorage.getItem('completedTasks'))
     }
 
+    console.log(event.target)
+
+    console.log(event.target.parentElement.previousElementSibling.firstChild.value)
     // removes values which are later unchecked on the webpage from completedTasks in local storage
-    if(checkedValues.includes(event.target.parentElement.nextElementSibling.firstChild.value)) {
-        checkedValues.splice(checkedValues.indexOf(event.target.parentElement.nextElementSibling.firstChild.value), 1)
+    if(checkedValues.includes(event.target.parentElement.previousElementSibling.firstChild.value)) {
+        checkedValues.splice(checkedValues.indexOf(event.target.parentElement.previousElementSibling.firstChild.value), 1)
     }
 
+    if(checkedValues.includes(event.target.parentElement.previousElementSibling.firstChild.value)) {
+        checkedValues.splice(checkedValues.indexOf(event.target.parentElement.previousElementSibling.firstChild.value), 1)
+    }
+    console.log(checkedValues)
     // updates the local storage 
     localStorage.setItem('completedTasks', JSON.stringify(checkedValues))
 }

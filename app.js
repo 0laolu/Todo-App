@@ -13,12 +13,22 @@ let toggleButton = document.querySelector('.toggle-appearance-btn');
 
 // adding a click event on the toggle button
 toggleButton.addEventListener('click', function() {
+    // setting the theme of the page 
     body.classList.toggle('dark');
+
+    // stores the theme of the page in local storage
+    saveDarkModeToLocalStorage();
 });
 
-document.addEventListener('DOMContentLoaded', (event) => {
+document.addEventListener('DOMContentLoaded', () => {
+    // displays all tasks created when the page reloads
     displaySavedTasks();
+
+    // displays all tasks including completed tasks when the page reloads
     displayCheckedTasks();
+
+    // displays the webpage in dark mode if it was set to dark mode before it reloaded
+    displayInDarkMode();
 })
 
 // show error if entry field is empty
@@ -164,8 +174,6 @@ function getDragAfterElement(container, y) {
 
 // removing a todo list from the page
 function deleteList(event) {
-    // console.log(numberOfListCreated)
-    // console.log(numberOfListCreated[0])
 
     event.target.parentElement.parentElement.parentElement.remove();
 
@@ -254,9 +262,6 @@ function isChecked(event) {
                 completedTodoLists.splice(completedTodoLists.indexOf(event.target.parentElement.parentElement.parentElement), 1);
             }
         }
-        // console.log(completedTodoLists);
-        // console.log(numberOfListCreated);
-        // console.log(unCompletedTodoLists);
 
         removeCheckedTasks(event);
 
@@ -559,7 +564,30 @@ function saveTasks(formValue) {
     localStorage.setItem('myTasks', JSON.stringify(values))
 }
 
+
 /****************** Saving and getting tasks created from the local storage ********************/
+
+
+// creates a key in local storage to store the state of the page theme
+function saveDarkModeToLocalStorage() {
+    // gets the pageTheme key from local storage if it exists
+    let theme = localStorage.getItem('pageTheme')
+    if(theme == null) {
+        localStorage.setItem('pageTheme', 'dark')
+    } else {
+        localStorage.removeItem('pageTheme')
+    }
+}
+
+// displays the webpage in dark mode when it reloads
+function displayInDarkMode() {
+    let theme = localStorage.getItem('pageTheme')
+    if(theme == 'dark') {
+        body.classList.add('dark')
+    } else {
+        body.classList.remove('dark');
+    }
+}
 
 function displaySavedTasks() {
     // getting the values of todo lists from local storage if they exist

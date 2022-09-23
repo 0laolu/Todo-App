@@ -16,7 +16,7 @@ body {
     --toggle-button-icon: url('images/icon-moon.svg');
     --toggle-button-width: 20px;
     --toggle-button-height: 1rem;
-    --page-background-color: hsl(0, 0%, 98%);
+    /* --page-background-color: hsl(0, 0%, 98%); */
     --todo-list-bg-color: white;
     --todo-section-entry-field-border: white;
     --todo-section-input-bg-color: white;
@@ -29,6 +29,7 @@ body {
     --todo-list-status-text-color: hsl(236, 9%, 70%);
     --drag-n-drop-text-color: hsl(236, 9%, 61%);
 
+    transition: 1s;
     background-color: var(--page-background-color);
     height: 100vh;
 }
@@ -39,7 +40,7 @@ body.dark {
     --toggle-button-icon: url('images/icon-sun.svg');
     --toggle-button-width: 35px;
     --toggle-button-height: 1.1rem;
-    --page-background-color: hsl(235, 21%, 11%);
+    /* --page-background-color: hsl(235, 21%, 11%); */
     --todo-list-bg-color: hsl(235, 24%, 19%);
     --todo-section-entry-field-border: hsl(235, 24%, 19%);
     --todo-section-input-bg-color: hsl(235, 24%, 19%);
@@ -51,6 +52,10 @@ body.dark {
     --todo-list-dragging-active: transparent;
     --todo-list-status-text-color: hsl(233, 16%, 49%);
     --drag-n-drop-text-color: hsl(233, 14%, 35%);
+
+    
+    background-color: hsl(235, 21%, 11%);
+
 }
 
 /* General Styling */
@@ -60,12 +65,14 @@ body.dark {
     background-size: cover;
     width: 100%;  
     padding: 12rem 0;
+    transition: background-image 1s;
 }
 
 .content-section {
     background-color: var(--page-background-color);
     height: 100vh;
     position: relative;
+    transition: 1s;
 }
 
 /* Todo Section */
@@ -110,6 +117,7 @@ body.dark {
     width: 30px;
     padding: 1rem;
     cursor: pointer;    
+    transition: 1s;
 }
 
 /* Todo Section Entry */
@@ -119,6 +127,7 @@ body.dark {
     background-color: var(--todo-list-bg-color);    
     border-radius: 8px;
     margin-bottom: 1.5rem;
+    transition: 1s;
 }
 
 .todo-section__entry.error {
@@ -162,6 +171,7 @@ body.dark {
     border: 1px solid var(--border-color);
     border-radius: 100%;    
     cursor: pointer;    
+    transition: 1s;
 }
 
 .entry-field .checkbox.hide {
@@ -197,6 +207,7 @@ body.dark {
     top: 0.1rem;
     border: none;
     outline: none;  
+    transition: color 1s;
 }
 
 ::placeholder {
@@ -214,9 +225,11 @@ input#entry-text.error::-webkit-input-placeholder {
     background-color: var(--todo-list-bg-color);   
     border-bottom: none;
     border-radius: 8px 8px 0 0;
+    transition: background-color 1s;
 }
 
 .todo-section__list-field-container {
+    outline: none;
     width: 100%;
 }
 
@@ -250,6 +263,8 @@ input#entry-text.error::-webkit-input-placeholder {
     border-top: 1px solid var(--border-color);
     cursor: grab;
     z-index: 100;
+    transition: border-top 1s;
+    outline: none;
 }
 
 .list-field .checkbox {
@@ -265,6 +280,7 @@ input#entry-text.error::-webkit-input-placeholder {
     justify-content: center;
     position: relative;
     z-index: -100;
+    transition: background-image 1s;
 }
 
 .list-field .checkbox.checked {
@@ -310,6 +326,7 @@ input#entry-text.error::-webkit-input-placeholder {
     border-radius: 0 0 8px 8px;
     box-shadow: 0 2rem 2rem 0 var(--box-shadow);
     margin-top: 0.02rem;
+    transition: 1s;
 }
 
 .status-wrapper {
@@ -322,6 +339,7 @@ input#entry-text.error::-webkit-input-placeholder {
 .status-wrapper p { 
     color: var(--todo-list-status-text-color);
     cursor: pointer;    
+    transition: color 1s;
 }
 
 p.todo-count {
@@ -435,6 +453,7 @@ p.todo-count {
     .todo-section__status {
         border: none;
         border-top: 1px solid var(--border-color);
+        transition: 1s;
     }
 
     .status-wrapper {
@@ -454,6 +473,7 @@ p.todo-count {
         margin: 3rem 0;
         border-radius: 8px;
         box-shadow: 0 1rem 2rem 0 var(--box-shadow);
+        transition: 1s;
     }
 
     .mobile-list-preference .content-wrapper {
@@ -469,6 +489,7 @@ p.todo-count {
         color: var(--todo-list-status-text-color);
         font-size: 1.1rem;
         font-weight: 700;
+        transition: color 1s;
     }
 
     .mobile-list-preference p.active-state {

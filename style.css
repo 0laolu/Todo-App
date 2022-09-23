@@ -38,8 +38,8 @@ body.dark {
     --background-image: url('images/bg-desktop-dark.jpg');
     --mobile-background-image: url('images/bg-mobile-dark.jpg');
     --toggle-button-icon: url('images/icon-sun.svg');
-    --toggle-button-width: 35px;
-    --toggle-button-height: 1.1rem;
+    --toggle-button-width: 20px;
+    --toggle-button-height: 1rem;
     /* --page-background-color: hsl(235, 21%, 11%); */
     --todo-list-bg-color: hsl(235, 24%, 19%);
     --todo-section-entry-field-border: hsl(235, 24%, 19%);
@@ -114,10 +114,9 @@ body.dark {
     background-image: var(--toggle-button-icon);
     background-size: cover;
     text-align: end;
-    width: 30px;
+    /* width: 30px; */
     padding: 1rem;
-    cursor: pointer;    
-    transition: 1s;
+    cursor: pointer;  
 }
 
 /* Todo Section Entry */
@@ -511,8 +510,8 @@ p.todo-count {
     }
 
     .toggle-appearance-btn {
-        width: 25px;
-        padding: 0.8rem;
+        width: var(--toggle-button-width);
+        height: var(--toggle-button-height);
     }
 
     .checkbox img.check-mark {
@@ -586,12 +585,12 @@ p.todo-count {
     }
 
     .todo-section__header h4 {
-        font-size: 2.2rem;
+        font-size: 2.2rem; 
     }
 
     .toggle-appearance-btn {
         width: var(--toggle-button-width);
-        padding: var(--toggle-button-height);
+        height: var(--toggle-button-height);
     }
 
     /* Todo Entry */

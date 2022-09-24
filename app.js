@@ -358,11 +358,35 @@ desktopListPreference.forEach(listPreference => {
     })
 });
 
+// setting the initial filter states to falsy values
+let allTasksFilter = false;
+let activeTasksFilter = false;
+let completedTasksFilter = false;
+
 // adding the blue colour to the All todo list filter in desktop view
 function invokeAllList() {
     allList.classList.add('active-state');
     activeList.classList.remove('active-state');
     completedList.classList.remove('active-state');
+
+    // setting the all filter to true in the All task function
+    allTasksFilter = true;
+    activeTasksFilter = false;
+    completedTasksFilter = false;
+    
+    // getting the clear completed element from the DOM
+    let clearCompletedBtn = document.querySelector('.clear-completed-btn p');
+    
+    // setting the items left count when the clear completed button is clicked
+    if(allTasksFilter == true && activeTasksFilter == false && completedTasksFilter == false) {
+        clearCompletedBtn.addEventListener('click', function() {
+            if(unCompletedTodoLists.length == 1) {
+                listCount.textContent = `${unCompletedTodoLists.length} item left`;
+            } else {
+                listCount.textContent = `${unCompletedTodoLists.length} items left`;
+            }
+        })
+    }
 }
 
 // calling the function to add the blue color to the All todo list filter when the page loads
@@ -373,6 +397,11 @@ function invokeActiveList() {
     allList.classList.remove('active-state');
     activeList.classList.add('active-state');
     completedList.classList.remove('active-state');
+
+    // setting the active filter to true in the Active task function
+    allTasksFilter = false;
+    activeTasksFilter = true;
+    completedTasksFilter = false;
 }
 
 // adding the blue colour to the Completed todo list filter in desktop view
@@ -380,6 +409,21 @@ function invokeCompletedList() {
     allList.classList.remove('active-state');
     activeList.classList.remove('active-state');
     completedList.classList.add('active-state');
+
+    // setting the completed filter to true in the Completed task function
+    allTasksFilter = false;
+    activeTasksFilter = false;
+    completedTasksFilter = true;
+
+    // getting the clear completed element from the DOM 
+    let clearCompletedBtn = document.querySelector('.clear-completed-btn p');
+
+    // setting the items left count when the clear completed button is clicked
+    if(allTasksFilter == false && activeTasksFilter == false && completedTasksFilter == true) {
+        clearCompletedBtn.addEventListener('click', function() {
+            listCount.textContent = `0 items left`;
+        })
+    } 
 } 
 
 // Looping through the todo list filters and call a function when any of them is clicked in mobile and tablet view
@@ -405,6 +449,26 @@ function invokeAllMobileList() {
     allMobileList.classList.add('active-state');
     activeMobileList.classList.remove('active-state');
     completedMobileList.classList.remove('active-state');
+
+    // setting the all filter to true in the All task function
+    allTasksFilter = true;
+    activeTasksFilter = false;
+    completedTasksFilter = false;
+
+    // getting the clear completed element from the DOM
+    let clearCompletedBtn = document.querySelector('.clear-completed-btn p');
+    
+    // setting the items left count when the clear completed button is clicked
+    if(allTasksFilter == true && activeTasksFilter == false && completedTasksFilter == false) {
+        console.log('ALL task filter is on while both ACTIVE and COMPLETED task filters are off');
+        clearCompletedBtn.addEventListener('click', function() {
+            if(unCompletedTodoLists.length == 1) {
+                listCount.textContent = `${unCompletedTodoLists.length} item left`;
+            } else {
+                listCount.textContent = `${unCompletedTodoLists.length} items left`;
+            }
+        })
+    }
 }
 
 // calling the function to add the blue color to the All todo list filter when the page loads
@@ -415,6 +479,11 @@ function invokeActiveMobileList() {
     allMobileList.classList.remove('active-state');
     activeMobileList.classList.add('active-state');
     completedMobileList.classList.remove('active-state');
+
+    // setting the active filter to true in the Active task function
+    allTasksFilter = false;
+    activeTasksFilter = true;
+    completedTasksFilter = false;
 }
 
 // adding the blue colour to the Completed todo list filter in mobile and tablet view
@@ -422,6 +491,21 @@ function invokeCompletedMobileList() {
     allMobileList.classList.remove('active-state');
     activeMobileList.classList.remove('active-state');
     completedMobileList.classList.add('active-state');
+
+    // setting the completed filter to true in the Completed task function
+    allTasksFilter = false;
+    activeTasksFilter = false;
+    completedTasksFilter = true;
+
+    // getting the clear completed element from the DOM 
+    let clearCompletedBtn = document.querySelector('.clear-completed-btn p');
+
+    // setting the items left count when the clear completed button is clicked
+    if(allTasksFilter == false && activeTasksFilter == false && completedTasksFilter == true) {
+        clearCompletedBtn.addEventListener('click', function() {
+            listCount.textContent = `0 items left`;
+        })
+    } 
 }
 
 // displaying every list created when the All button is clicked
@@ -508,10 +592,10 @@ function selectCompletedList() {
     }
 
     // sets the items left count to 0 items when Clear Completed button is clicked in Complated tasks filter
-    let clearCompletedBtn = document.querySelector('.clear-completed-btn p');
-    clearCompletedBtn.addEventListener('click', function() {
-        listCount.textContent = `0 items left`;
-    })
+    // let clearCompletedBtn = document.querySelector('.clear-completed-btn p');
+    // clearCompletedBtn.addEventListener('click', function() {
+    //     listCount.textContent = `0 items left`;
+    // })
 }
 
 // removing any UNCHECKED tasks displayed on the webpage from Completed todo list filter

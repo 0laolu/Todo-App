@@ -116,7 +116,8 @@ body.dark {
     text-align: end;
     /* width: 30px; */
     padding: 1rem;
-    cursor: pointer;  
+    cursor: pointer; 
+    caret-color: transparent; 
 }
 
 /* Todo Section Entry */
@@ -339,6 +340,7 @@ input#entry-text.error::-webkit-input-placeholder {
     color: var(--todo-list-status-text-color);
     cursor: pointer;    
     transition: color 0.3s;
+    caret-color: transparent;
 }
 
 p.todo-count {
@@ -501,6 +503,10 @@ p.todo-count {
 
     .mobile-list-preference p.active-state {
         color: hsl(220, 98%, 61%);
+    }
+
+    .clear-completed-btn p:hover {
+        color: var(--todo-list-status-text-color);
     }
 
     .todo-section .side-info {

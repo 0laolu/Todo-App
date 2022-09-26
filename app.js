@@ -115,8 +115,7 @@ function displayTodoList() {
 
         // pushing the list created to number of Todo list array
         numberOfListCreated.push(listFieldContainer);
-        console.log(numberOfListCreated[0])
-        // console.log(numberOfListCreated[0].firstChild.firstChild.nextElementSibling.firstChild.value)
+        console.log(numberOfListCreated);
 
         // saving the value entered in the input field to local storage
         saveTasks(entryFormValue);
@@ -207,8 +206,11 @@ function deleteList(event) {
         }
     }
 
+    // calls the function that removes a deleted task from the webpage
     removeSavedTasks(event);
-    removeCheckedTasks(event);
+
+    // calls the function that removes a deleted task that was checked from the webpages
+    removeCheckedAndDeletedTasks(event);
 }
 
 // storing each completed list in a container
@@ -229,9 +231,6 @@ function isChecked(event) {
         event.target.nextElementSibling.firstChild.classList.add('strike-through');
 
         completedTodoLists.push(event.target.parentElement.parentElement);
-        // console.log(completedTodoLists);
-        // console.log(numberOfListCreated);
-        // console.log(unCompletedTodoLists);
 
         saveCheckedTasks(event);
 
@@ -263,7 +262,7 @@ function isChecked(event) {
             }
         }
 
-        removeCheckedTasks(event);
+        removeCheckedTasksOnly(event);
 
         let incrementCount = numberOfListCreated.length - completedTodoLists.length;
 
@@ -318,6 +317,12 @@ function clearCompletedLists() {
         }
     }
 
+    if(unCompletedTodoLists.length == 1) {
+        listCount.textContent = `${unCompletedTodoLists.length} item left`;
+    } else {
+        listCount.textContent = `${unCompletedTodoLists.length} items left`;
+    }
+
     // loops through CompletedTodoLists to remove checked items so when the Completed button is clicked, it doesn't display the checked items
     for(let j = 0; j < completedTodoLists.length; j++) {
         completedTodoLists.splice(completedTodoLists[j].firstChild.firstChild);
@@ -348,10 +353,10 @@ desktopListPreference.forEach(listPreference => {
             selectAllList();
         } else if (listPreference.classList.contains('active')) {
             invokeActiveList();
-            selectActiveList();
+            // selectActiveList();
         } else if (listPreference.classList.contains('completed')) {
             invokeCompletedList();
-            selectCompletedList();
+            // selectCompletedList();
         } else {
             return;
         }
@@ -386,6 +391,18 @@ function invokeAllList() {
                 listCount.textContent = `${unCompletedTodoLists.length} items left`;
             }
         })
+
+        // getting the delete button element from the DOM
+        let deletButtons = document.querySelectorAll('.delete-btn img')
+        deletButtons.forEach(deleteButton => {
+            deleteButton.addEventListener('click', function() {
+                if(unCompletedTodoLists.length == 1) {
+                    listCount.textContent = `${unCompletedTodoLists.length} item left`
+                } else {
+                    listCount.textContent = `${unCompletedTodoLists.length} items left`
+                }
+            })
+        })
     }
 }
 
@@ -398,10 +415,44 @@ function invokeActiveList() {
     activeList.classList.add('active-state');
     completedList.classList.remove('active-state');
 
+    // removing any todo list that was dsiplayed on the webpage
+    while(todoListContainer.hasChildNodes()) {
+        todoListContainer.removeChild(todoListContainer.firstChild);
+    }
+
+    // displaying the Active tasks on the webpage
+    for(let i = 0; i < unCompletedTodoLists.length; i++) {
+        todoListContainer.appendChild(unCompletedTodoLists[i]);
+
+        // adding a function to the onclick attribute that will remove the checked tasks among the Active tasks from the page
+        unCompletedTodoLists[i].firstChild.firstChild.setAttribute('onclick', unCompletedTodoLists[i].firstChild.firstChild.getAttribute('onclick') + '; removeCheckedLists(event)')
+    }
+
+    // displaying the items left count in Completed todo list filter
+    if(unCompletedTodoLists.length == 1) {
+        listCount.textContent = `${unCompletedTodoLists.length} item left`;
+    } else {
+        listCount.textContent = `${unCompletedTodoLists.length} items left`;
+    }
+
     // setting the active filter to true in the Active task function
     allTasksFilter = false;
     activeTasksFilter = true;
     completedTasksFilter = false;
+
+    // getting the clear completed element from the DOM
+    let clearCompletedBtn = document.querySelector('.clear-completed-btn p');
+
+    // setting the items left count when the clear completed button is clicked
+    if(allTasksFilter == false && activeTasksFilter == true && completedTasksFilter == false) {
+        clearCompletedBtn.addEventListener('click', function() {
+            if(unCompletedTodoLists.length == 1) {
+                listCount.textContent = `${unCompletedTodoLists.length} item left`;
+            } else {
+                listCount.textContent = `${unCompletedTodoLists.length} items left`;
+            }
+        })
+    }
 }
 
 // adding the blue colour to the Completed todo list filter in desktop view
@@ -409,6 +460,24 @@ function invokeCompletedList() {
     allList.classList.remove('active-state');
     activeList.classList.remove('active-state');
     completedList.classList.add('active-state');
+
+    while(todoListContainer.hasChildNodes()) {
+        todoListContainer.removeChild(todoListContainer.firstChild)
+    }
+
+    for(let i = 0; i < completedTodoLists.length; i++) {
+        todoListContainer.appendChild(completedTodoLists[i]);
+
+        // adding a function to the onclick attribute that will remove the unchecked task among the Completed tasks from the page 
+        completedTodoLists[i].firstChild.firstChild.setAttribute('onclick', completedTodoLists[i].firstChild.firstChild.getAttribute('onclick') + '; removeUncheckedLists(event)');
+    }
+
+    // displaying the items left count in Completed todo list filter
+    if(completedTodoLists.length == 1) {
+        listCount.textContent = `${completedTodoLists.length} item left`;
+    } else { 
+        listCount.textContent = `${completedTodoLists.length} items left`;
+    }
 
     // setting the completed filter to true in the Completed task function
     allTasksFilter = false;
@@ -423,21 +492,35 @@ function invokeCompletedList() {
         clearCompletedBtn.addEventListener('click', function() {
             listCount.textContent = `0 items left`;
         })
+        
+        // getting the delete button element from the DOM
+        let deletButtons = document.querySelectorAll('.delete-btn img')
+        let newCount;
+        deletButtons.forEach(deleteButton => {
+            deleteButton.addEventListener('click', function() {
+                newCount = completedTodoLists.length - 1
+                if(newCount == 1) {
+                    listCount.textContent = `${newCount} item left`
+                } else {
+                    listCount.textContent = `${newCount} items left`
+                }
+            })
+        })
     } 
 } 
 
 // Looping through the todo list filters and call a function when any of them is clicked in mobile and tablet view
 mobileListPreference.forEach(listPreference => {
-    listPreference.addEventListener('click', function() {
+    listPreference.addEventListener('click', function(event) {
         if(listPreference.classList.contains('all')) {
             invokeAllMobileList();
             selectAllList();
         } else if (listPreference.classList.contains('active')) {
             invokeActiveMobileList();
-            selectActiveList();
+            // selectActiveList();
         } else if (listPreference.classList.contains('completed')) {
-            invokeCompletedMobileList();
-            selectCompletedList();
+            invokeCompletedMobileList(event);
+            // selectCompletedList();
         } else {
             return;
         }
@@ -460,7 +543,82 @@ function invokeAllMobileList() {
     
     // setting the items left count when the clear completed button is clicked
     if(allTasksFilter == true && activeTasksFilter == false && completedTasksFilter == false) {
-        console.log('ALL task filter is on while both ACTIVE and COMPLETED task filters are off');
+        clearCompletedBtn.addEventListener('click', function() {
+            if(unCompletedTodoLists.length == 1) {
+                listCount.textContent = `${unCompletedTodoLists.length} item left`;
+            } else {
+                listCount.textContent = `${unCompletedTodoLists.length} items left`;
+            }
+        })
+
+        // getting the delete button element from the DOM
+        let deletButtons = document.querySelectorAll('.delete-btn img')
+        deletButtons.forEach(deleteButton => {
+            deleteButton.addEventListener('click', function() {
+                if(unCompletedTodoLists.length == 1) {
+                    listCount.textContent = `${unCompletedTodoLists.length} item left`
+                } else {
+                    listCount.textContent = `${unCompletedTodoLists.length} items left`
+                }
+            })
+        })
+    }
+}
+
+// calling the function to add the blue color to the All todo list filter when the page loads
+invokeAllMobileList();
+
+// displaying every list created when the All button is clicked
+function selectAllList() {
+    for(let i = 0; i < numberOfListCreated.length; i++) {
+        numberOfListCreated[i].firstChild.firstChild.setAttribute('onclick', 'isChecked(event); isnNotChecked(event)');
+    }
+    todoListContainer.replaceChildren(...numberOfListCreated);
+
+    // displaying the items left count in All todo list filter
+    if(unCompletedTodoLists.length == 1) {
+        listCount.textContent = `${unCompletedTodoLists.length} item left`;
+    } else {
+        listCount.textContent = `${unCompletedTodoLists.length} items left`;
+    }
+}
+
+// adding the blue colour to the Active todo list filter in mobile and tablet view
+function invokeActiveMobileList() {
+    allMobileList.classList.remove('active-state');
+    activeMobileList.classList.add('active-state');
+    completedMobileList.classList.remove('active-state');
+
+    // removing any todo list that was dsiplayed on the webpage
+    while(todoListContainer.hasChildNodes()) {
+        todoListContainer.removeChild(todoListContainer.firstChild);
+    }
+
+    // displaying the Active tasks on the webpage
+    for(let i = 0; i < unCompletedTodoLists.length; i++) {
+        todoListContainer.appendChild(unCompletedTodoLists[i]);
+
+        // adding a function to the onclick attribute that will remove the checked tasks among the Active tasks from the page
+        unCompletedTodoLists[i].firstChild.firstChild.setAttribute('onclick', unCompletedTodoLists[i].firstChild.firstChild.getAttribute('onclick') + '; removeCheckedLists(event)')
+    }
+
+    // displaying the items left count in Completed todo list filter
+    if(unCompletedTodoLists.length == 1) {
+        listCount.textContent = `${unCompletedTodoLists.length} item left`;
+    } else {
+        listCount.textContent = `${unCompletedTodoLists.length} items left`;
+    }
+
+    // setting the active filter to true in the Active task function
+    allTasksFilter = false;
+    activeTasksFilter = true;
+    completedTasksFilter = false;
+
+    // getting the clear completed element from the DOM
+    let clearCompletedBtn = document.querySelector('.clear-completed-btn p');
+
+    // setting the items left count when the clear completed button is clicked
+    if(allTasksFilter == false && activeTasksFilter == true && completedTasksFilter == false) {
         clearCompletedBtn.addEventListener('click', function() {
             if(unCompletedTodoLists.length == 1) {
                 listCount.textContent = `${unCompletedTodoLists.length} item left`;
@@ -471,26 +629,29 @@ function invokeAllMobileList() {
     }
 }
 
-// calling the function to add the blue color to the All todo list filter when the page loads
-invokeAllMobileList();
-
-// adding the blue colour to the Active todo list filter in mobile and tablet view
-function invokeActiveMobileList() {
-    allMobileList.classList.remove('active-state');
-    activeMobileList.classList.add('active-state');
-    completedMobileList.classList.remove('active-state');
-
-    // setting the active filter to true in the Active task function
-    allTasksFilter = false;
-    activeTasksFilter = true;
-    completedTasksFilter = false;
-}
-
 // adding the blue colour to the Completed todo list filter in mobile and tablet view
-function invokeCompletedMobileList() {
+function invokeCompletedMobileList(event) {
     allMobileList.classList.remove('active-state');
     activeMobileList.classList.remove('active-state');
     completedMobileList.classList.add('active-state');
+
+    while(todoListContainer.hasChildNodes()) {
+        todoListContainer.removeChild(todoListContainer.firstChild)
+    }
+
+    for(let i = 0; i < completedTodoLists.length; i++) {
+        todoListContainer.appendChild(completedTodoLists[i]);
+
+        // adding a function to the onclick attribute that will remove the unchecked task among the Completed tasks from the page 
+        completedTodoLists[i].firstChild.firstChild.setAttribute('onclick', completedTodoLists[i].firstChild.firstChild.getAttribute('onclick') + '; removeUncheckedLists(event)');
+    }
+
+    // displaying the items left count in Completed todo list filter
+    if(completedTodoLists.length == 1) {
+        listCount.textContent = `${completedTodoLists.length} item left`;
+    } else { 
+        listCount.textContent = `${completedTodoLists.length} items left`;
+    }
 
     // setting the completed filter to true in the Completed task function
     allTasksFilter = false;
@@ -505,48 +666,21 @@ function invokeCompletedMobileList() {
         clearCompletedBtn.addEventListener('click', function() {
             listCount.textContent = `0 items left`;
         })
+
+        // getting the delete button element from the DOM
+        let deletButtons = document.querySelectorAll('.delete-btn img')
+        let newCount;
+        deletButtons.forEach(deleteButton => {
+            deleteButton.addEventListener('click', function() {
+                newCount = completedTodoLists.length - 1
+                if(newCount == 1) {
+                    listCount.textContent = `${newCount} item left`
+                } else {
+                    listCount.textContent = `${newCount} items left`
+                }
+            })
+        })
     } 
-}
-
-// displaying every list created when the All button is clicked
-function selectAllList() {
-    for(let i = 0; i < numberOfListCreated.length; i++) {
-        numberOfListCreated[i].firstChild.firstChild.setAttribute('onclick', 'isChecked(event); isnNotChecked(event)');
-    }
-    todoListContainer.replaceChildren(...numberOfListCreated);
-
-    // displaying the items left count in All todo list filter
-    let newItemsLeftCount = numberOfListCreated.length - completedTodoLists.length;
-
-    if(newItemsLeftCount == 1) {
-        listCount.textContent = `${newItemsLeftCount} item left`;
-    } else {
-        listCount.textContent = `${newItemsLeftCount} items left`;
-    }
-}
-
-// filtering out and diplaying the lists in Active todo list filter that are unchecked
-function selectActiveList() {
-    // removing any todo list that was dsiplayed on the webpage
-    while(todoListContainer.hasChildNodes()) {
-        todoListContainer.removeChild(todoListContainer.firstChild);
-    }
-
-    // displaying the Active tasks on the webpage
-    for(let i = 0; i < unCompletedTodoLists.length; i++) {
-        todoListContainer.appendChild(unCompletedTodoLists[i]);
-
-        // adding a function to the onclick attribute that will remove the checked tasks among the Active tasks from the page
-        unCompletedTodoLists[i].firstChild.firstChild.setAttribute('onclick', unCompletedTodoLists[i].firstChild.firstChild.getAttribute('onclick') + '; removeCheckedLists(event)')
-    }
-    // console.log(unCompletedTodoLists)
-
-    // displaying the items left count in Completed todo list filter
-    if(unCompletedTodoLists.length == 1) {
-        listCount.textContent = `${unCompletedTodoLists.length} item left`;
-    } else {
-        listCount.textContent = `${unCompletedTodoLists.length} items left`;
-    }
 }
 
 // removing any CHECKED tasks displayed on the webpage from Active todo list filter 
@@ -571,36 +705,8 @@ function removeCheckedLists(event) {
     }
 }
 
-// filtering out and displaying the lists that are checked and completed
-function selectCompletedList() {
-    while(todoListContainer.hasChildNodes()) {
-        todoListContainer.removeChild(todoListContainer.firstChild)
-    }
-
-    for(let i = 0; i < completedTodoLists.length; i++) {
-        todoListContainer.appendChild(completedTodoLists[i]);
-
-        // adding a function to the onclick attribute that will remove the unchecked task among the Completed tasks from the page 
-        completedTodoLists[i].firstChild.firstChild.setAttribute('onclick', completedTodoLists[i].firstChild.firstChild.getAttribute('onclick') + '; removeUncheckedLists(event)');
-    }
-
-    // displaying the items left count in Completed todo list filter
-    if(completedTodoLists.length == 1) {
-        listCount.textContent = `${completedTodoLists.length} item left`;
-    } else { 
-        listCount.textContent = `${completedTodoLists.length} items left`;
-    }
-
-    // sets the items left count to 0 items when Clear Completed button is clicked in Complated tasks filter
-    // let clearCompletedBtn = document.querySelector('.clear-completed-btn p');
-    // clearCompletedBtn.addEventListener('click', function() {
-    //     listCount.textContent = `0 items left`;
-    // })
-}
-
 // removing any UNCHECKED tasks displayed on the webpage from Completed todo list filter
 function removeUncheckedLists(event) {
-    console.log(event.target)
     // A condition that instantly removes a task from Completed tasks if a task was unchecked
     if(!event.target.parentElement.classList.contains('checked')) {
         // removing the onclick attribute from checkbox
@@ -632,6 +738,8 @@ function itemsLeftCount(count) {
     }
 }
 
+/****************** Saving and getting tasks created from the local storage ********************/
+
 function saveTasks(formValue) {
     // getting the values of todo lists from local storage if they exist
     let values;
@@ -647,9 +755,6 @@ function saveTasks(formValue) {
     // updates the local storage to add the new value entered in the input field
     localStorage.setItem('myTasks', JSON.stringify(values))
 }
-
-
-/****************** Saving and getting tasks created from the local storage ********************/
 
 
 // creates a key in local storage to store the state of the page theme
@@ -810,7 +915,7 @@ function displayCheckedTasks() {
 }
 
 // removes a task which is later unchecked from local storage
-function removeCheckedTasks(event) {
+function removeCheckedTasksOnly(event) {
     // getting the values of todo lists that are checked from local storage if they exist
     let checkedValues;
     if(localStorage.getItem('completedTasks') == null) {
@@ -819,48 +924,59 @@ function removeCheckedTasks(event) {
         checkedValues = JSON.parse(localStorage.getItem('completedTasks'))
     }
 
-    console.log(event.target)
+    // checks if the value of the unchecked task exists in local storage and removes it if true
+    if(checkedValues.includes(event.target.parentElement.nextElementSibling.firstChild.value)) {
+        checkedValues.splice(checkedValues.indexOf(event.target.parentElement.nextElementSibling.firstChild.value), 1)
+    }
 
-    console.log(event.target.parentElement.previousElementSibling.firstChild.value)
-    // removes values which are later unchecked on the webpage from completedTasks in local storage
+    // updates the local storage 
+    localStorage.setItem('completedTasks', JSON.stringify(checkedValues))
+}
+
+// removes a checked task which is deleted on the webpage from local storage
+function removeCheckedAndDeletedTasks(event) {
+    // getting the values of todo lists that are checked from local storage if they exist
+    let checkedValues;
+    if(localStorage.getItem('completedTasks') == null) {
+        checkedValues = [];
+    } else {
+        checkedValues = JSON.parse(localStorage.getItem('completedTasks'))
+    }
+
+    // checks if the value of the deleted task exists in local storage and removes it if true
     if(checkedValues.includes(event.target.parentElement.previousElementSibling.firstChild.value)) {
         checkedValues.splice(checkedValues.indexOf(event.target.parentElement.previousElementSibling.firstChild.value), 1)
     }
 
-    if(checkedValues.includes(event.target.parentElement.previousElementSibling.firstChild.value)) {
-        checkedValues.splice(checkedValues.indexOf(event.target.parentElement.previousElementSibling.firstChild.value), 1)
-    }
-    console.log(checkedValues)
     // updates the local storage 
     localStorage.setItem('completedTasks', JSON.stringify(checkedValues))
 }
 
 // removes all tasks that are checked from the local storage when the Clear Completed button is clicked
 function removeAllCompletedTasks() {
-        // getting the values of todo lists that are checked from local storage if they exist
-        let checkedValues;
-        if(localStorage.getItem('completedTasks') == null) {
-            checkedValues = [];
-        } else {
-            checkedValues = JSON.parse(localStorage.getItem('completedTasks'))
-        }
-
-        // gets the values of every task created from the local storage
-        let values = JSON.parse(localStorage.getItem('myTasks'))
-
-        // removes the checked items from myTasks key in local storage
-        for(let i = values.length - 1; i >= 0; i-- ) {
-            if(checkedValues.includes(values[i])) {
-                values.splice(values.indexOf(values[i]), 1)
-            }
-        }
-
-        // sets the completedTasks key in local storage to an empty array
+    // getting the values of todo lists that are checked from local storage if they exist
+    let checkedValues;
+    if(localStorage.getItem('completedTasks') == null) {
         checkedValues = [];
+    } else {
+        checkedValues = JSON.parse(localStorage.getItem('completedTasks'))
+    }
 
-        // updates the local storage
-        localStorage.setItem('myTasks', JSON.stringify(values))
-        localStorage.setItem('completedTasks', JSON.stringify(checkedValues))
+    // gets the values of every task created from the local storage
+    let values = JSON.parse(localStorage.getItem('myTasks'))
 
+    // removes the checked items from myTasks key in local storage
+    for(let i = values.length - 1; i >= 0; i-- ) {
+        if(checkedValues.includes(values[i])) {
+            values.splice(values.indexOf(values[i]), 1)
+        }
+    }
+
+    // sets the completedTasks key in local storage to an empty array
+    checkedValues = [];
+
+    // updates the local storage
+    localStorage.setItem('myTasks', JSON.stringify(values))
+    localStorage.setItem('completedTasks', JSON.stringify(checkedValues))
 }
 

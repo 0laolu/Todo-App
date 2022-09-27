@@ -280,7 +280,6 @@ input#entry-text.error::-webkit-input-placeholder {
     justify-content: center;
     position: relative;
     z-index: -100;
-    transition: 1s;
 }
 
 .list-field .checkbox.checked {

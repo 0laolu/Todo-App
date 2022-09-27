@@ -148,7 +148,16 @@ function displayTodoList() {
         // calling the itemsLeftCount to increase the count as a new list is created
         itemsLeftCount(unCompletedTodoLists.length + 1);
 
+        // calls the function that sets tasks in Active task filter by default when a new task is created
         filterActiveLists();
+
+        // adding the function that removes a checked task from the Active task filter if a new task was created while being in the Active task filter
+        if(allTasksFilter === false && activeTasksFilter === true && completedTasksFilter === false) {
+        // if a user is in the Active filter and wants create a new task, loop through unCompletedTodoLists and add a function removeCheckedLists()
+            for(let i = 0; i < unCompletedTodoLists.length; i++) {
+                unCompletedTodoLists[i].firstChild.firstChild.setAttribute('onclick', unCompletedTodoLists[i].firstChild.firstChild.getAttribute('onclick') + '; removeCheckedLists(event)')
+            }
+        } 
 
     }; // end of else statement
 
@@ -575,6 +584,7 @@ function selectAllList() {
     }
     todoListContainer.replaceChildren(...numberOfListCreated);
 
+    // console.log(numberOfListCreated)
     // displaying the items left count in All todo list filter
     if(unCompletedTodoLists.length == 1) {
         listCount.textContent = `${unCompletedTodoLists.length} item left`;
@@ -601,6 +611,8 @@ function invokeActiveMobileList() {
         // adding a function to the onclick attribute that will remove the checked tasks among the Active tasks from the page
         unCompletedTodoLists[i].firstChild.firstChild.setAttribute('onclick', unCompletedTodoLists[i].firstChild.firstChild.getAttribute('onclick') + '; removeCheckedLists(event)')
     }
+
+    // console.log(numberOfListCreated)
 
     // displaying the items left count in Completed todo list filter
     if(unCompletedTodoLists.length == 1) {
@@ -630,7 +642,7 @@ function invokeActiveMobileList() {
 }
 
 // adding the blue colour to the Completed todo list filter in mobile and tablet view
-function invokeCompletedMobileList(event) {
+function invokeCompletedMobileList() {
     allMobileList.classList.remove('active-state');
     activeMobileList.classList.remove('active-state');
     completedMobileList.classList.add('active-state');

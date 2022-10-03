@@ -16,7 +16,7 @@ This is a solution to the [Todo app challenge on Frontend Mentor](https://www.fr
 A Todo App that helps a user keep track of their day-to-day activities and serves as a tool that helps them remember important things and keep those things in an organized manner.
 
 ### Project Status
-> In progress
+> Completed
  
 ### The challenge
 

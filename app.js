@@ -43,6 +43,26 @@ function showError() {
     // display the error text
     entryForm.querySelector('input[type="text"]').classList.add('error');
     entryForm.querySelector('input[type="text"]').placeholder = 'Field cannot be empty';    
+
+    // removing the error after sometime 
+    setTimeout(removeError, 3000)
+}
+
+// shows an error if a task tries to be created while in the Completed task filter
+function showErrorInCompletedTasks() {
+    // adding the red border
+    entryForm.parentElement.parentElement.classList.add('error');
+
+    // display the error icon
+    errorIcon.classList.add('show-error');
+    entryFieldCheckbox.classList.add('hide');
+
+    // display the error text
+    entryForm.querySelector('input[type="text"]').classList.add('error');
+    entryForm.querySelector('input[type="text"]').value = '';
+    entryForm.querySelector('input[type="text"]').placeholder = 'Cannot create a completed task';
+
+    setTimeout(removeError, 1500)
 }
 
 // remove the error once the entry field has content within it
@@ -63,6 +83,8 @@ function displayTodoList() {
     // display an error if entry field is empty
     if(entryFormValue == '') {
         showError();
+    } else if (allTasksFilter === false && activeTasksFilter === false && completedTasksFilter === true){
+        showErrorInCompletedTasks();
     } else {
         removeError();
 

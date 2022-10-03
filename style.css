@@ -127,7 +127,7 @@ body.dark {
     background-color: var(--todo-list-bg-color);    
     border-radius: 8px;
     margin-bottom: 1.5rem;
-    transition: 1s;
+    transition: border 1s, background-color 1s;
 }
 
 .todo-section__entry.error {
